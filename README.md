@@ -39,10 +39,8 @@ The API will create sorted aggregation lists for:
 - The most popular categories
 - The most recent cardsets
 
-## Create prefilled cardsets and cards
-
-## Create unit tests
-
-## Slides
-
-## Front end interface
+## Additional sections of work
+- Create prefilled cardsets and cards
+- Create unit tests
+- Create slides
+- Create front-end
