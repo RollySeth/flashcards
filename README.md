@@ -3,7 +3,7 @@ Project Flash Cards is a MongoDB/Express.js driven app that will help students, 
 
 The app allows users to build cardsets across categories. Each card in the cardset will have two sides that the user can flip between. The user can mark whether they got the answer to cardsets right or wrong and track progress.
 
-Cardsets can also be shared publicly. This functionality can help users feel like they are contributing knowledge to the world.
+Cardsets can also be shared publicly. This functionality can help users feel like they are contributing knowledge to the world. All users can access cardsets made public by other users. The homepage of the app will show lists of card sets sorted by category, recency and difficulty.
 
 This app will be easy to use for the flash card creators and easy to use for the people who need to study.
 
@@ -46,3 +46,10 @@ The API will create sorted aggregation lists for:
 - Create unit tests
 - Create slides
 - Create front-end
+
+# Tracking progress on Trello
+
+Tasks on Trello are categorized as P0, P1, and P2.
+- *P0*: must be completed immediately.
+- *P1*: must be completed for proof of concept.
+- *P2*: must be completed by end of project.
