@@ -43,7 +43,7 @@ The API will create sorted aggregation lists for:
 
 ## Infrastructure and Testing
 - Code reviews with CI on Pull Requests
-- App publicly accessable.  
+- App publicly accessible.  
 - Hosted MongoDB 
 
 ## Additional sections of work
