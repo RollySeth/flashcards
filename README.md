@@ -44,7 +44,7 @@ The API will create sorted aggregation lists for:
 ## Infrastructure and Testing
 - Code reviews with CI on Pull Requests
 - App publicly accessable.  
-- Public MongoDB 
+- Hosted MongoDB 
 
 ## Additional sections of work
 - Create prefilled cardsets and cards
