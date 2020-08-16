@@ -41,8 +41,14 @@ The API will create sorted aggregation lists for:
 - The most popular categories
 - The most recent cardsets
 
+## Infrastructure and Testing
+- Code reviews with CI on Pull Requests
+- App publicly accessable.  
+- Public MongoDB 
+
 ## Additional sections of work
 - Create prefilled cardsets and cards
 - Create unit tests
 - Create slides
 - Create front-end
+
