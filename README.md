@@ -7,6 +7,8 @@ Cardsets can also be shared publicly. This functionality can help users feel lik
 
 This app will be easy to use for the flash card creators and easy to use for the people who need to study.
 
+_Team members: Tanveer Ali, Ryan Fields and Rolly Seth
+
 # How the project will meet assignment requirements
 
 Features based around final project requirements will be as follows:
