@@ -4,7 +4,7 @@ import 'firebase/firestore';
 
 
 firebase.initializeApp({
-    apiKey: "AIzaSyDCeQIhbuvK-nWNhBZ_FwgrklePo2AbZA4",
-    authDomain: "rf-app-journal.firebaseapp.com",
-    projectId: "rf-app-journal"
+    apiKey: process.env.APIKEY,
+    authDomain: process.env.AUTHDOMAIN,
+    projectId: process.env.PROJECTID
 });
