@@ -17,6 +17,10 @@ jobs:
         run: |
           npm install
           npm run build
+        env:
+          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
+          PROJECTID: ${{ secrets.PROJECTID }}
+          APIKEY: ${{ secrets.APIKEY }}
 
       - name: Deploy Project To gh-pages
         uses: JamesIves/github-pages-deploy-action@3.5.9        
@@ -24,4 +28,8 @@ jobs:
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: build # The folder the action should deploy.
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+        env:
+          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
+          PROJECTID: ${{ secrets.PROJECTID }}
+          APIKEY: ${{ secrets.APIKEY }}
 
