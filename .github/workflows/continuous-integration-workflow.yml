@@ -24,6 +24,10 @@ jobs:
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: build # The folder the action should deploy.
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
+          PROJECTID: ${{ secrets.PROJECTID }}
+          APIKEY: ${{ secrets.APIKEY }}
+        
         env:
           AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
           PROJECTID: ${{ secrets.PROJECTID }}
