@@ -1,4 +1,4 @@
-# Accessible from: https://js400-final-project.github.io/flashcards/#/
+Accessible from: https://js400-final-project.github.io/flashcards/#/
 
 # Project Flash Cards
 Project Flash Cards is a MongoDB/Express.js driven app that will help students, test takers, and other people who need help with memorization to learn information quickly.
