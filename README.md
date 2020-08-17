@@ -1,68 +1,61 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Project Flash Cards
+Project Flash Cards is a MongoDB/Express.js driven app that will help students, test takers, and other people who need help with memorization to learn information quickly.
 
-## Available Scripts
+The app allows users to build cardsets across categories. Each card in the cardset will have two sides that the user can flip between. The user can mark whether they got the answer to cardsets right or wrong and track progress.
 
-In the project directory, you can run:
+Cardsets can also be shared publicly. This functionality can help users feel like they are contributing knowledge to the world. All users can access cardsets made public by other users. The homepage of the app will show lists of card sets sorted by category, recency and difficulty.
 
-### `npm start`
+This app will be easy to use for the flash card creators and easy to use for the people who need to study.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+_Team members: Tanveer Ali, Ryan Fields and Rolly Seth
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+# How the project will meet assignment requirements
 
-### `npm test`
+Features based around final project requirements will be as follows:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Authentication and Authorization
 
-### `npm run build`
+The project will have a user creation and login system that will authenticate for use of the app and determine authorization for access to CRUD routes.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## CRUD set 1: routes/cardsets.js
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Cardsets will have parameters that include category, title, description, number of times it has ever been attempted, cards attempted, and cards correctly answered, and whether the set is available public.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## CRUD set 2: routes/cards.js
 
-### `npm run eject`
+Cards will have information connecting the set to the cardset, what's on side A, and what's on side B. Initially it will only have text.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## CRUD set 3: routes/userHistory.js
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+User history will track information about performance and usage on each cardset and card. Cardset history will include times the user attempted the cardset and the last time attempted. The card history will include the number of times the card was attempted and the number of times the card was correct. This is likely the most complex of all CRUD routes.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Complex action 1: Text search and filter
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Allow the user to search for cardsets by title and description, while also filtering for category.
 
-## Learn More
+## Complex action 2: Aggregations and sorts
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The API will create sorted aggregation lists for:
+- The most popular cardsets
+- The most difficult cardsets
+- The most popular categories
+- The most recent cardsets
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Infrastructure and Testing
+- Code reviews with CI on Pull Requests
+- App publicly accessible.  
+- Hosted MongoDB 
 
-### Code Splitting
+## Additional sections of work
+- Create prefilled cardsets and cards
+- Create unit tests
+- Create slides
+- Create front-end
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+# Tracking progress on Trello
 
-### Analyzing the Bundle Size
+Tasks on Trello are categorized as P0, P1, and P2.
+- *P0*: must be completed immediately.
+- *P1*: must be completed for proof of concept.
+- *P2*: must be completed by end of project.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
