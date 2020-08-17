@@ -18,11 +18,7 @@ jobs:
           APIKEY: ${{ secrets.APIKEY }}
           AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
           PROJECTID: ${{ secrets.PROJECTID }}
-        with:
-          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
-          PROJECTID: ${{ secrets.PROJECTID }}
-          APIKEY: ${{ secrets.APIKEY }}
-      
+
       - name: Get 1
         run: echo ${{ secrets.PROJECTID }}
 
