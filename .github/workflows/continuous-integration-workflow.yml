@@ -9,38 +9,20 @@ jobs:
         with:
           persist-credentials: false
 
-
       - name: Install and Build 
         run: |
           npm install
           npm run build
         env:
-          APIKEY: ${{ secrets.APIKEY }}
-          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
-          PROJECTID: ${{ secrets.PROJECTID }}
-
-      - name: Get 1
-        run: echo ${{ secrets.PROJECTID }}
-
-      - name: Get 3
-        run: echo ${{ secrets.AUTHDOMAIN }}
-  
-      - name: Get 2
-        run: echo ${{ secrets.APIKEY }}
-
+          AUTHDOMAIN: 'rf-app-journal.firebaseapp.com'
+          PROJECTID: 'rf-app-journal'
+          APIKEY: 'AIzaSyDCeQIhbuvK-nWNhBZ_FwgrklePo2AbZA4'
 
       - name: Deploy Project To gh-pages
-        uses: JamesIves/github-pages-deploy-action@3.5.9
-        env:
-          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
-          PROJECTID: ${{ secrets.PROJECTID }}
-          APIKEY: ${{ secrets.APIKEY }}
+        uses: JamesIves/github-pages-deploy-action@3.5.9        
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
-          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
-          PROJECTID: ${{ secrets.PROJECTID }}
-          APIKEY: ${{ secrets.APIKEY }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: build # The folder the action should deploy.
+          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
 
 
