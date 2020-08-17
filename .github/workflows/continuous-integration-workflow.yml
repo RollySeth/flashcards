@@ -18,9 +18,14 @@ jobs:
           AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
           PROJECTID: ${{ secrets.PROJECTID }}
 
-      - name: Deploy Project
+      - name: Deploy Project To gh-pages
         uses: JamesIves/github-pages-deploy-action@3.5.9
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+          APIKEY: ${{ secrets.APIKEY }}
+          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
+          PROJECTID: ${{ secrets.PROJECTID }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: build # The folder the action should deploy.
+
+
