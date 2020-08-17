@@ -21,11 +21,12 @@ jobs:
       - name: Get 1
         run: echo ${{ secrets.PROJECTID }}
 
+      - name: Get 3
+        run: echo ${{ secrets.AUTHDOMAIN }}
+  
       - name: Get 2
         run: echo ${{ secrets.APIKEY }}
 
-      - name: Get 3
-        run: echo ${{ secrets.AUTHDOMAIN }}
 
       - name: Deploy Project To gh-pages
         uses: JamesIves/github-pages-deploy-action@3.5.9
