@@ -13,10 +13,10 @@ jobs:
         run: |
           npm install
           npm run build
-        env:
-          AUTHDOMAIN: 'rf-app-journal.firebaseapp.com'
-          PROJECTID: 'rf-app-journal'
-          APIKEY: 'AIzaSyDCeQIhbuvK-nWNhBZ_FwgrklePo2AbZA4'
+        # env:
+        #   AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
+        #   PROJECTID: ${{ secrets.PROJECTID }}
+        #   APIKEY: ${{ secrets.APIKEY }}
 
       - name: Deploy Project To gh-pages
         uses: JamesIves/github-pages-deploy-action@3.5.9        
