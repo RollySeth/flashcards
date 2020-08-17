@@ -17,6 +17,10 @@ jobs:
           APIKEY: ${{ secrets.APIKEY }}
           AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
           PROJECTID: ${{ secrets.PROJECTID }}
+        with:
+          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
+          PROJECTID: ${{ secrets.PROJECTID }}
+          APIKEY: ${{ secrets.APIKEY }}
       
       - name: Get 1
         run: echo ${{ secrets.PROJECTID }}
@@ -36,6 +40,9 @@ jobs:
           APIKEY: ${{ secrets.APIKEY }}
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+          AUTHDOMAIN: ${{ secrets.AUTHDOMAIN }}
+          PROJECTID: ${{ secrets.PROJECTID }}
+          APIKEY: ${{ secrets.APIKEY }}
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: build # The folder the action should deploy.
 
