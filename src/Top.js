@@ -1,5 +1,7 @@
 import React from "react";
 import { faBrain } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUserCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
@@ -29,15 +31,24 @@ export default class Top extends React.Component {
 
     return (
       <div id="top">
-        <div className="return">
+        <div >
           <Link to={`/flashcards/home`}>
-            <FontAwesomeIcon icon={faBrain} size="lg" color="#ffffff" />
+            {/* <FontAwesomeIcon icon={faBrain} size="lg" color="#ffffff" /> */}
+            <img src={require('./Images/line_w.png')} alt="Logo"  width="15%" height="15%"/>
+           
           </Link>
         </div>
-        <div>{this.props.title}</div>
+       
+        <div className="role" >
+          <Link to={`/flashcards/Role`}>
+         <FontAwesomeIcon icon={faUserCog} size="lg" color="#ffffff" /> 
+           </Link>
+         </div>
+        {/* <div>{this.props.title}</div> */}
         <div className="action">
           <Action />
         </div>
+        
       </div>
     );
   }
