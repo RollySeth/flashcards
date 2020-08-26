@@ -18,17 +18,16 @@
     "react-dom": "^16.13.1",
     "react-firebaseui": "^4.1.0",
     "react-fontawesome": "^1.7.1",
+    "bcrypt": "^5.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.21",
     "react-helmet": "^6.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+        "start": "node index.js"
   },
   "eslintConfig": {
     "extends": "react-app"
