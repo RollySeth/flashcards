@@ -15,8 +15,11 @@ const authorizationCheck = async (req, res, next) => {
       if (e) {
         res.sendStatus(401);
       } else {
+<<<<<<< HEAD
         console.log(tokenNew); // bar
 
+=======
+>>>>>>> master
         req.user = tokenNew;
         next();
       }
@@ -26,7 +29,11 @@ const authorizationCheck = async (req, res, next) => {
 
 // Create a new user
 router.post("/signup", async (req, res, next) => {
+<<<<<<< HEAD
   const { email, password, roles } = req.body;
+=======
+  const { email, password } = req.body;
+>>>>>>> master
   if (!email || !password || password === "") {
     res.status(400).send("You need both an email and a password.");
   } else {
@@ -35,7 +42,11 @@ router.post("/signup", async (req, res, next) => {
       res.status(409).send("Email has already been registered.");
     }
     try {
+<<<<<<< HEAD
       const user = await userDAO.create(email, password, roles);
+=======
+      const user = await userDAO.create(email, password);
+>>>>>>> master
       if (user) {
         res.json(user);
       }
