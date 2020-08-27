@@ -27,30 +27,41 @@ class SignIn extends React.Component {
       return (
         <Container fluid className="login">
           <div id="welcome">
-            <Helmet>
-              <meta charSet="utf-8" />
-              <title>Welcome to BrainKwik</title>
-            </Helmet>
-            <FontAwesomeIcon icon={faBrain} size="lg" />
-            <h2>Welcome to BrainKwik</h2>
-
-            <h3>Learn, memorize and impress people in a flash</h3>
-            <FontAwesomeIcon icon={faBrain} size="lg" />
+            
+            
           </div>
           <div id="login">
+          
             <Row className={`justify-content-center`}>
-              <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
-                <h4>Please sign-in</h4>
+
+              <Col>
+              <div id="welcome">
+          <h1></h1>
+          <img src={require('./Images/flashcardsbg.jpg')} alt="Logo"  width="100%" height="100%" />
+            </div>
+
               </Col>
+
+
+              <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
+             
+                <h4>LOGIN</h4>
+                <StyledFirebaseAuth
+                  uiConfig={this.uiConfig}
+                  firebaseAuth={firebase.auth()}
+                />
+               &nbsp; &nbsp;&nbsp;&nbsp;
+              </Col>
+
             </Row>
-            <Row className={`justify-content-center`}>
+            {/* <Row className={`justify-content-center`}>
               <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
                 <StyledFirebaseAuth
                   uiConfig={this.uiConfig}
                   firebaseAuth={firebase.auth()}
                 />
               </Col>
-            </Row>
+            </Row> */}
           </div>
         </Container>
       );

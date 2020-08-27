@@ -58,9 +58,9 @@ export default class Home extends React.Component {
       <>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>Welcome to BrainKwik</title>
+          <title>Flashcards</title>
         </Helmet>
-        <Top title={"BrainKwik"} action={"create"} />
+        <Top title={"FlashCards"} action={"create"} />
         <Container fluid>
           <div className="content">
             <h1>Create a set or test yourself</h1>
@@ -71,7 +71,7 @@ export default class Home extends React.Component {
                     <Card>
                       <Card.Body>
                         <h2>Create a new cardset</h2>
-                        <p>Easy learning in a flash</p>
+                        <h3>Easy learning in a flash</h3>
                         <div className="addSet">+</div>
                       </Card.Body>
                     </Card>
