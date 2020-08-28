@@ -15,6 +15,8 @@ const authorizationCheck = async (req, res, next) => {
       if (e) {
         res.sendStatus(401);
       } else {
+        console.log(tokenNew); // bar
+
         req.user = tokenNew;
         next();
       }
@@ -24,7 +26,7 @@ const authorizationCheck = async (req, res, next) => {
 
 // Create a new user
 router.post("/signup", async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, roles } = req.body;
   if (!email || !password || password === "") {
     res.status(400).send("You need both an email and a password.");
   } else {
@@ -33,7 +35,7 @@ router.post("/signup", async (req, res, next) => {
       res.status(409).send("Email has already been registered.");
     }
     try {
-      const user = await userDAO.create(email, password);
+      const user = await userDAO.create(email, password, roles);
       if (user) {
         res.json(user);
       }
@@ -66,7 +68,37 @@ router.post("/", async (req, res, next) => {
     }
   }
 });
+// getUserInfo
+router.post("/user", async (req, res, next) => {
+  const { email, password } = req.body;
+  const user = await userDAO.getUser(email);
+  if (!user) {
+    res.status(401).send("A user with that email doesn't exist");
+  } else {
+    if (!password || password === "") {
+      res.status(400).send("You didn't provide a password.");
+    } else {
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        res.status(401).send("That password is incorrect");
+      } else {
+        const userWithoutPassword = await userDAO.getUserExceptPassword(email);
+        res.json(userWithoutPassword);
+      }
+    }
+  }
+});
 
+// get user info
+router.get("/user/:id", authorizationCheck, async (req, res, next) => {
+  const id = req.params.id;
+  if (!id) {
+    res.status(400).send("You didn't provide an id.");
+  } else {
+    const user = await userDAO.getUserById(id);
+    res.json(user);
+  }
+});
 // Change password
 router.post("/password", authorizationCheck, async (req, res, next) => {
   const { email } = req.user;
@@ -76,6 +108,24 @@ router.post("/password", authorizationCheck, async (req, res, next) => {
   } else {
     try {
       const newPassword = await userDAO.changePassword(email, password);
+      res.sendStatus(200);
+    } catch (e) {
+      res.sendStatus(401);
+    }
+  }
+});
+
+// Make user an admin
+router.put("/admin", authorizationCheck, async (req, res, next) => {
+  const { email } = req.user;
+  const { adminString } = req.body;
+  if (!adminString || adminString === "") {
+    res.status(400).send("You didn't provide a string");
+  } else if (adminString !== "random string") {
+    res.status(401).send("You didn't provide the correct string.");
+  } else {
+    try {
+      const adminCreate = await userDAO.adminCreate(email);
       res.sendStatus(200);
     } catch (e) {
       res.sendStatus(401);

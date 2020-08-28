@@ -5,13 +5,13 @@ const salt = 10;
 
 module.exports = {};
 
-module.exports.create = async (email, password) => {
+module.exports.create = async (email, password, roles) => {
   const hashed = await bcrypt.hash(password, salt);
   try {
     const newUser = await User.create({
       email: email,
       password: hashed,
-      roles: ["user"],
+      roles: roles,
     });
     return newUser;
   } catch (e) {
@@ -28,6 +28,17 @@ module.exports.getUser = async (email) => {
   }
 };
 
+module.exports.getUserById = async (id) => {
+  try {
+    const user = await User.findOne(
+      { _id: id },
+      { _id: 1, email: 1, roles: 1 }
+    );
+    return user;
+  } catch (e) {
+    throw e;
+  }
+};
 module.exports.getUserExceptPassword = async (email) => {
   try {
     const user = await User.findOne(
@@ -39,7 +50,17 @@ module.exports.getUserExceptPassword = async (email) => {
     throw e;
   }
 };
-
+module.exports.adminCreate = async (email) => {
+  try {
+    const admin = User.updateOne(
+      { email: email },
+      { $push: { roles: "admin" } }
+    );
+    return admin;
+  } catch (e) {
+    throw e;
+  }
+};
 module.exports.changePassword = async (email, password) => {
   try {
     const hashed = await bcrypt.hash(password, salt);
