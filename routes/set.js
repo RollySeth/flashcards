@@ -40,6 +40,28 @@ router.post("/", async (req, res, next) => {
     res.sendStatus(401);
   }
 });
+// GET set of one user.
+router.get("/user/:userid", async (req, res, next) => {
+  const userid = req.params.userid;
+  const set = await setDAO.getSetsByUserId(userid);
+
+  if (set) {
+    res.json(set);
+  } else {
+    res.sendStatus(404);
+  }
+}); // GET public sets
+
+router.get("/public", async (req, res, next) => {
+  const number = req.query.number;
+  const set = await setDAO.getPublic(number);
+
+  if (set) {
+    res.json(set);
+  } else {
+    res.sendStatus(404);
+  }
+});
 
 // Update metadata of set
 router.put("/:id", async (req, res, next) => {
