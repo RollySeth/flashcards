@@ -12,11 +12,10 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import SignUp from "./SignUp";
 
 // Configure FirebaseUI.
 
-class SignIn extends React.Component {
+class SignUp extends React.Component {
   uiConfig = {
     signInFlow: "popup",
     signInOptions: [
@@ -29,14 +28,13 @@ class SignIn extends React.Component {
       },
     },
   };
-
   render() {
-    if (!this.props.isSignedIn) {
+    if (!this.props.isSignedIn ) {
       return (
         <Container fluid className="login">
           <div id="welcome">       
           </div>
-          <div id="login">
+          <div id="signup">
             <Row className={`justify-content-center`}>
               <Col>
               <div id="welcome">
@@ -45,9 +43,9 @@ class SignIn extends React.Component {
                </div>
               </Col>
               <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
-                <h7> <Button href="/flashcards/#/signup">Sign-Up</Button>
+                <h7> <Button  href="#text-buttons">LOGIN</Button>
                 </h7>
-                <h4>LOGIN</h4>
+                <h4>SIGN-UP</h4>
                 {/* <StyledFirebaseAuth
                   uiConfig={this.uiConfig}
                   firebaseAuth={firebase.auth()}
@@ -70,9 +68,10 @@ class SignIn extends React.Component {
               />
              </h5>
            <br/>
+           <br/>
            <h6>
            <Button variant="contained" color="secondary">
-                Log In
+                Sign-Up
             </Button>
             </h6>
                &nbsp; &nbsp;&nbsp;&nbsp;
@@ -95,7 +94,9 @@ class SignIn extends React.Component {
       return <></>;
     }
 
+    
+
   }
 }
 
-export default SignIn;
+export default SignUp;

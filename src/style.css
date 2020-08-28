@@ -137,7 +137,7 @@ select::-ms-expand {
 .content {
   padding-top: 10vh;
   margin-top:10vh;
-  width: 50%;
+  width: 100%;
   justify-content: center;
   /* background: #adadad;  */
 }
@@ -206,7 +206,7 @@ select::-ms-expand {
 .geography.sideA .card textarea {
   background-image: linear-gradient( to bottom right,#DDD6F3, #FAACA8 ); 
   /* background: #a4adbf; */
-  color: #ffffff;
+  color: #3f3f3f;
 }
 
 .geography.card,
@@ -232,18 +232,20 @@ select::-ms-expand {
 .science .card,
 .science.card.sideA,
 .science.sideA .card textarea {
-  background: #2a4c83;
-  color: #fff;
+  /* background: #2a4c83; */
+  background-image: linear-gradient( to bottom right,#a1c4fd, #c2e9fb );  
+
+  color: #3f3f3f;
 }
 
 .science.card,
 .container-fluid.science,
 .science.card.sideA {
-  background: #ffffff;
+  /* background: #ffffff; */
   /* background: #2a4c83; */
   background-image: linear-gradient( to bottom right,#ffafbd, #ffc3a0 );  
 
-  color: #fff;
+  color: #3f3f3f;
 }
 
 .science.card.sideB {
@@ -368,6 +370,7 @@ button:disabled {
 .row.answerButtons button {
   position: relative;
   font-size: 2rem;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   width: 100%;
   margin-left: 3%;
 }
@@ -598,7 +601,7 @@ button:disabled {
 .history.sideA .card textarea {
   /* background: #0889a6; */
   background-image: linear-gradient( to bottom right,#ee9ca7, #ffdde1 );  
-  color: #fff;
+  color: #3f3f3f;
 }
 
 .history.card.sideB {
@@ -615,8 +618,10 @@ button:disabled {
 .container-fluid.pop-culture,
 .pop-culture.card.sideA,
 .pop-culture.sideA .card textarea {
-  background: #f2935c;
-  color: #fff;
+  /* background: #f2935c; */
+  background-image: linear-gradient( to bottom right,#ff9a9e, #fad0c4 );  
+
+  color: #3f3f3f;
 }
 
 .pop-culture .button a,
@@ -632,12 +637,13 @@ button:disabled {
 }
 
 .sports .card,
-.sports .card h4,
 .container-fluid.sports,
 .sports.sideA .card textarea,
 .sports.card.sideA {
-  background: #d9d7d7;
-  color: #2e2925;
+  /* background: #d9d7d7; */
+  background-image: linear-gradient( to bottom right, #86C5FC, #BFF098); 
+  color:#3f3f3f; 
+  /* color: #2e2925; */
 }
 
 .sports .button a,
@@ -654,8 +660,10 @@ button:disabled {
 .other .card,
 .container-fluid.other,
 .other.sideA textarea {
-  background: #f2786d;
-  color: #fff;
+  /* background: #f2786d; */
+  background-image: linear-gradient( to bottom right, #fcb69f,#ffecd2 );  
+
+  color: #3f3f3f;
 }
 
 .other.sideB textarea {
@@ -740,7 +748,7 @@ textarea::placeholder {
   font-size: 12px;
   text-transform: uppercase;
   font-weight: 300;
-  color: #fff;
+  color: #3f3f3f;
   letter-spacing: 2px;
 }
 
@@ -861,7 +869,88 @@ a:hover .card h2 {
   text-align: center;
   text-transform: uppercase;
   font-weight: 900;
-  padding-top: 30%;
+  padding-top: 20%;
+  display: block;
+  letter-spacing: 2px;
+}
+
+#login h5 {
+  text-align: center;
+  /* font-weight: 200; */
+  font-size:1em;
+  padding-top: 5%;
+  /* padding-left:10%; */
+  vertical-align: text-bottom;
+  /* display: block; */
+  letter-spacing: 2px;
+}
+
+#login h6 {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 900;
+  padding-top: 5%;
+  display: block;
+  letter-spacing: 2px;
+}
+
+#login h7 {
+  text-align: right;
+  text-transform: uppercase;
+  font-weight: 900;
+  padding-top: 2%;
+  padding-right: 5%;
+  display: block;
+  letter-spacing: 2px;
+}
+
+#signup {
+  color: #2e2925;
+  margin: 20vh auto;
+  border: 1px solid #adadad;
+  border-radius: 0px;
+  width: 60%;
+  padding: 0%;
+  background: #fff;
+  /* display:none; */
+}
+
+
+#signup h4 {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 900;
+  padding-top: 20%;
+  display: block;
+  letter-spacing: 2px;
+}
+
+#signup h5 {
+  text-align: center;
+  /* font-weight: 200; */
+  font-size:1em;
+  padding-top: 5%;
+  /* padding-left:10%; */
+  vertical-align: text-bottom;
+  /* display: block; */
+  letter-spacing: 2px;
+}
+
+#signup h6 {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 900;
+  padding-top: 1%;
+  display: block;
+  letter-spacing: 2px;
+}
+
+#signup h7 {
+  text-align: right;
+  text-transform: uppercase;
+  font-weight: 900;
+  padding-top: 2%;
+  padding-right: 5%;
   display: block;
   letter-spacing: 2px;
 }
