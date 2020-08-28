@@ -58,7 +58,18 @@ router.post("/:cardsetId", async (req, res, next) => {
   }
 });
 
-// Update metadata of set
+// get cards in cardset
+router.get("/:cardsetId/", async (req, res, next) => {
+  const cardsetId = req.params.cardsetId;
+  const cards = await cardsDAO.getCardsBySetId(cardsetId);
+  if (cards) {
+    res.json(cards);
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+// Update metadata of id
 router.put("/:cardsetId/:id", async (req, res, next) => {
   const { sideA, sideB } = req.body;
   const card = await cardsDAO.updateCardById(
@@ -74,7 +85,7 @@ router.put("/:cardsetId/:id", async (req, res, next) => {
   }
 });
 
-// GET single set
+// GET single id
 router.get("/:cardsetId/:id", async (req, res, next) => {
   const card = await cardsDAO.getById(req.params.id, req.params.cardsetId);
   if (card) {
