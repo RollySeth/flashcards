@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const setDAO = require("../daos/set");
 const userDAO = require("../daos/user");
-const secret = "shhhhhh do not tell anyone this secret.";
+const secret = "shhhhhh do not tell anyone this secret";
 const jwt = require("jsonwebtoken");
 
 const authorizationCheck = async (req, res, next) => {
@@ -15,7 +15,7 @@ const authorizationCheck = async (req, res, next) => {
       if (e) {
         res.sendStatus(401);
       } else {
-        req.user = tokenNew;
+        res.locals.user = tokenNew;
         next();
       }
     });
@@ -23,15 +23,7 @@ const authorizationCheck = async (req, res, next) => {
   return;
 };
 
-const adminCheck = async (req, res, next) => {
-  if (req.user.roles.includes("admin")) {
-    next();
-  } else {
-    res.sendStatus(403);
-  }
-};
-
-router.post("/", async (req, res, next) => {
+router.post("/", authorizationCheck, async (req, res, next) => {
   const { title, description, category, userId } = req.body;
   const set = await setDAO.create(title, description, category, userId);
   if (set) {
@@ -41,18 +33,25 @@ router.post("/", async (req, res, next) => {
   }
 });
 // GET set of one user.
-router.get("/user/:userid", async (req, res, next) => {
+router.get("/user/:userid", authorizationCheck, async (req, res, next) => {
   const userid = req.params.userid;
-  const set = await setDAO.getSetsByUserId(userid);
+  if (
+    res.locals.user.roles.includes("admin") ||
+    res.locals.user._id == userid
+  ) {
+    const set = await setDAO.getSetsByUserId(userid);
 
-  if (set) {
-    res.json(set);
+    if (set) {
+      res.json(set);
+    } else {
+      res.sendStatus(404);
+    }
   } else {
-    res.sendStatus(404);
+    res.sendStatus(401);
   }
 }); // GET public sets
 
-router.get("/public", async (req, res, next) => {
+router.get("/public", authorizationCheck, async (req, res, next) => {
   const number = req.query.number;
   const set = await setDAO.getPublic(number);
 
@@ -64,10 +63,16 @@ router.get("/public", async (req, res, next) => {
 });
 
 // Update metadata of set
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", authorizationCheck, async (req, res, next) => {
   const setId = req.params.id;
   const { title, description, category } = req.body;
-  const set = await setDAO.updateSetById(setId, title, description, category);
+  const set = await setDAO.updateSetById(
+    setId,
+    title,
+    description,
+    category,
+    res.locals.user
+  );
   if (set) {
     res.sendStatus(200);
   } else {

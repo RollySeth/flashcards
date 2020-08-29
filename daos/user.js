@@ -41,10 +41,7 @@ module.exports.getUserById = async (id) => {
 };
 module.exports.getUserExceptPassword = async (email) => {
   try {
-    const user = await User.findOne(
-      { email: email },
-      { _id: 1, email: 1, roles: 1 }
-    );
+    const user = await User.findOne({ email: email }, { _id: 1, roles: 1 });
     return user;
   } catch (e) {
     throw e;
