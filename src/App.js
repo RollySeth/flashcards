@@ -25,9 +25,9 @@ class App extends React.Component {
             <Route path="/set/:urlString/" componyent={CardsetAnswer} />
             <Route path="/new" component={NewCardSet} />
             {/* <Redirect from="/" to="/flashcards/#" /> */}
-            <Route path="*" component={App}>
+            {/* <Route path="*" component={App}>
                     <Redirect to="/" />
-                </Route>
+                </Route> */}
             <Route component={NoMatch} />
           </Switch>
         </Router>

@@ -71,9 +71,11 @@ class SignIn extends React.Component {
              </h5>
            <br/>
            <h6>
+             
            <Button variant="contained" color="secondary">
                 Log In
             </Button>
+            
             </h6>
                &nbsp; &nbsp;&nbsp;&nbsp;
               </Col>

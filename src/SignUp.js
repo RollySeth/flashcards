@@ -12,6 +12,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+// import {signup} from './routes/login';
 
 // Configure FirebaseUI.
 
@@ -70,9 +71,11 @@ class SignUp extends React.Component {
            <br/>
            <br/>
            <h6>
-           <Button variant="contained" color="secondary">
+           
+           <Button variant="contained" color="secondary" href="/flashcards/#/new">
                 Sign-Up
             </Button>
+            
             </h6>
                &nbsp; &nbsp;&nbsp;&nbsp;
               </Col>

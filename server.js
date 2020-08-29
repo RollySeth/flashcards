@@ -11,7 +11,7 @@ const server = express();
 server.get("/", (req,res) => res.sendFile(path.join(__dirname+'/public/index.html'))); 
 // server.get('*', (req,res) => res.sendFile(path.join(__dirname+'/public/index.html'))).listen(5000,() => console.log('Server on port 5000'))
 
-// server.use(express.json());
+ server.use(express.json());
 server.use(express.static("public"));
 
 server.use(routes);
