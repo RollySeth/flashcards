@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Set = require("../models/set");
+const user = require("../models/user");
 
 module.exports = {};
 
@@ -17,10 +18,17 @@ module.exports.create = async (title, description, category, userId) => {
   }
 };
 
-module.exports.updateSetById = async (setId, title, description, category) => {
+module.exports.updateSetById = async (
+  userId,
+  setId,
+  title,
+  description,
+  category
+) => {
   const set = await Set.updateOne(
     {
       _id: setId,
+      userId: userId,
     },
     {
       title: title,
@@ -30,17 +38,21 @@ module.exports.updateSetById = async (setId, title, description, category) => {
     }
   );
   if (set) {
-    return set;
+    return await Set.findOne({ _id: setId }).lean();
   } else {
     return false;
   }
 };
 
 module.exports.makePublic = async (setId, userId, isPublic) => {
-  const set = await Set.updateOne({
-    _id: setId,
-    isPublic: isPublic,
-  });
+  const set = await Set.updateOne(
+    {
+      _id: setId,
+    },
+    {
+      isPublic: isPublic,
+    }
+  );
   if (set) {
     return set;
   } else {
@@ -54,7 +66,26 @@ module.exports.getById = async (setId) => {
   }
   return Set.findOne({ _id: setId }).lean();
 };
-
+module.exports.getPublic = async (number) => {
+  const set = Set.find({ isPublic: true })
+    .limit(number)
+    .sort({ dateUpdated: -1 });
+  if (set) {
+    return set;
+  } else {
+    return false;
+  }
+};
+module.exports.getSetsByUserId = async (userId) => {
+  const set = Set.find({ userId: userId }).sort({
+    dateUpdated: -1,
+  });
+  if (set) {
+    return set;
+  } else {
+    return false;
+  }
+};
 module.exports.startById = async (setId, attempts) => {
   if (!mongoose.Types.ObjectId.isValid(setId)) {
     return null;

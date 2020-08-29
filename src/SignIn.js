@@ -34,10 +34,12 @@ class SignIn extends React.Component {
     if (!this.props.isSignedIn) {
       return (
         <Container fluid className="login">
-          <div id="welcome">       
+          <div id="welcome">
           </div>
           <div id="login">
+          
             <Row className={`justify-content-center`}>
+
               <Col>
               <div id="welcome">
               <h1></h1>
@@ -77,8 +79,10 @@ class SignIn extends React.Component {
             </Button>
             
             </h6>
+
                &nbsp; &nbsp;&nbsp;&nbsp;
               </Col>
+
             </Row>
             {/* <Row className={`justify-content-center`}>
               <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>

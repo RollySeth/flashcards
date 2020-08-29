@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const setDAO = require("../daos/set");
 const userDAO = require("../daos/user");
-const secret = "shhhhhh do not tell anyone this secret.";
+const secret = "shhhhhh do not tell anyone this secret";
 const jwt = require("jsonwebtoken");
 
 const authorizationCheck = async (req, res, next) => {
@@ -15,7 +15,7 @@ const authorizationCheck = async (req, res, next) => {
       if (e) {
         res.sendStatus(401);
       } else {
-        req.user = tokenNew;
+        res.locals.user = tokenNew;
         next();
       }
     });
@@ -23,15 +23,7 @@ const authorizationCheck = async (req, res, next) => {
   return;
 };
 
-const adminCheck = async (req, res, next) => {
-  if (req.user.roles.includes("admin")) {
-    next();
-  } else {
-    res.sendStatus(403);
-  }
-};
-
-router.post("/", async (req, res, next) => {
+router.post("/", authorizationCheck, async (req, res, next) => {
   const { title, description, category, userId } = req.body;
   const set = await setDAO.create(title, description, category, userId);
   if (set) {
@@ -40,34 +32,29 @@ router.post("/", async (req, res, next) => {
     res.sendStatus(401);
   }
 });
+// GET set of one user.
+router.get("/user/:userid", authorizationCheck, async (req, res, next) => {
+  const userid = req.params.userid;
+  if (
+    res.locals.user.roles.includes("admin") ||
+    res.locals.user._id == userid
+  ) {
+    const set = await setDAO.getSetsByUserId(userid);
 
-// Update metadata of set
-router.put("/:id", async (req, res, next) => {
-  const setId = req.params.id;
-  const { title, description, category } = req.body;
-  const set = await setDAO.updateSetById(setId, title, description, category);
-  if (set) {
-    res.sendStatus(200);
+    if (set) {
+      res.json(set);
+    } else {
+      res.sendStatus(404);
+    }
   } else {
     res.sendStatus(401);
   }
-});
-// Change public status of set
-router.put("/:id/public", async (req, res, next) => {
-  const isPublic = req.query.isPublic;
-  const setId = req.params.id;
-  const { userId } = req.body;
+}); // GET public sets
 
-  const set = await setDAO.makePublic(setId, userId, isPublic);
-  if (set) {
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(401);
-  }
-});
-// GET single set
-router.get("/:id", async (req, res, next) => {
-  const set = await setDAO.getById(req.params.id);
+router.get("/public", authorizationCheck, async (req, res, next) => {
+  const number = req.query.number;
+  const set = await setDAO.getPublic(number);
+
   if (set) {
     res.json(set);
   } else {
@@ -75,14 +62,76 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// PUT single set
-router.put("/:id/start", async (req, res, next) => {
+// Update metadata of set
+router.put("/:id", authorizationCheck, async (req, res, next) => {
+  const setId = req.params.id;
+  const { title, description, category } = req.body;
+  const { userId } = res.locals.user._id;
+  const set = await setDAO.updateSetById(
+    userId,
+    setId,
+    title,
+    description,
+    category
+  );
+  if (set) {
+    res.json(set);
+  } else {
+    res.sendStatus(401);
+  }
+});
+// Change public status of set
+router.put("/:id/public", authorizationCheck, async (req, res, next) => {
+  const isPublic = req.query.isPublic;
+  const setId = req.params.id;
+  const { userId } = req.body;
   const set = await setDAO.getById(req.params.id);
   if (set) {
+    if (set.userId === res.locals.user._id) {
+      const setPublic = await setDAO.makePublic(setId, userId, isPublic);
+      if (setPublic) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(401);
+      }
+    } else {
+      res.sendStatus(401);
+    }
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+// GET single set
+router.get("/:id", authorizationCheck, async (req, res, next) => {
+  const set = await setDAO.getById(req.params.id);
+  if (!set) {
+    res.sendStatus(404);
+  } else if (
+    set.isPublic === true ||
+    set.userId === res.locals.user._id ||
+    res.locals.user.roles.includes("admin")
+  ) {
+    res.json(set);
+  } else if (set) {
+    res.sendStatus(401);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+// PUT single set
+router.put("/:id/start", authorizationCheck, async (req, res, next) => {
+  const set = await setDAO.getById(req.params.id);
+  if (
+    set.isPublic === true ||
+    set.userId === res.locals.user._id ||
+    res.locals.user.roles.includes("admin")
+  ) {
     const setAttempts = set.setAttempts;
     const setAdded = setDAO.startById(req.params.id, setAttempts);
     if (setAdded) {
-      res.json(setAdded);
+      res.status(200).send("started set");
     } else {
       res.sendStatus(404);
     }
@@ -95,8 +144,15 @@ router.put("/:id/start", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
   const setId = req.params.id;
   try {
-    const success = await setDAO.deleteById(setId);
-    res.sendStatus(success ? 200 : 400);
+    const set = await setDAO.getById(req.params.id);
+    if (
+      set.isPublic === true ||
+      set.userId === res.locals.user._id ||
+      res.locals.user.roles.includes("admin")
+    ) {
+      const success = await setDAO.deleteById(setId);
+      res.sendStatus(success ? 200 : 400);
+    }
   } catch (e) {
     res.status(500).send(e.message);
   }

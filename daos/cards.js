@@ -64,7 +64,14 @@ module.exports.addAttempts = async (cardId, setId, num) => {
     }
   }
 };
-
+module.exports.getCardsBySetId = async (setId) => {
+  const card = Card.find({ setId: setId });
+  if (card) {
+    return card;
+  } else {
+    return false;
+  }
+};
 module.exports.getById = async (cardId, setId) => {
   if (!setId) {
     return null;
