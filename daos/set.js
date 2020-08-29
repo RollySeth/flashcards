@@ -70,7 +70,6 @@ module.exports.getPublic = async (number) => {
   }
 };
 module.exports.getSetsByUserId = async (userId) => {
-  console.log(userId);
   const set = Set.find({ userId: userId }).sort({
     dateUpdated: -1,
   });
