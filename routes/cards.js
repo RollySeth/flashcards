@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = Router();
 const cardsDAO = require("../daos/cards");
-const secret = "shhhhhh do not tell anyone this secret.";
+const secret = "shhhhhh do not tell anyone this secret";
 const jwt = require("jsonwebtoken");
 const setDAO = require("../daos/set");
 
@@ -15,7 +15,8 @@ const authorizationCheck = async (req, res, next) => {
       if (e) {
         res.sendStatus(401);
       } else {
-        req.user = tokenNew;
+        console.log(tokenNew);
+        res.locals.user = tokenNew;
         next();
       }
     });
@@ -32,77 +33,146 @@ const adminCheck = async (req, res, next) => {
 };
 
 // Update attempts/correct attempts
-router.put("/answers/:cardsetId/:id/:correct", async (req, res, next) => {
-  const { correct } = req.params.correct;
-  const card = await cardsDAO.addAttempts(
-    req.params.id,
-    req.params.cardsetId,
-    correct
-  );
-  const set = await setDAO.addAttempts(req.params.cardsetId, correct);
-  if (set) {
-    res.sendStatus(200);
-  } else {
-    res.sendStatus(401);
+router.put(
+  "/answers/:cardsetId/:id/:correct",
+  authorizationCheck,
+  async (req, res, next) => {
+    const { correct } = req.params.correct;
+    const card = await cardsDAO.addAttempts(
+      req.params.id,
+      req.params.cardsetId,
+      correct
+    );
+    const set = await setDAO.addAttempts(req.params.cardsetId, correct);
+    if (set) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(401);
+    }
   }
-});
+);
 
-router.post("/:cardsetId", async (req, res, next) => {
+router.post("/:cardsetId", authorizationCheck, async (req, res, next) => {
   const cardsetId = req.params.cardsetId;
-  const { sideA, sideB } = req.body;
-  const card = await cardsDAO.create(cardsetId, sideA, sideB);
-  if (card) {
-    res.json(card);
+
+  const set = await setDAO.getById(req.params.cardsetId);
+
+  if (!set) {
+    res.sendStatus(404);
+  } else if (
+    set.userId === res.locals.user._id ||
+    res.locals.user.roles.includes("admin")
+  ) {
+    const { sideA, sideB } = req.body;
+    const card = await cardsDAO.create(cardsetId, sideA, sideB);
+    if (card) {
+      res.json(card);
+    } else {
+      res.sendStatus(401);
+    }
   } else {
     res.sendStatus(401);
   }
 });
 
 // get cards in cardset
-router.get("/:cardsetId/", async (req, res, next) => {
+router.get("/:cardsetId/", authorizationCheck, async (req, res, next) => {
   const cardsetId = req.params.cardsetId;
-  const cards = await cardsDAO.getCardsBySetId(cardsetId);
-  if (cards) {
-    res.json(cards);
+  const set = await setDAO.getById(req.params.cardsetId);
+
+  if (!set) {
+    res.sendStatus(404);
+  } else if (
+    set.userId === res.locals.user._id ||
+    res.locals.user.roles.includes("admin") ||
+    set.isPublic === true
+  ) {
+    const cards = await cardsDAO.getCardsBySetId(cardsetId);
+    if (cards) {
+      res.json(cards);
+    } else {
+      res.sendStatus(401);
+    }
   } else {
     res.sendStatus(401);
   }
 });
 
 // Update metadata of id
-router.put("/:cardsetId/:id", async (req, res, next) => {
-  const { sideA, sideB } = req.body;
-  const card = await cardsDAO.updateCardById(
-    req.params.id,
-    req.params.cardsetId,
-    sideA,
-    sideB
-  );
-  if (card) {
-    res.sendStatus(200);
+router.put("/:cardsetId/:id", authorizationCheck, async (req, res, next) => {
+  const cardsetId = req.params.cardsetId;
+  const set = await setDAO.getById(cardsetId);
+
+  if (!set) {
+    res.sendStatus(404);
+  } else if (
+    set.userId === res.locals.user._id ||
+    res.locals.user.roles.includes("admin")
+  ) {
+    const { sideA, sideB } = req.body;
+    const card = await cardsDAO.updateCardById(
+      req.params.id,
+      req.params.cardsetId,
+      sideA,
+      sideB
+    );
+    if (card) {
+      res.sendStatus(200);
+    } else {
+      res.sendStatus(401);
+    }
   } else {
     res.sendStatus(401);
   }
 });
 
 // GET single id
-router.get("/:cardsetId/:id", async (req, res, next) => {
-  const card = await cardsDAO.getById(req.params.id, req.params.cardsetId);
-  if (card) {
-    res.json(card);
-  } else {
+router.get("/:cardsetId/:id", authorizationCheck, async (req, res, next) => {
+  const cardsetId = req.params.cardsetId;
+  const set = await setDAO.getById(cardsetId);
+
+  if (!set) {
     res.sendStatus(404);
+  } else if (
+    set.userId === res.locals.user._id ||
+    res.locals.user.roles.includes("admin") ||
+    set.isPublic === true
+  ) {
+    const card = await cardsDAO.getById(req.params.id, req.params.cardsetId);
+    if (card) {
+      res.json(card);
+    } else {
+      res.sendStatus(404);
+    }
+  } else {
+    res.sendStatus(401);
   }
 });
 
 // Delete
-router.delete("/delete/:id", async (req, res, next) => {
-  const cardId = req.params.id;
-  try {
-    const success = await cardsDAO.deleteById(cardId);
-    res.sendStatus(success ? 200 : 400);
-  } catch (e) {
-    res.status(500).send(e.message);
+router.delete(
+  "/delete/:cardsetId/:id",
+  authorizationCheck,
+  async (req, res, next) => {
+    const cardsetId = req.params.cardsetId;
+    const set = await setDAO.getById(cardsetId);
+
+    if (!set) {
+      res.sendStatus(404);
+    } else if (
+      set.userId === res.locals.user._id ||
+      res.locals.user.roles.includes("admin")
+    ) {
+      const cardId = req.params.id;
+      try {
+        const success = await cardsDAO.deleteById(cardId);
+        res.sendStatus(success ? 200 : 400);
+      } catch (e) {
+        res.status(500).send(e.message);
+      }
+    } else {
+      res.sendStatus(401);
+    }
   }
-});
+);
 module.exports = router;
