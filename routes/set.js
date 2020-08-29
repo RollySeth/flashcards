@@ -66,50 +66,72 @@ router.get("/public", authorizationCheck, async (req, res, next) => {
 router.put("/:id", authorizationCheck, async (req, res, next) => {
   const setId = req.params.id;
   const { title, description, category } = req.body;
+  const { userId } = res.locals.user._id;
   const set = await setDAO.updateSetById(
+    userId,
     setId,
     title,
     description,
-    category,
-    res.locals.user
+    category
   );
   if (set) {
-    res.sendStatus(200);
+    res.json(set);
   } else {
     res.sendStatus(401);
   }
 });
 // Change public status of set
-router.put("/:id/public", async (req, res, next) => {
+router.put("/:id/public", authorizationCheck, async (req, res, next) => {
   const isPublic = req.query.isPublic;
   const setId = req.params.id;
   const { userId } = req.body;
-
-  const set = await setDAO.makePublic(setId, userId, isPublic);
+  const set = await setDAO.getById(req.params.id);
   if (set) {
-    res.sendStatus(200);
+    if (set.userId === res.locals.user._id) {
+      const setPublic = await setDAO.makePublic(setId, userId, isPublic);
+      if (setPublic) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(401);
+      }
+    } else {
+      res.sendStatus(401);
+    }
   } else {
     res.sendStatus(401);
   }
 });
+
 // GET single set
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", authorizationCheck, async (req, res, next) => {
   const set = await setDAO.getById(req.params.id);
-  if (set) {
+  if (!set) {
+    res.sendStatus(404);
+  } else if (
+    set.isPublic === true ||
+    set.userId === res.locals.user._id ||
+    res.locals.user.roles.includes("admin")
+  ) {
     res.json(set);
+  } else if (set) {
+    res.sendStatus(401);
   } else {
     res.sendStatus(404);
   }
 });
 
 // PUT single set
-router.put("/:id/start", async (req, res, next) => {
+router.put("/:id/start", authorizationCheck, async (req, res, next) => {
   const set = await setDAO.getById(req.params.id);
-  if (set) {
+  if (
+    set.isPublic === true ||
+    set.userId === res.locals.user._id ||
+    res.locals.user.roles.includes("admin")
+  ) {
     const setAttempts = set.setAttempts;
     const setAdded = setDAO.startById(req.params.id, setAttempts);
     if (setAdded) {
-      res.json(setAdded);
+      res.status(200).send("started set");
     } else {
       res.sendStatus(404);
     }
@@ -122,8 +144,15 @@ router.put("/:id/start", async (req, res, next) => {
 router.delete("/:id", async (req, res, next) => {
   const setId = req.params.id;
   try {
-    const success = await setDAO.deleteById(setId);
-    res.sendStatus(success ? 200 : 400);
+    const set = await setDAO.getById(req.params.id);
+    if (
+      set.isPublic === true ||
+      set.userId === res.locals.user._id ||
+      res.locals.user.roles.includes("admin")
+    ) {
+      const success = await setDAO.deleteById(setId);
+      res.sendStatus(success ? 200 : 400);
+    }
   } catch (e) {
     res.status(500).send(e.message);
   }
