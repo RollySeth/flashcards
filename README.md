@@ -1,5 +1,20 @@
 Accessible from: https://js400-final-project.github.io/flashcards/#/
 
+# Update Aug. 30
+
+Project Flash Cards is progressing. What has been completed:
+- Basic CRUD routes for user login, cardset creation and card creation. Complete with authorization and authentication. Works on localhost
+- A deploy of a React App that will connect to the API via Express. Works on localhost
+- Cardset creation works on localhost.
+- Login system is functional on production
+
+What remains:
+The primary roadblock we have is integrating the express routes into an existing React project. We are going into existing React templates and switching out the base DB to Mongo/Express..
+
+Additional work remaining:
+- Advanced Mongo routes that would allow for robust search of sets and maintain records of how people are doing on cardsets
+- Disconnecting the existing UI from firebase and reintegrating with MongoDB/Express
+
 # Project Flash Cards
 Project Flash Cards is a MongoDB/Express.js driven app that will help students, test takers, and other people who need help with memorization to learn information quickly.
 
