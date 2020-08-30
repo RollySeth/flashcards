@@ -1,4 +1,6 @@
-Accessible from: https://js400-final-project.github.io/flashcards/#/
+Deployed App- https://flashcards-js.herokuapp.com/flashcards/#/
+
+(old): https://js400-final-project.github.io/flashcards/#/
 
 # Update Aug. 30
 
