@@ -61,7 +61,7 @@ router.post("/", async (req, res, next) => {
       } else {
         const userWithoutPassword = await userDAO.getUserExceptPassword(email);
         const token = jwt.sign(userWithoutPassword.toJSON(), secret, {
-          expiresIn: "2h",
+          expiresIn: "10h",
         });
         res.json({ token, userWithoutPassword });
       }
@@ -90,18 +90,15 @@ router.post("/user", async (req, res, next) => {
 });
 
 // email validation Route before signup
-router.post("/emailcheck", async(req, res) => 
-     {
-       const { email } = req.body;
-      const user = await userDAO.getUser(email);
-      if(!user)
-      {
-        res.sendStatus(200)
-      }
-      else{
-        res.sendStatus(204)
-      }
-    });
+router.post("/emailcheck", async (req, res) => {
+  const { email } = req.body;
+  const user = await userDAO.getUser(email);
+  if (!user) {
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(204);
+  }
+});
 
 // get user info
 router.get("/user/:id", authorizationCheck, async (req, res, next) => {
