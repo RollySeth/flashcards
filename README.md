@@ -1,8 +1,8 @@
-Deployed App- https://flashcards-js.herokuapp.com/flashcards/#/
 
-(old): https://js400-final-project.github.io/flashcards/#/
 
 # Update Aug. 30
+
+Deployed App- https://flashcards-js.herokuapp.com/flashcards/#/
 
 Project Flash Cards is progressing. What has been completed:
 - Basic CRUD routes for user login, cardset creation and card creation. Complete with authorization and authentication. Works on localhost
@@ -83,3 +83,6 @@ Tasks on Trello are categorized as P0, P1, and P2.
 - *P1*: must be completed for proof of concept.
 - *P2*: must be completed by end of project.
 
+
+
+(old): https://js400-final-project.github.io/flashcards/#/
