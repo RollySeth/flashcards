@@ -11,6 +11,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import {Link, IndexRedirect} from "react-router";
 
 
+// import {Link, IndexRedirect} from "react-router";
+
+
 class App extends React.Component {
   render() {
     return (
