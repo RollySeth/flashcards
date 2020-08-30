@@ -64,6 +64,7 @@ router.post("/", async (req, res, next) => {
           expiresIn: "10h",
         });
         res.json({ token, userWithoutPassword });
+        console.log(token)
       }
     }
   }

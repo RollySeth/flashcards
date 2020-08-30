@@ -12,6 +12,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import { Redirect } from "react-router-dom";
 
 import axios from 'axios';
 import {Link} from 'react-router-dom';
@@ -139,6 +140,10 @@ class SignUp extends React.Component {
   // };
   render() {
     const {register, error, email_taken, error_email_exists}=this.state; 
+    if (this.state.register ) {
+      return <Redirect to = {{ pathname: "/new" }} />;
+    } 
+
     if (!this.props.isSignedIn ) {
       return (
         <Container fluid className="login">

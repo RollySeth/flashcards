@@ -14,7 +14,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SignUp from "./SignUp";
 import axios from 'axios';
-
+import { Redirect } from "react-router-dom";
 
 const LoginService = data => (
 	axios.post('http://localhost:5000/login', data)
@@ -61,20 +61,24 @@ class SignIn extends React.Component {
       password: this.state.password,
     };
     const loginResult = await LoginService(data);
+    console.log(`Test ${loginResult}`)
     if (loginResult !== 200) 
     {
+      console.log ('Log in Failed.')
       this.setState
       ({
-        error: true,
         loginSuccess: false,
+        error: true
       });
     } 
     else
+      console.log ('Log in success.')
       this.setState
       ({
         loginSuccess: true,
         error: false,
       });
+      this.forceUpdate();
   };
 
   // uiConfig = {
@@ -91,6 +95,10 @@ class SignIn extends React.Component {
   // };
 
   render() {
+    if (this.state.loginSuccess) {
+      return <Redirect to = {{ pathname: "/new" }} />;
+    } 
+    
     if (!this.props.isSignedIn) {
       return (
         <Container fluid className="login">
@@ -140,7 +148,7 @@ class SignIn extends React.Component {
            <Button variant="contained" 
            onClick ={this.onSubmit} 
            color="secondary" 
-           href="/flashcards/#/new"
+          //  href="/flashcards/#/new"
            >
                 Log In
             </Button>
