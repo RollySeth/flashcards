@@ -12,24 +12,132 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-// import {signup} from './routes/login';
+import axios from 'axios';
+import {Link} from 'react-router-dom';
+// const bcrypt = require("bcrypt");
 
-// Configure FirebaseUI.
+
+//SignUp service connect express login/SignUp route to user entered data
+const UserRegistration = data => {
+  // const password = data.password;
+  // const salt = bcrypt.genSaltSync(10);
+  // const hash = bcrypt.hashSync(password, salt);
+
+  // data["password"] = hash;
+
+  return axios.post('http://localhost:5000/login/signup', data)
+      .then(res => res.status);
+};
+
+//User Vaidation service connect express login/user route to check user entered data 
+export const UserValidation = data => (
+  axios.post('http://localhost:5000/login/user', data)
+  .then(exist => exist.status)
+)
+
+//Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
+export const EmailValidation = data => (
+  axios.post('http://localhost:5000/login/emailcheck', data)
+  .then(exist => exist.status)
+)
+
 
 class SignUp extends React.Component {
-  uiConfig = {
-    signInFlow: "popup",
-    signInOptions: [
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-      signInSuccessWithAuthResult: () => {
-        setTimeout(this.props.history.push("/home"), 1000);
-      },
-    },
+  
+
+  //Saving SignUp State
+  constructor (props) 
+  {
+    super (props);
+    this.state = 
+    {
+      email: '',
+      password: '',
+      register:false,
+      error:false,
+    };
+  }
+
+  //Saving Email and Password Entered values to states 
+  handleOnChangeEmail = e => 
+  {
+    this.setState 
+    ({
+      email: e.target.value,
+    });
   };
+
+  handleOnChangePassword = e => 
+  {
+    this.setState 
+    ({
+      password: e.target.value,
+    });
+  };
+
+  handleOnBlur = async e => {
+    this.setState ({
+      email: e.target.value,
+    });
+    const data = {
+      email: this.state.email,
+    };
+    const isEmailTaken = await EmailValidation (data);
+
+    isEmailTaken === 204
+      ?  this.setState ({email_taken: true} )
+      : this.setState ({email_taken: false} );
+
+      isEmailTaken === 204
+      ?  this.setState ({error_email_exists:"Email already exists. Try Login Instead!"})
+      : this.setState ({error_email_exists:""});
+  };
+
+  //On Submit button click sending data from saved state to express Login/signup routes 
+  onSubmit = async e => 
+  {
+    e.preventDefault ();
+    const data = 
+    {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    const registerStatus = await UserRegistration (data);
+     if (registerStatus === 200) 
+     {
+      this.setState 
+      ({
+        email: '',
+        password: '',
+        register: true,
+        error: false,
+      });
+     }
+     else
+      this.setState 
+      ({
+        error: true,
+        register: false,
+      });
+  };
+
+  // Configure FirebaseUI.
+
+  // uiConfig = {
+  //   signInFlow: "popup",
+  //   signInOptions: [
+  //     firebase.auth.EmailAuthProvider.PROVIDER_ID,
+  //     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+  //   ],
+  //   callbacks: {
+  //     signInSuccessWithAuthResult: () => {
+  //       setTimeout(this.props.history.push("/home"), 1000);
+  //     },
+  //   },
+  // };
   render() {
+    const {register, error, email_taken, error_email_exists}=this.state; 
     if (!this.props.isSignedIn ) {
       return (
         <Container fluid className="login">
@@ -57,6 +165,10 @@ class SignUp extends React.Component {
                 id="outlined-helperText"
                 label="E-mail"
                 variant="outlined"
+                onChange={this.handleOnChangeEmail}
+                onBlur={this.handleOnBlur}
+                helperText={error_email_exists}
+                required
             />
             <br/>
             <br/>
@@ -66,16 +178,22 @@ class SignUp extends React.Component {
                 type="password"
                 autoComplete="current-password"
                 variant="outlined"
+                onChange={this.handleOnChangePassword}
               />
              </h5>
            <br/>
            <br/>
            <h6>
-           
-           <Button variant="contained" color="secondary" href="/flashcards/#/new">
+           {/* <Link to="/flashcards/#/new"> */}
+           <Button variant="contained"
+           onClick ={this.onSubmit} 
+           disabled={email_taken} 
+           color="secondary"
+           href="/flashcards/#/new"
+           >
                 Sign-Up
             </Button>
-            
+            {/* </Link> */}
             </h6>
                &nbsp; &nbsp;&nbsp;&nbsp;
               </Col>

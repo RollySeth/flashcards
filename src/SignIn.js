@@ -13,22 +13,84 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import SignUp from "./SignUp";
+import axios from 'axios';
+
+
+const LoginService = data => (
+	axios.post('http://localhost:5000/login', data)
+		.then(res => res.status)
+)
+
+
 
 // Configure FirebaseUI.
 
 class SignIn extends React.Component {
-  uiConfig = {
-    signInFlow: "popup",
-    signInOptions: [
-      firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    ],
-    callbacks: {
-      signInSuccessWithAuthResult: () => {
-        setTimeout(this.props.history.push("/home"), 1000);
-      },
-    },
+
+  constructor (props) 
+  {
+    super (props);
+    this.state = 
+    {
+      email: '',
+      password: '',
+      error:false,
+      loginSuccess: false,
+    };
+  }
+
+  handleOnChangeEmail = e => 
+  {
+    this.setState 
+    ({
+      email: e.target.value,
+    });
   };
+
+  handleOnChangePassword = e => 
+  {
+    this.setState 
+    ({
+      password: e.target.value,
+    });
+  };
+  
+  onSubmit = async e => 
+  {
+    const data = 
+    {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    const loginResult = await LoginService(data);
+    if (loginResult !== 200) 
+    {
+      this.setState
+      ({
+        error: true,
+        loginSuccess: false,
+      });
+    } 
+    else
+      this.setState
+      ({
+        loginSuccess: true,
+        error: false,
+      });
+  };
+
+  // uiConfig = {
+  //   signInFlow: "popup",
+  //   signInOptions: [
+  //     firebase.auth.EmailAuthProvider.PROVIDER_ID,
+  //     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+  //   ],
+  //   callbacks: {
+  //     signInSuccessWithAuthResult: () => {
+  //       setTimeout(this.props.history.push("/home"), 1000);
+  //     },
+  //   },
+  // };
 
   render() {
     if (!this.props.isSignedIn) {
@@ -60,6 +122,8 @@ class SignIn extends React.Component {
                 id="outlined-helperText"
                 label="E-mail"
                 variant="outlined"
+                onChange={this.handleOnChangeEmail}
+                required
             />
             <br/>
             <br/>
@@ -69,15 +133,19 @@ class SignIn extends React.Component {
                 type="password"
                 autoComplete="current-password"
                 variant="outlined"
+                onChange={this.handleOnChangePassword}
+                required
               />
              </h5>
            <br/>
            <h6>
-             
-           <Button variant="contained" color="secondary">
+           <Button variant="contained" 
+           onClick ={this.onSubmit} 
+           color="secondary" 
+           href="/flashcards/#/new"
+           >
                 Log In
             </Button>
-            
             </h6>
 
                &nbsp; &nbsp;&nbsp;&nbsp;

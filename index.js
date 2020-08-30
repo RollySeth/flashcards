@@ -22,7 +22,7 @@ if (NODE_ENV === "production") {
 } else {
   console.log("Connecting to local MongoDB");
   mongoose
-    .connect("mongodb://localhost/flash2020", {
+    .connect("mongodb://localhost/flashcards", {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,
