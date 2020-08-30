@@ -21,8 +21,6 @@ const LoginService = data => (
 		.then(res => res.status)
 )
 
-
-
 // Configure FirebaseUI.
 
 class SignIn extends React.Component {

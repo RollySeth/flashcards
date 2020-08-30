@@ -12,6 +12,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 // const bcrypt = require("bcrypt");
@@ -184,6 +185,7 @@ class SignUp extends React.Component {
            <br/>
            <br/>
            <h6>
+
            {/* <Link to="/flashcards/#/new"> */}
            <Button variant="contained"
            onClick ={this.onSubmit} 
