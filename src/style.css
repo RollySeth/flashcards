@@ -852,6 +852,7 @@ a:hover .card h2 {
 }
 #welcome h3 {
   font-size: 0.875em;
+
 }
 
 
@@ -864,6 +865,15 @@ a:hover .card h2 {
   width: 60%;
   padding: 0%;
   background: #fff;
+}
+
+#login h3 {
+  text-align: left;
+  padding-top:10%;
+  padding-left:-5%;
+  font-size: xx-small;
+  margin-left:0px ; 
+  display: block;
 }
 
 

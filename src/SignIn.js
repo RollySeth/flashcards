@@ -16,15 +16,38 @@ import SignUp from "./SignUp";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { Alert } from "@material-ui/lab";
+import { grey } from "@material-ui/core/colors";
 
-const LoginService = (data) =>
+
+//service to send login credential to express backend
+const LoginService = (data) => (
   axios
     .post(`${process.env.REACT_APP_BASEURI}/login`, data)
     .then((res) => res.status)
+)
 
-// Configure FirebaseUI.
+//Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
+const EmailValidation = data => (
+  axios.post(`${process.env.REACT_APP_BASEURI}login/emailcheck`, data)
+  .then(exist => exist.status)
+)
+
+
+const LoginService = (data) => (
+  axios
+    .post(`http://localhost:5000/login/`, data)
+    .then((res) => res.status)
+)
+
+//Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
+const EmailValidation = data => (
+  axios.post(`http://localhost:5000/login/emailcheck`, data)
+  .then(exist => exist.status)
+)
 
 class SignIn extends React.Component {
+
+  //constructor to save initial empty state
   constructor(props) {
     super(props);
     this.state = {
@@ -35,20 +58,44 @@ class SignIn extends React.Component {
     };
   }
 
+  //called when user moves out of email input field 
   handleOnChangeEmail = (e) => {
     this.setState({
       email: e.target.value,
     });
   };
 
+  //called when user moves out of password input field 
   handleOnChangePassword = (e) => {
     this.setState({
       password: e.target.value,
     });
   };
 
+  //checking if entered email doesn't exist is database and require sign up instead of signin
+  handleOnBlur = async e => {
+    this.setState ({
+      email: e.target.value,
+    });
+    const data = {
+      email: this.state.email,
+    };
+    const isEmailTaken = await EmailValidation (data);
+
+    isEmailTaken === 204
+      ?  this.setState ({sign_up_reqd: false} )
+      : this.setState ({sign_up_reqd: true} );
+
+      isEmailTaken === 204
+      ?  this.setState ({error_sign_up_reqd:""})
+      : this.setState ({error_sign_up_reqd:"User does not exist. Sign-Up First!"});
+  };
+
+  // sending login information to express route after submit button is pressed 
   onSubmit = async (e) => {
     e.preventDefault();
+    
+    this.setState({wrong_password:true }); 
     const data = {
       email: this.state.email,
       password: this.state.password,
@@ -61,36 +108,24 @@ class SignIn extends React.Component {
         loginSuccess: false,
         error: true,
       });
-    } else console.log("Log in success.");
+    } else 
+    {console.log("Log in Success.");
     this.setState({
       loginSuccess: true,
       error: false,
     });
-    this.forceUpdate();
+    }
+     this.forceUpdate();
   };
-
-  // uiConfig = {
-  //   signInFlow: "popup",
-  //   signInOptions: [
-  //     firebase.auth.EmailAuthProvider.PROVIDER_ID,
-  //     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-  //   ],
-  //   callbacks: {
-  //     signInSuccessWithAuthResult: () => {
-  //       setTimeout(this.props.history.push("/home"), 1000);
-  //     },
-  //   },
-  // };
 
   render() {
     if (this.state.loginSuccess) {
       return <Redirect to={{ pathname: "/new" }} />;
     }
+    const {error,sign_up_reqd,error_sign_up_reqd,wrong_password}=this.state; 
 
-    if (!this.props.isSignedIn) {
       return (
         <Container fluid className="login">
-          <div id="welcome"></div>
           <div id="login">
             <Row className={`justify-content-center`}>
               <Col>
@@ -110,10 +145,6 @@ class SignIn extends React.Component {
                   <Button href="/flashcards/#/signup">Sign-Up</Button>
                 </h7>
                 <h4>LOGIN</h4>
-                {/* <StyledFirebaseAuth
-                  uiConfig={this.uiConfig}
-                  firebaseAuth={firebase.auth()}
-                /> */}
                 <br />
                 <h5>
                   <TextField
@@ -121,6 +152,8 @@ class SignIn extends React.Component {
                     label="E-mail"
                     variant="outlined"
                     onChange={this.handleOnChangeEmail}
+                    onBlur={this.handleOnBlur}
+                    helperText={error_sign_up_reqd}
                     required
                   />
                   <br />
@@ -135,42 +168,30 @@ class SignIn extends React.Component {
                     required
                   />
                 </h5>
-                <br />
-                {this.state.loginSuccess ? (
-                  <Alert severity="error">
-                    {" "}
-                    Unable to log in. Please check your username and password.{" "}
-                  </Alert>
-                ) : (
-                  ""
-                )}
+                  
                 <h6>
-                  <Button
-                    variant="contained"
-                    onClick={this.onSubmit}
-                    color="secondary"
-                    //  href="/flashcards/#/new"
-                  >
-                    Log In
-                  </Button>
-                </h6>
-                &nbsp; &nbsp;&nbsp;&nbsp;
+
+           {/* <Link to="/flashcards/#/new"> */}
+           <Button variant="contained"
+           onClick ={this.onSubmit} 
+           disabled={sign_up_reqd} 
+           color="secondary"
+           href="/flashcards/#/new"
+           >
+                Log-In
+            </Button>
+            {/* </Link> */}
+            </h6>           
+                  <h3>        
+                   {wrong_password &&  <Alert severity="error">
+                   Unable to log in. Please check your username and password.
+                  </Alert> }                
+                  </h3>
               </Col>
             </Row>
-            {/* <Row className={`justify-content-center`}>
-              <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
-                <StyledFirebaseAuth
-                  uiConfig={this.uiConfig}
-                  firebaseAuth={firebase.auth()}
-                />
-              </Col>
-            </Row> */}
           </div>
         </Container>
       );
-    } else {
-      return <></>;
-    }
   }
 }
 

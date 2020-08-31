@@ -13,25 +13,17 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import { Redirect } from "react-router-dom";
-
 import axios from 'axios';
 import {Link} from 'react-router-dom';
-// const bcrypt = require("bcrypt");
 
 
 //SignUp service connect express login/SignUp route to user entered data
 const UserRegistration = data => {
-  // const password = data.password;
-  // const salt = bcrypt.genSaltSync(10);
-  // const hash = bcrypt.hashSync(password, salt);
-
-  // data["password"] = hash;
-
   return axios.post(`${process.env.REACT_APP_BASEURI}/login/signup`, data)
       .then(res => res.status);
 };
 
-//User Vaidation service connect express login/user route to check user entered data 
+//User Validation service connect express login/user route to check user entered data 
 export const UserValidation = data => (
   axios.post(`${process.env.REACT_APP_BASEURI}/login/user`, data)
   .then(exist => exist.status)
@@ -43,19 +35,8 @@ export const EmailValidation = data => (
   .then(exist => exist.status)
 )
 
-
-import axios from 'axios';
-import {Link} from 'react-router-dom';
-// const bcrypt = require("bcrypt");
-
-
 //SignUp service connect express login/SignUp route to user entered data
 const UserRegistration = data => {
-  // const password = data.password;
-  // const salt = bcrypt.genSaltSync(10);
-  // const hash = bcrypt.hashSync(password, salt);
-
-  // data["password"] = hash;
 
   return axios.post('http://localhost:5000/login/signup', data)
       .then(res => res.status);
