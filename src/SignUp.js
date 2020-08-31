@@ -12,6 +12,37 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import { Redirect } from "react-router-dom";
+
+import axios from 'axios';
+import {Link} from 'react-router-dom';
+// const bcrypt = require("bcrypt");
+
+
+//SignUp service connect express login/SignUp route to user entered data
+const UserRegistration = data => {
+  // const password = data.password;
+  // const salt = bcrypt.genSaltSync(10);
+  // const hash = bcrypt.hashSync(password, salt);
+
+  // data["password"] = hash;
+
+  return axios.post(`${process.env.REACT_APP_BASEURI}/login/signup`, data)
+      .then(res => res.status);
+};
+
+//User Vaidation service connect express login/user route to check user entered data 
+export const UserValidation = data => (
+  axios.post(`${process.env.REACT_APP_BASEURI}/login/user`, data)
+  .then(exist => exist.status)
+)
+
+//Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
+export const EmailValidation = data => (
+  axios.post(`${process.env.REACT_APP_BASEURI}/login/emailcheck`, data)
+  .then(exist => exist.status)
+)
+
 
 import axios from 'axios';
 import {Link} from 'react-router-dom';
@@ -41,7 +72,6 @@ export const EmailValidation = data => (
   axios.post('http://localhost:5000/login/emailcheck', data)
   .then(exist => exist.status)
 )
-
 
 class SignUp extends React.Component {
   
@@ -139,6 +169,9 @@ class SignUp extends React.Component {
   // };
   render() {
     const {register, error, email_taken, error_email_exists}=this.state; 
+    if (this.state.register ) {
+      return <Redirect to = {{ pathname: "/new" }} />;
+    } 
     if (!this.props.isSignedIn ) {
       return (
         <Container fluid className="login">

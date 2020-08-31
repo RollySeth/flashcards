@@ -52,17 +52,19 @@ router.put(
   }
 );
 
-router.post("/:cardsetId", authorizationCheck, async (req, res, next) => {
+//Need to readd authorization
+router.post("/:cardsetId", async (req, res, next) => {
   const cardsetId = req.params.cardsetId;
 
   const set = await setDAO.getById(req.params.cardsetId);
 
   if (!set) {
     res.sendStatus(404);
-  } else if (
-    set.userId === res.locals.user._id ||
-    res.locals.user.roles.includes("admin")
-  ) {
+  } else if (set) {
+    //if (
+    //  set.userId === res.locals.user._id ||
+    //  res.locals.user.roles.includes("admin")
+    //)
     const { sideA, sideB } = req.body;
     const card = await cardsDAO.create(cardsetId, sideA, sideB);
     if (card) {

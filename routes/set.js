@@ -8,12 +8,12 @@ const jwt = require("jsonwebtoken");
 const authorizationCheck = async (req, res, next) => {
   let header = req.headers.authorization;
   if (!header) {
-    res.sendStatus(401);
+    res.status(401).send("token unverified");
   } else {
     const token = header.split(" ")[1];
     const userCheck = jwt.verify(token, secret, (e, tokenNew) => {
       if (e) {
-        res.sendStatus(401);
+        res.status(401).send("user unverified");
       } else {
         res.locals.user = tokenNew;
         next();
@@ -23,13 +23,13 @@ const authorizationCheck = async (req, res, next) => {
   return;
 };
 
-router.post("/", authorizationCheck, async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   const { title, description, category, userId } = req.body;
   const set = await setDAO.create(title, description, category, userId);
   if (set) {
     res.json(set);
   } else {
-    res.sendStatus(401);
+    res.status(404).send("set not created");
   }
 });
 // GET set of one user.

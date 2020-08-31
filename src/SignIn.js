@@ -5,76 +5,68 @@ import { Col, Row, Container } from "react-bootstrap";
 import { faBrain } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Helmet } from "react-helmet";
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import SignUp from "./SignUp";
-import axios from 'axios';
+import axios from "axios";
+import { Redirect } from "react-router-dom";
+import { Alert } from "@material-ui/lab";
 
-
-const LoginService = data => (
-	axios.post('http://localhost:5000/login', data)
-		.then(res => res.status)
-)
+const LoginService = (data) =>
+  axios
+    .post(`${process.env.REACT_APP_BASEURI}/login`, data)
+    .then((res) => res.status)
 
 // Configure FirebaseUI.
 
 class SignIn extends React.Component {
-
-  constructor (props) 
-  {
-    super (props);
-    this.state = 
-    {
-      email: '',
-      password: '',
-      error:false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      error: false,
       loginSuccess: false,
     };
   }
 
-  handleOnChangeEmail = e => 
-  {
-    this.setState 
-    ({
+  handleOnChangeEmail = (e) => {
+    this.setState({
       email: e.target.value,
     });
   };
 
-  handleOnChangePassword = e => 
-  {
-    this.setState 
-    ({
+  handleOnChangePassword = (e) => {
+    this.setState({
       password: e.target.value,
     });
   };
-  
-  onSubmit = async e => 
-  {
-    const data = 
-    {
+
+  onSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
       email: this.state.email,
       password: this.state.password,
     };
     const loginResult = await LoginService(data);
-    if (loginResult !== 200) 
-    {
-      this.setState
-      ({
-        error: true,
+    console.log(`Test ${loginResult}`);
+    if (loginResult !== 200) {
+      console.log("Log in Failed.");
+      this.setState({
         loginSuccess: false,
+        error: true,
       });
-    } 
-    else
-      this.setState
-      ({
-        loginSuccess: true,
-        error: false,
-      });
+    } else console.log("Log in success.");
+    this.setState({
+      loginSuccess: true,
+      error: false,
+    });
+    this.forceUpdate();
   };
 
   // uiConfig = {
@@ -91,64 +83,79 @@ class SignIn extends React.Component {
   // };
 
   render() {
+    if (this.state.loginSuccess) {
+      return <Redirect to={{ pathname: "/new" }} />;
+    }
+
     if (!this.props.isSignedIn) {
       return (
         <Container fluid className="login">
-          <div id="welcome">
-          </div>
+          <div id="welcome"></div>
           <div id="login">
-          
             <Row className={`justify-content-center`}>
-
               <Col>
-              <div id="welcome">
-              <h1></h1>
-                <img src={require('./Images/flashcardsbg.jpg')} alt="Logo"  width="100%" height="100%" />
-               </div>
+                <div id="welcome">
+                  <h1></h1>
+                  <img
+                    src={require("./Images/flashcardsbg.jpg")}
+                    alt="Logo"
+                    width="100%"
+                    height="100%"
+                  />
+                </div>
               </Col>
               <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
-                <h7> <Button href="/flashcards/#/signup">Sign-Up</Button>
+                <h7>
+                  {" "}
+                  <Button href="/flashcards/#/signup">Sign-Up</Button>
                 </h7>
                 <h4>LOGIN</h4>
                 {/* <StyledFirebaseAuth
                   uiConfig={this.uiConfig}
                   firebaseAuth={firebase.auth()}
                 /> */}
-              <br/>
-             <h5>
-            <TextField
-                id="outlined-helperText"
-                label="E-mail"
-                variant="outlined"
-                onChange={this.handleOnChangeEmail}
-                required
-            />
-            <br/>
-            <br/>
-            <TextField
-                id="outlined-password-input"
-                label="Password"
-                type="password"
-                autoComplete="current-password"
-                variant="outlined"
-                onChange={this.handleOnChangePassword}
-                required
-              />
-             </h5>
-           <br/>
-           <h6>
-           <Button variant="contained" 
-           onClick ={this.onSubmit} 
-           color="secondary" 
-           href="/flashcards/#/new"
-           >
-                Log In
-            </Button>
-            </h6>
-
-               &nbsp; &nbsp;&nbsp;&nbsp;
+                <br />
+                <h5>
+                  <TextField
+                    id="outlined-helperText"
+                    label="E-mail"
+                    variant="outlined"
+                    onChange={this.handleOnChangeEmail}
+                    required
+                  />
+                  <br />
+                  <br />
+                  <TextField
+                    id="outlined-password-input"
+                    label="Password"
+                    type="password"
+                    autoComplete="current-password"
+                    variant="outlined"
+                    onChange={this.handleOnChangePassword}
+                    required
+                  />
+                </h5>
+                <br />
+                {this.state.loginSuccess ? (
+                  <Alert severity="error">
+                    {" "}
+                    Unable to log in. Please check your username and password.{" "}
+                  </Alert>
+                ) : (
+                  ""
+                )}
+                <h6>
+                  <Button
+                    variant="contained"
+                    onClick={this.onSubmit}
+                    color="secondary"
+                    //  href="/flashcards/#/new"
+                  >
+                    Log In
+                  </Button>
+                </h6>
+                &nbsp; &nbsp;&nbsp;&nbsp;
               </Col>
-
             </Row>
             {/* <Row className={`justify-content-center`}>
               <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
@@ -159,14 +166,11 @@ class SignIn extends React.Component {
               </Col>
             </Row> */}
           </div>
-
         </Container>
       );
-    } 
-    else {
+    } else {
       return <></>;
     }
-
   }
 }
 
