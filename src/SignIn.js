@@ -33,6 +33,7 @@ const EmailValidation = data => (
 )
 
 
+
 const LoginService = (data) => (
   axios
     .post(`http://localhost:5000/login/`, data)
@@ -46,7 +47,6 @@ const EmailValidation = data => (
 )
 
 class SignIn extends React.Component {
-
   //constructor to save initial empty state
   constructor(props) {
     super(props);
@@ -123,7 +123,6 @@ class SignIn extends React.Component {
       return <Redirect to={{ pathname: "/new" }} />;
     }
     const {error,sign_up_reqd,error_sign_up_reqd,wrong_password}=this.state; 
-
       return (
         <Container fluid className="login">
           <div id="login">
@@ -167,8 +166,7 @@ class SignIn extends React.Component {
                     onChange={this.handleOnChangePassword}
                     required
                   />
-                </h5>
-                  
+                </h5> 
                 <h6>
 
            {/* <Link to="/flashcards/#/new"> */}
@@ -187,6 +185,7 @@ class SignIn extends React.Component {
                    Unable to log in. Please check your username and password.
                   </Alert> }                
                   </h3>
+
               </Col>
             </Row>
           </div>
