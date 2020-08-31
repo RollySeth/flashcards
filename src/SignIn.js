@@ -32,20 +32,6 @@ const EmailValidation = data => (
   .then(exist => exist.status)
 )
 
-
-
-const LoginService = (data) => (
-  axios
-    .post(`http://localhost:5000/login/`, data)
-    .then((res) => res.status)
-)
-
-//Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
-const EmailValidation = data => (
-  axios.post(`http://localhost:5000/login/emailcheck`, data)
-  .then(exist => exist.status)
-)
-
 class SignIn extends React.Component {
   //constructor to save initial empty state
   constructor(props) {
