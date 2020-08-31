@@ -3,7 +3,7 @@ import firebase from "firebase";
 import { Card, Col, Row, Container } from "react-bootstrap";
 import Top from "./Top";
 import { Helmet } from "react-helmet";
-
+import axios from "axios";
 const db = firebase.firestore();
 
 export default class CardsetAnswer extends React.Component {
@@ -23,45 +23,36 @@ export default class CardsetAnswer extends React.Component {
       complete: false,
       disabled: true,
       flips: 0,
+      headers: {
+        headers: {
+          Authorization:
+            "Bearer " +
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJ1c2VyIl0sIl9pZCI6IjVmNGJkZDlmNGFlNGRiMDhkNGI3N2MwNCIsImlhdCI6MTU5ODgzMzkxMSwiZXhwIjoxNTk4ODY5OTExfQ.-fuW85bH4_4CVoBAqo9XH_6-148CMMU2j1WZsni68yY", //the token is a variable which holds the token
+        },
+      },
     };
     this.endButton = React.createRef();
   }
 
   componentDidMount() {
-    this.unregisterAuthObserver = firebase.auth().onAuthStateChanged((user) => {
-      this.setState({ isSignedIn: !!user }, () => {
-        const uid = firebase.auth().currentUser.uid;
-        const holder =
-          this.props.location.pathname.indexOf("/set/yours/") === -1
-            ? db.collection("defaultcards")
-            : db.collection("users").doc(uid).collection("yourCards");
-
-        this.unsubscribe = holder
-          .doc(this.state.entryId)
-          .collection("cards")
-          .orderBy("created", "asc")
-          .onSnapshot((snapshot) => {
-            this.setState({
-              currentCards: snapshot.docs,
-              category: "",
-            });
-            this.shuffle(this.state.currentCards);
-          });
-        holder
-          .doc(this.state.entryId)
-          .get()
-          .then((doc) => {
-            if (doc.exists) {
-              this.setState({
-                category: doc.data().category,
-                title: doc.data().title,
-              });
-            } else {
-              this.props.history.push(`/404`);
-            }
-          });
+    axios
+      .get(
+        "http://localhost:5000/cards/" + this.state.entryId,
+        this.state.headers
+      )
+      .then((response) => {
+        const currentCards = response.data;
+        this.setState({ currentCards });
       });
-    });
+    axios
+      .get(
+        "http://localhost:5000/set/" + this.state.entryId,
+        this.state.headers
+      )
+      .then((response) => {
+        const category = response.data.category;
+        this.setState({ category });
+      });
   }
 
   componentWillUnmount() {

@@ -105,66 +105,26 @@ export default class NewCardSet extends React.Component {
 
     // Need help with this part
     const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJ1c2VyIl0sIl9pZCI6IjVmNGJkZDlmNGFlNGRiMDhkNGI3N2MwNCIsImlhdCI6MTU5ODgxMDkwNiwiZXhwIjoxNTk4ODE4MTA2fQ.5zeCDhhnRiJ7 - 0qlipxRNhhZAOeQPiAepoelLO7lMYc";
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJ1c2VyIl0sIl9pZCI6IjVmNGJkZDlmNGFlNGRiMDhkNGI3N2MwNCIsImlhdCI6MTU5ODgzMzkxMSwiZXhwIjoxNTk4ODY5OTExfQ.-fuW85bH4_4CVoBAqo9XH_6-148CMMU2j1WZsni68yY";
     const headers = {
-      Authorization: "Bearer " + token, //the token is a variable which holds the token
+      headers: {
+        Authorization: "Bearer " + token, //the token is a variable which holds the token
+      },
     };
 
-    //
-
-    axios
-      .post("http://localhost:5000/set", body)
-      .then(function (response) {
-        console.log(response);
-        console.log(body);
-        const cardSetId = response.data._id;
-        this.setState({
-          cardSetId: cardSetId,
-        });
-        const emptyCard = {
-          sideA: "This is side A",
-          sideB: "This is side B",
-          setId: cardSetId,
-        };
-        axios.post("http://localhost:5000/cards/" + cardSetId, emptyCard);
-      })
-      .catch(function (error) {
-        if (error.response) {
-          // Request made and server responded
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          // The request was made but no response was received
-          console.log(error.request);
-        } else {
-          // Something happened in setting up the request that triggered an Error
-          console.log("Error", error.message);
-        }
+    let data = {};
+    axios.post("http://localhost:5000/set", body, headers).then((response) => {
+      data = response.data;
+      this.props.history.push({
+        pathname: `/set/yours/${data._id}/edit`,
+        state: {
+          title: this.state.title,
+          description: this.state.descriptionVal,
+          category: this.state.category,
+          entryId: data._id,
+          cardSetId: data._id,
+        },
       });
-
-    //   db.collection("users")
-    //    .doc(uid)
-    //    .collection("yourCards")
-    //    .doc(this.state.entryId)
-    //    .collection("cards")
-    //    .add({
-    //      sideA: null,
-    //      sideB: null,
-    //      answered: 0,
-    //      correct: 0,
-    //      created: new Date(),
-    //    });
-
-    this.props.history.push({
-      pathname: `/set/yours/${this.state.cardSetId}/edit`,
-      state: {
-        title: this.state.title,
-        description: this.state.descriptionVal,
-        category: this.state.category,
-        entryId: this.state.entryId,
-        cardSetId: this.setState.cardSetId,
-      },
     });
   }
   render() {

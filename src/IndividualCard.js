@@ -15,7 +15,7 @@ export default class IndividualCard extends React.Component {
     const card = this.props.card;
     const category = this.props.category;
     return (
-      <div key={card.id} className="cardEdit">
+      <div key={card._id} className="cardEdit">
         <Row className="justify-content-center deleteHold">
           <Col md={5} xs={10} lg={5} xl={5}>
             <button
@@ -37,10 +37,9 @@ export default class IndividualCard extends React.Component {
             xl={6}
           >
             <Card>
-              <textarea
-                placeholder={"Type here for side A"}
-                ref={this.sideA}
-              ></textarea>
+              <textarea placeholder={"Type here for side A"} ref={this.sideA}>
+                {card.sideA}
+              </textarea>
               <button
                 onClick={() => {
                   updateSideA(this.sideA.current.value, card);
@@ -58,10 +57,9 @@ export default class IndividualCard extends React.Component {
             xl={6}
           >
             <Card>
-              <textarea
-                placeholder={"Type here for side B"}
-                ref={this.sideB}
-              ></textarea>
+              <textarea placeholder={"Type here for side B"} ref={this.sideB}>
+                {card.sideB}
+              </textarea>
               <button
                 onClick={() => {
                   updateSideB(this.sideB.current.value, card);
