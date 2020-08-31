@@ -27,19 +27,19 @@ const UserRegistration = data => {
 
   // data["password"] = hash;
 
-  return axios.post('http://localhost:5000/login/signup', data)
+  return axios.post(`${process.env.REACT_APP_BASEURI}/login/signup`, data)
       .then(res => res.status);
 };
 
 //User Vaidation service connect express login/user route to check user entered data 
 export const UserValidation = data => (
-  axios.post('http://localhost:5000/login/user', data)
+  axios.post(`${process.env.REACT_APP_BASEURI}/login/user`, data)
   .then(exist => exist.status)
 )
 
 //Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
 export const EmailValidation = data => (
-  axios.post('http://localhost:5000/login/emailcheck', data)
+  axios.post(`${process.env.REACT_APP_BASEURI}/login/emailcheck`, data)
   .then(exist => exist.status)
 )
 
