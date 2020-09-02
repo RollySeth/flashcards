@@ -18,12 +18,11 @@ import { Redirect } from "react-router-dom";
 import { Alert } from "@material-ui/lab";
 import { grey } from "@material-ui/core/colors";
 
-
 //service to send login credential to express backend
 const LoginService = (data) => (
   axios
     .post(`${process.env.REACT_APP_BASEURI}/login`, data)
-    .then((res) => res.status)
+    .then((res) => res)
 )
 
 //Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
@@ -87,15 +86,17 @@ class SignIn extends React.Component {
       password: this.state.password,
     };
     const loginResult = await LoginService(data);
-    console.log(`Test ${loginResult}`);
-    if (loginResult !== 200) {
+    console.log(`Test ${loginResult.status}`);
+    if (loginResult.status !== 200) {
       console.log("Log in Failed.");
       this.setState({
         loginSuccess: false,
         error: true,
       });
     } else 
-    {console.log("Log in Success.");
+    {
+    console.log("Log in Success.");
+    localStorage.setItem('userData', JSON.stringify(loginResult.data));
     this.setState({
       loginSuccess: true,
       error: false,

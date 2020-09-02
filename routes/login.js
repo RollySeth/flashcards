@@ -15,7 +15,7 @@ const authorizationCheck = async (req, res, next) => {
       if (e) {
         res.sendStatus(401);
       } else {
-        console.log(tokenNew); // bar
+        // console.log(tokenNew); // bar
 
         req.user = tokenNew;
         next();
@@ -64,7 +64,7 @@ router.post("/", async (req, res, next) => {
           expiresIn: "10h",
         });
         res.json({ token, userWithoutPassword });
-        console.log(token)
+        // console.log(token)
       }
     }
   }

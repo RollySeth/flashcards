@@ -38,7 +38,7 @@ export default class CardsetEdit extends React.Component {
     };
     axios
       .put(
-        "http://localhost:5000/set/" + this.state.entryId,
+        `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId,
         body,
         this.state.headers
       )
@@ -55,7 +55,7 @@ export default class CardsetEdit extends React.Component {
       category: this.state.category,
     };
     axios.put(
-      "http://localhost:5000/set/" + this.state.entryId,
+      `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId,
       body,
       this.state.headers
     );
@@ -65,7 +65,7 @@ export default class CardsetEdit extends React.Component {
     this.getCards();
     axios
       .get(
-        "http://localhost:5000/set/" + this.state.entryId,
+        `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId,
         this.state.headers
       )
       .then((response) => {
@@ -84,7 +84,7 @@ export default class CardsetEdit extends React.Component {
       const body = { sideA: changer, sideB: card.sideB };
       axios
         .put(
-          "http://localhost:5000/cards/" + this.state.entryId + "/" + card._id,
+          `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId + "/" + card._id,
           body,
           this.state.headers
         )
@@ -102,7 +102,7 @@ export default class CardsetEdit extends React.Component {
       const body = { sideB: changer, sideA: card.sideA };
       axios
         .put(
-          "http://localhost:5000/cards/" + this.state.entryId + "/" + card._id,
+          `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId + "/" + card._id,
           body,
           this.state.headers
         )
@@ -115,14 +115,14 @@ export default class CardsetEdit extends React.Component {
   }
   deleteCard(card) {
     const url =
-      "http://localhost:5000/cards/" + this.state.entryId + "/" + card._id;
+      `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId + "/" + card._id;
     axios.delete(url, this.state.headers).then((response) => {
       this.getCards();
     });
   }
   addCard() {
     const body = { sideA: null, sideB: null, setId: this.state.entryId };
-    const url = "http://localhost:5000/cards/" + this.state.entryId;
+    const url = `${process.env.REACT_APP_BASEURI}cards/` + this.state.entryId;
     axios.post(url, body, this.state.headers).then((response) => {
       this.getCards();
     });
@@ -131,7 +131,7 @@ export default class CardsetEdit extends React.Component {
   getCards() {
     axios
       .get(
-        "http://localhost:5000/cards/" + this.state.entryId,
+        `${process.env.REACT_APP_BASEURI}cards/` + this.state.entryId,
         this.state.headers
       )
       .then((response) => {

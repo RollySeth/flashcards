@@ -15,7 +15,7 @@ const authorizationCheck = async (req, res, next) => {
       if (e) {
         res.sendStatus(401);
       } else {
-        console.log(tokenNew);
+        // console.log(tokenNew);
         res.locals.user = tokenNew;
         next();
       }

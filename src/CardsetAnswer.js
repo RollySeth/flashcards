@@ -37,7 +37,7 @@ export default class CardsetAnswer extends React.Component {
   componentDidMount() {
     axios
       .get(
-        "http://localhost:5000/cards/" + this.state.entryId,
+        `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId,
         this.state.headers
       )
       .then((response) => {
@@ -46,7 +46,7 @@ export default class CardsetAnswer extends React.Component {
       });
     axios
       .get(
-        "http://localhost:5000/set/" + this.state.entryId,
+        `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId,
         this.state.headers
       )
       .then((response) => {

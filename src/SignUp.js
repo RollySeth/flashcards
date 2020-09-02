@@ -16,7 +16,6 @@ import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
-
 //SignUp service connect express login/SignUp route to user entered data
 const UserRegistration = data => {
   return axios.post(`${process.env.REACT_APP_BASEURI}/login/signup`, data)
