@@ -1,12 +1,12 @@
 @charset "UTF-8";
 body {
   margin: 0;
-  font-family: "Cantarell", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: "Cantarell", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
 }
-
 
 .content a {
   color: #2a4c83;
@@ -89,7 +89,7 @@ select::-ms-expand {
 }
 
 #top div.role {
-   float: right; 
+  float: right;
   /* background: #ffffff; */
   padding: 5px;
   margin: 1vh 2%;
@@ -103,9 +103,7 @@ select::-ms-expand {
 
 #top div.role:hover a {
   color: #2e2925;
-  
 }
-
 
 .return .svg-inline--fa.fa-lg {
   vertical-align: -webkit-baseline-middle;
@@ -120,8 +118,7 @@ select::-ms-expand {
 .card {
   margin-bottom: 20px;
   height: 300px;
-  background-image: linear-gradient( to bottom right,#DDD6F3, #FAACA8 );
- 
+  background-image: linear-gradient(to bottom right, #ddd6f3, #faaca8);
 }
 
 .button {
@@ -136,7 +133,7 @@ select::-ms-expand {
 
 .content {
   padding-top: 10vh;
-  margin-top:10vh;
+  margin-top: 10vh;
   width: 100%;
 
   justify-content: center;
@@ -177,7 +174,7 @@ select::-ms-expand {
   color: #333;
   background-color: #ffffff;
   /* background-image: linear-gradient( to bottom right,#DDD6F3, #FAACA8 ); */
-   /* background-image: url("top.png"); */
+  /* background-image: url("top.png"); */
   border: 1px solid #cccccc;
   -ms-word-break: normal;
   word-break: normal;
@@ -205,7 +202,7 @@ select::-ms-expand {
 .geography .card,
 .geography.card.sideA,
 .geography.sideA .card textarea {
-  background-image: linear-gradient( to bottom right,#DDD6F3, #FAACA8 ); 
+  background-image: linear-gradient(to bottom right, #ddd6f3, #faaca8);
   /* background: #a4adbf; */
   color: #3f3f3f;
 }
@@ -214,7 +211,7 @@ select::-ms-expand {
 .container-fluid.geography,
 .geography.card.sideA {
   /* background: #a4adbf; */
-  background-image: linear-gradient( to bottom right,#DDD6F3, #FAACA8 ); 
+  background-image: linear-gradient(to bottom right, #ddd6f3, #faaca8);
   color: #ffffff;
 }
 
@@ -234,7 +231,7 @@ select::-ms-expand {
 .science.card.sideA,
 .science.sideA .card textarea {
   /* background: #2a4c83; */
-  background-image: linear-gradient( to bottom right,#a1c4fd, #c2e9fb );  
+  background-image: linear-gradient(to bottom right, #a1c4fd, #c2e9fb);
 
   color: #3f3f3f;
 }
@@ -244,10 +241,9 @@ select::-ms-expand {
 .science.card.sideA {
   /* background: #ffffff; */
   /* background: #2a4c83; */
-  background-image: linear-gradient( to bottom right,#ffafbd, #ffc3a0 );  
+  background-image: linear-gradient(to bottom right, #ffafbd, #ffc3a0);
 
   color: #3f3f3f;
-
 }
 
 .science.card.sideB {
@@ -372,7 +368,7 @@ button:disabled {
 .row.answerButtons button {
   position: relative;
   font-size: 2rem;
-  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   width: 100%;
   margin-left: 3%;
 }
@@ -439,7 +435,7 @@ button:disabled {
   color: #ffffff;
 }
 
-#addCard {
+.editbutton {
   position: relative;
   font-weight: 900;
   border-radius: 25px;
@@ -452,7 +448,6 @@ button:disabled {
   font-size: 2rem;
   right: 0;
   margin-bottom: 50px;
-  
 }
 
 .title button:hover,
@@ -467,12 +462,12 @@ button:disabled {
   margin-left: -20px;
   line-height: 60vh;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   /* Vertical center alignment */
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   /* Horizontal center alignment */
   -webkit-transition: 400ms all ease-in;
   transition: 400ms all ease-in;
@@ -496,8 +491,6 @@ button:disabled {
   line-height: 3.1vh;
 }
 
-
-
 .cardAnswer {
   position: fixed;
   top: 20vh;
@@ -514,71 +507,71 @@ button:disabled {
   transition: transform 0.8s !important;
   transition: transform 0.8s, -webkit-transform 0.8s !important;
   -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
+  transform-style: preserve-3d;
   margin-left: 15px;
   margin-right: 0;
 }
 
 .cardAnswer.flipped .row.cardHolder {
   -webkit-animation: flipB 0.5s;
-          animation: flipB 0.5s;
+  animation: flipB 0.5s;
   -webkit-animation-iteration-count: 1;
-          animation-iteration-count: 1;
+  animation-iteration-count: 1;
   -webkit-transform: rotateY(180deg);
-          transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
 .cardAnswer.unflipped .row.cardHolder {
   -webkit-animation: flipA 0.5s;
-          animation: flipA 0.5s;
+  animation: flipA 0.5s;
   -webkit-animation-iteration-count: 1;
-          animation-iteration-count: 1;
+  animation-iteration-count: 1;
   -webkit-transform: rotateY(0deg);
-          transform: rotateY(0deg);
+  transform: rotateY(0deg);
   margin-left: 15px;
 }
 
 @-webkit-keyframes flipB {
   from {
     -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
   to {
     -webkit-transform: rotateY(180deg);
-            transform: rotateY(180deg);
+    transform: rotateY(180deg);
   }
 }
 
 @keyframes flipB {
   from {
     -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
   to {
     -webkit-transform: rotateY(180deg);
-            transform: rotateY(180deg);
+    transform: rotateY(180deg);
   }
 }
 
 @-webkit-keyframes flipA {
   from {
     -webkit-transform: rotateY(180deg);
-            transform: rotateY(180deg);
+    transform: rotateY(180deg);
   }
   to {
     -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
 }
 
 @keyframes flipA {
   from {
     -webkit-transform: rotateY(180deg);
-            transform: rotateY(180deg);
+    transform: rotateY(180deg);
   }
   to {
     -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
+    transform: rotateY(0deg);
   }
 }
 
@@ -594,7 +587,7 @@ button:disabled {
 
 .sideB.card {
   -webkit-transform: rotateY(180deg);
-          transform: rotateY(180deg);
+  transform: rotateY(180deg);
 }
 
 .history .card,
@@ -602,9 +595,8 @@ button:disabled {
 .history.card.sideA,
 .history.sideA .card textarea {
   /* background: #0889a6; */
-  background-image: linear-gradient( to bottom right,#ee9ca7, #ffdde1 );  
+  background-image: linear-gradient(to bottom right, #ee9ca7, #ffdde1);
   color: #3f3f3f;
-
 }
 
 .history.card.sideB {
@@ -621,7 +613,7 @@ button:disabled {
 .pop-culture.card.sideA,
 .pop-culture.sideA .card textarea {
   /* background: #f2935c; */
-  background-image: linear-gradient( to bottom right,#ff9a9e, #fad0c4 );  
+  background-image: linear-gradient(to bottom right, #ff9a9e, #fad0c4);
 
   color: #3f3f3f;
 }
@@ -643,8 +635,8 @@ button:disabled {
 .sports.sideA .card textarea,
 .sports.card.sideA {
   /* background: #d9d7d7; */
-  background-image: linear-gradient( to bottom right, #86C5FC, #BFF098); 
-  color:#3f3f3f; 
+  background-image: linear-gradient(to bottom right, #86c5fc, #bff098);
+  color: #3f3f3f;
   /* color: #2e2925; */
 }
 
@@ -663,7 +655,7 @@ button:disabled {
 .container-fluid.other,
 .other.sideA textarea {
   /* background: #f2786d; */
-  background-image: linear-gradient( to bottom right, #fcb69f,#ffecd2 );  
+  background-image: linear-gradient(to bottom right, #fcb69f, #ffecd2);
 
   color: #3f3f3f;
 }
@@ -693,7 +685,7 @@ button:disabled {
   margin-left: 1%;
   top: 60%;
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
   height: 80%;
   border: none;
   resize: none;
@@ -781,8 +773,7 @@ a:hover .button {
   color: #3b3b38;
   -webkit-transition: all 200ms ease-in-out;
   transition: all 200ms ease-in-out;
-   background-image: linear-gradient( to bottom right,#DDD6F3, #FAACA8 );
-  
+  background-image: linear-gradient(to bottom right, #ddd6f3, #faaca8);
 }
 
 a:hover .button {
@@ -792,7 +783,7 @@ a:hover .button {
 .new .card:hover {
   border: 1px solid #adadad;
   /* background-color: #7f0005; */
-  background-image: linear-gradient( to bottom right,#008080, #FAACA8 );
+  background-image: linear-gradient(to bottom right, #008080, #faaca8);
 
   color: #ffffff;
 }
@@ -821,15 +812,15 @@ a:hover .card h2 {
 
 .container-fluid.login {
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   /* Vertical center alignment */
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
   /* Horizontal center alignment */
   overflow: hidden;
-  background-image: linear-gradient( to bottom right,#DDD6F3, #FAACA8 );
+  background-image: linear-gradient(to bottom right, #ddd6f3, #faaca8);
   /* background-image: linear-gradient( to bottom right,#ccABDB, #86e3ce, #D0E5A5 ); */
   color: #fff;
   padding-bottom: 20%;
@@ -840,22 +831,17 @@ a:hover .card h2 {
 #welcome h1 {
   text-align: center;
   margin-top: 0vh;
-  margin-bottom:0vh;
+  margin-bottom: 0vh;
   font-weight: 200;
   /* background-image: url("flashcardsbg.jpg"); */
-
 }
 #welcome h2 {
   margin-top: 2vh;
   font-size: 1.875em;
-
 }
 #welcome h3 {
   font-size: 0.875em;
-
 }
-
-
 
 #login {
   color: #2e2925;
@@ -869,13 +855,12 @@ a:hover .card h2 {
 
 #login h3 {
   text-align: left;
-  padding-top:10%;
-  padding-left:-5%;
+  padding-top: 10%;
+  padding-left: -5%;
   font-size: xx-small;
-  margin-left:0px ; 
+  margin-left: 0px;
   display: block;
 }
-
 
 #login h4 {
   text-align: center;
@@ -889,7 +874,7 @@ a:hover .card h2 {
 #login h5 {
   text-align: center;
   /* font-weight: 200; */
-  font-size:1em;
+  font-size: 1em;
   padding-top: 5%;
   /* padding-left:10%; */
   vertical-align: text-bottom;
@@ -927,7 +912,6 @@ a:hover .card h2 {
   /* display:none; */
 }
 
-
 #signup h4 {
   text-align: center;
   text-transform: uppercase;
@@ -940,7 +924,7 @@ a:hover .card h2 {
 #signup h5 {
   text-align: center;
   /* font-weight: 200; */
-  font-size:1em;
+  font-size: 1em;
   padding-top: 5%;
   /* padding-left:10%; */
   vertical-align: text-bottom;

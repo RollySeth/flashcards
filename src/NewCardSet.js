@@ -100,21 +100,19 @@ export default class NewCardSet extends React.Component {
       description: this.state.descriptionVal,
       category: this.state.category,
       entryId: this.state.entryId,
-      userId: "5f4bdd9f4ae4db08d4b77c04", // Change this
     };
 
     //Token from Local Storage
-    const userData = localStorage.getItem('userData')
-    const user = JSON.parse(userData)
-    const userId = user.userWithoutPassword._id
-    const roles = user.userWithoutPassword.roles
-    const token = user.token
+    const userData = localStorage.getItem("userData");
+    const user = JSON.parse(userData);
+    const userId = user.userWithoutPassword._id;
+    const roles = user.userWithoutPassword.roles;
+    const token = user.token;
 
-     
     // Need help with this part
     // const token =
-      // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJ1c2VyIl0sIl9pZCI6IjVmNGJkZDlmNGFlNGRiMDhkNGI3N2MwNCIsImlhdCI6MTU5ODgzMzkxMSwiZXhwIjoxNTk4ODY5OTExfQ.-fuW85bH4_4CVoBAqo9XH_6-148CMMU2j1WZsni68yY";
-    
+    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJ1c2VyIl0sIl9pZCI6IjVmNGJkZDlmNGFlNGRiMDhkNGI3N2MwNCIsImlhdCI6MTU5ODgzMzkxMSwiZXhwIjoxNTk4ODY5OTExfQ.-fuW85bH4_4CVoBAqo9XH_6-148CMMU2j1WZsni68yY";
+
     const headers = {
       headers: {
         Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -122,19 +120,23 @@ export default class NewCardSet extends React.Component {
     };
 
     let data = {};
-    axios.post(`${process.env.REACT_APP_BASEURI}/set`, body, headers).then((response) => {
-      data = response.data;
-      this.props.history.push({
-        pathname: `/set/yours/${data._id}/edit`,
-        state: {
-          title: this.state.title,
-          description: this.state.descriptionVal,
-          category: this.state.category,
-          entryId: data._id,
-          cardSetId: data._id,
-        },
+    console.log(data);
+    axios
+      .post(`${process.env.REACT_APP_BASEURI}/set`, body, headers)
+      .then((response) => {
+        data = response.data;
+        console.log(data);
+        this.props.history.push({
+          pathname: `/set/yours/${data._id}/edit`,
+          state: {
+            title: this.state.title,
+            description: this.state.descriptionVal,
+            category: this.state.category,
+            entryId: data._id,
+            cardSetId: data._id,
+          },
+        });
       });
-    });
   }
   render() {
     return (

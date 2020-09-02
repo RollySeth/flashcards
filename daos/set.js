@@ -18,23 +18,18 @@ module.exports.create = async (title, description, category, userId) => {
   }
 };
 
-module.exports.updateSetById = async (
-  userId,
-  setId,
-  title,
-  description,
-  category
-) => {
+module.exports.updateSetById = async (setId, title, description, category) => {
   const set = await Set.updateOne(
     {
       _id: setId,
-      userId: userId,
     },
     {
-      title: title,
-      description: description,
-      category: category,
-      dateUpdated: new Date(),
+      $set: {
+        title: title,
+        description: description,
+        category: category,
+        dateUpdated: new Date(),
+      },
     }
   );
   if (set) {
