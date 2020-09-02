@@ -19,13 +19,8 @@ export default class CardsetEdit extends React.Component {
       isSignedIn: false,
       disabled: true,
       alert: null,
-      headers: {
-        headers: {
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJ1c2VyIl0sIl9pZCI6IjVmNGJkZDlmNGFlNGRiMDhkNGI3N2MwNCIsImlhdCI6MTU5ODgzMzkxMSwiZXhwIjoxNTk4ODY5OTExfQ.-fuW85bH4_4CVoBAqo9XH_6-148CMMU2j1WZsni68yY", //the token is a variable which holds the token
-        },
-      },
+      isPublic: null,
+      headers: {},
     };
   }
   updateTitle(n) {
@@ -62,20 +57,34 @@ export default class CardsetEdit extends React.Component {
   }
 
   componentDidMount() {
-    this.getCards();
-    axios
-      .get(
-        `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId,
-        this.state.headers
-      )
-      .then((response) => {
-        const resdata = response.data;
-        this.setState({
-          title: resdata.title,
-          descriptionVal: resdata.description,
-          category: resdata.category,
-        });
-      });
+    const token = JSON.parse(localStorage.getItem("userData")).token;
+    this.setState(
+      {
+        headers: {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+      },
+      () => {
+        console.log(this.state.headers);
+        this.getCards();
+        axios
+          .get(
+            `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId,
+            this.state.headers
+          )
+          .then((response) => {
+            const resdata = response.data;
+            this.setState({
+              title: resdata.title,
+              descriptionVal: resdata.description,
+              category: resdata.category,
+              isPublic: resdata.isPublic,
+            });
+          });
+      }
+    );
   }
 
   updateSideA(val, card) {
@@ -84,7 +93,10 @@ export default class CardsetEdit extends React.Component {
       const body = { sideA: changer, sideB: card.sideB };
       axios
         .put(
-          `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId + "/" + card._id,
+          `${process.env.REACT_APP_BASEURI}/cards/` +
+            this.state.entryId +
+            "/" +
+            card._id,
           body,
           this.state.headers
         )
@@ -102,7 +114,10 @@ export default class CardsetEdit extends React.Component {
       const body = { sideB: changer, sideA: card.sideA };
       axios
         .put(
-          `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId + "/" + card._id,
+          `${process.env.REACT_APP_BASEURI}/cards/` +
+            this.state.entryId +
+            "/" +
+            card._id,
           body,
           this.state.headers
         )
@@ -115,23 +130,43 @@ export default class CardsetEdit extends React.Component {
   }
   deleteCard(card) {
     const url =
-      `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId + "/" + card._id;
+      `${process.env.REACT_APP_BASEURI}/cards/delete/` +
+      this.state.entryId +
+      "/" +
+      card._id;
     axios.delete(url, this.state.headers).then((response) => {
       this.getCards();
     });
   }
   addCard() {
     const body = { sideA: null, sideB: null, setId: this.state.entryId };
-    const url = `${process.env.REACT_APP_BASEURI}cards/` + this.state.entryId;
+    const url = `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId;
     axios.post(url, body, this.state.headers).then((response) => {
       this.getCards();
     });
   }
 
+  deleteSet() {
+    const url = `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId;
+    axios.delete(url, this.state.headers).then((response) => {
+      this.props.history.push({
+        pathname: `/home`,
+      });
+    });
+  }
+  makePublic() {
+    const pub = this.state.isPublic === true ? false : true;
+    this.setState({ isPublic: pub }, () => {
+      const url = `${process.env.REACT_APP_BASEURI}/set/public/${this.state.entryId}/`;
+      axios.put(url, { isPublic: pub }, this.state.headers).then((response) => {
+        console.log(response);
+      });
+    });
+  }
   getCards() {
     axios
       .get(
-        `${process.env.REACT_APP_BASEURI}cards/` + this.state.entryId,
+        `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId,
         this.state.headers
       )
       .then((response) => {
@@ -184,15 +219,41 @@ export default class CardsetEdit extends React.Component {
             <div>
               {this.state.currentCards.length > 0 && List}
               <Row className="justify-content-center">
-                <Col md={5} xs={10} lg={5} xl={5}>
+                <Col md={3} xs={10} lg={3} xl={3}>
                   <button
                     id="addCard"
+                    className="editButton"
                     onClick={() => {
                       this.addCard();
                     }}
                   >
                     Add a card
                   </button>
+                </Col>
+                <Col md={3} xs={10} lg={3} xl={3}>
+                  <button
+                    id="deleteSet"
+                    className="editButton"
+                    onClick={() => {
+                      this.deleteSet();
+                    }}
+                  >
+                    Delete set
+                  </button>{" "}
+                </Col>
+
+                <Col md={3} xs={10} lg={3} xl={3}>
+                  <button
+                    className="editButton"
+                    id="makePub"
+                    onClick={() => {
+                      this.makePublic();
+                    }}
+                  >
+                    {this.state.isPublic === true
+                      ? "Make private"
+                      : "Make public"}
+                  </button>{" "}
                 </Col>
               </Row>
             </div>
