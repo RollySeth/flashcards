@@ -18,33 +18,17 @@ import { Redirect } from "react-router-dom";
 import { Alert } from "@material-ui/lab";
 import { grey } from "@material-ui/core/colors";
 
-
 //service to send login credential to express backend
-const LoginService = (data) => (
+const LoginService = (data) =>
   axios
     .post(`${process.env.REACT_APP_BASEURI}/login`, data)
-    .then((res) => res.status)
-)
+    .then((res) => res.status);
 
-//Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
-const EmailValidation = data => (
-  axios.post(`${process.env.REACT_APP_BASEURI}login/emailcheck`, data)
-  .then(exist => exist.status)
-)
-
-
-
-const LoginService = (data) => (
+//Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried
+const EmailValidation = (data) =>
   axios
-    .post(`http://localhost:5000/login/`, data)
-    .then((res) => res.status)
-)
-
-//Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
-const EmailValidation = data => (
-  axios.post(`http://localhost:5000/login/emailcheck`, data)
-  .then(exist => exist.status)
-)
+    .post(`${process.env.REACT_APP_BASEURI}login/emailcheck`, data)
+    .then((exist) => exist.status);
 
 class SignIn extends React.Component {
   //constructor to save initial empty state
@@ -58,14 +42,14 @@ class SignIn extends React.Component {
     };
   }
 
-  //called when user moves out of email input field 
+  //called when user moves out of email input field
   handleOnChangeEmail = (e) => {
     this.setState({
       email: e.target.value,
     });
   };
 
-  //called when user moves out of password input field 
+  //called when user moves out of password input field
   handleOnChangePassword = (e) => {
     this.setState({
       password: e.target.value,
@@ -73,29 +57,31 @@ class SignIn extends React.Component {
   };
 
   //checking if entered email doesn't exist is database and require sign up instead of signin
-  handleOnBlur = async e => {
-    this.setState ({
+  handleOnBlur = async (e) => {
+    this.setState({
       email: e.target.value,
     });
     const data = {
       email: this.state.email,
     };
-    const isEmailTaken = await EmailValidation (data);
+    const isEmailTaken = await EmailValidation(data);
 
     isEmailTaken === 204
-      ?  this.setState ({sign_up_reqd: false} )
-      : this.setState ({sign_up_reqd: true} );
+      ? this.setState({ sign_up_reqd: false })
+      : this.setState({ sign_up_reqd: true });
 
-      isEmailTaken === 204
-      ?  this.setState ({error_sign_up_reqd:""})
-      : this.setState ({error_sign_up_reqd:"User does not exist. Sign-Up First!"});
+    isEmailTaken === 204
+      ? this.setState({ error_sign_up_reqd: "" })
+      : this.setState({
+          error_sign_up_reqd: "User does not exist. Sign-Up First!",
+        });
   };
 
-  // sending login information to express route after submit button is pressed 
+  // sending login information to express route after submit button is pressed
   onSubmit = async (e) => {
     e.preventDefault();
-    
-    this.setState({wrong_password:true }); 
+
+    this.setState({ wrong_password: true });
     const data = {
       email: this.state.email,
       password: this.state.password,
@@ -108,89 +94,95 @@ class SignIn extends React.Component {
         loginSuccess: false,
         error: true,
       });
-    } else 
-    {console.log("Log in Success.");
-    this.setState({
-      loginSuccess: true,
-      error: false,
-    });
+    } else {
+      console.log("Log in Success.");
+      this.setState({
+        loginSuccess: true,
+        error: false,
+      });
     }
-     this.forceUpdate();
+    this.forceUpdate();
   };
 
   render() {
     if (this.state.loginSuccess) {
       return <Redirect to={{ pathname: "/new" }} />;
     }
-    const {error,sign_up_reqd,error_sign_up_reqd,wrong_password}=this.state; 
-      return (
-        <Container fluid className="login">
-          <div id="login">
-            <Row className={`justify-content-center`}>
-              <Col>
-                <div id="welcome">
-                  <h1></h1>
-                  <img
-                    src={require("./Images/flashcardsbg.jpg")}
-                    alt="Logo"
-                    width="100%"
-                    height="100%"
-                  />
-                </div>
-              </Col>
-              <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
-                <h7>
-                  {" "}
-                  <Button href="/flashcards/#/signup">Sign-Up</Button>
-                </h7>
-                <h4>LOGIN</h4>
+    const {
+      error,
+      sign_up_reqd,
+      error_sign_up_reqd,
+      wrong_password,
+    } = this.state;
+    return (
+      <Container fluid className="login">
+        <div id="login">
+          <Row className={`justify-content-center`}>
+            <Col>
+              <div id="welcome">
+                <h1></h1>
+                <img
+                  src={require("./Images/flashcardsbg.jpg")}
+                  alt="Logo"
+                  width="100%"
+                  height="100%"
+                />
+              </div>
+            </Col>
+            <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
+              <h7>
+                {" "}
+                <Button href="/flashcards/#/signup">Sign-Up</Button>
+              </h7>
+              <h4>LOGIN</h4>
+              <br />
+              <h5>
+                <TextField
+                  id="outlined-helperText"
+                  label="E-mail"
+                  variant="outlined"
+                  onChange={this.handleOnChangeEmail}
+                  onBlur={this.handleOnBlur}
+                  helperText={error_sign_up_reqd}
+                  required
+                />
                 <br />
-                <h5>
-                  <TextField
-                    id="outlined-helperText"
-                    label="E-mail"
-                    variant="outlined"
-                    onChange={this.handleOnChangeEmail}
-                    onBlur={this.handleOnBlur}
-                    helperText={error_sign_up_reqd}
-                    required
-                  />
-                  <br />
-                  <br />
-                  <TextField
-                    id="outlined-password-input"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
-                    variant="outlined"
-                    onChange={this.handleOnChangePassword}
-                    required
-                  />
-                </h5> 
-                <h6>
-
-           {/* <Link to="/flashcards/#/new"> */}
-           <Button variant="contained"
-           onClick ={this.onSubmit} 
-           disabled={sign_up_reqd} 
-           color="secondary"
-           href="/flashcards/#/new"
-           >
-                Log-In
-            </Button>
-            {/* </Link> */}
-            </h6>           
-                  <h3>        
-                   {wrong_password &&  <Alert severity="error">
-                   Unable to log in. Please check your username and password.
-                  </Alert> }                
-                  </h3>
-
-              </Col>
-            </Row>
-          </div>
-        </Container>
-      );
+                <br />
+                <TextField
+                  id="outlined-password-input"
+                  label="Password"
+                  type="password"
+                  autoComplete="current-password"
+                  variant="outlined"
+                  onChange={this.handleOnChangePassword}
+                  required
+                />
+              </h5>
+              <h6>
+                {/* <Link to="/flashcards/#/new"> */}
+                <Button
+                  variant="contained"
+                  onClick={this.onSubmit}
+                  disabled={sign_up_reqd}
+                  color="secondary"
+                  href="/flashcards/#/new"
+                >
+                  Log-In
+                </Button>
+                {/* </Link> */}
+              </h6>
+              <h3>
+                {wrong_password && (
+                  <Alert severity="error">
+                    Unable to log in. Please check your username and password.
+                  </Alert>
+                )}
+              </h3>
+            </Col>
+          </Row>
+        </div>
+      </Container>
+    );
   }
 }
 

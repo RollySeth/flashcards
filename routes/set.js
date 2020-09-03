@@ -23,8 +23,9 @@ const authorizationCheck = async (req, res, next) => {
   return;
 };
 
-router.post("/", async (req, res, next) => {
-  const { title, description, category, userId } = req.body;
+router.post("/", authorizationCheck, async (req, res, next) => {
+  const { title, description, category } = req.body;
+  const userId = res.locals.user._id;
   const set = await setDAO.create(title, description, category, userId);
   if (set) {
     res.json(set);
@@ -66,25 +67,32 @@ router.get("/public", authorizationCheck, async (req, res, next) => {
 router.put("/:id", authorizationCheck, async (req, res, next) => {
   const setId = req.params.id;
   const { title, description, category } = req.body;
-  const { userId } = res.locals.user._id;
-  const set = await setDAO.updateSetById(
-    userId,
-    setId,
-    title,
-    description,
-    category
-  );
+  const set = await setDAO.getById(req.params.id);
+
   if (set) {
-    res.json(set);
+    if (set.userId === res.locals.user._id) {
+      const setUpdated = await setDAO.updateSetById(
+        setId,
+        title,
+        description,
+        category
+      );
+      if (setUpdated) {
+        res.json(setUpdated);
+      } else {
+        res.sendStatus(401);
+      }
+    }
   } else {
     res.sendStatus(401);
   }
 });
 // Change public status of set
-router.put("/:id/public", authorizationCheck, async (req, res, next) => {
-  const isPublic = req.query.isPublic;
+router.put("/public/:id/", authorizationCheck, async (req, res, next) => {
+  const isPublic = req.body.isPublic;
   const setId = req.params.id;
-  const { userId } = req.body;
+  const userId = res.locals.user._id;
+
   const set = await setDAO.getById(req.params.id);
   if (set) {
     if (set.userId === res.locals.user._id) {
@@ -92,7 +100,7 @@ router.put("/:id/public", authorizationCheck, async (req, res, next) => {
       if (setPublic) {
         res.sendStatus(200);
       } else {
-        res.sendStatus(401);
+        res.sendStatus(404);
       }
     } else {
       res.sendStatus(401);

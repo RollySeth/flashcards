@@ -16,7 +16,6 @@ import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 
-
 //SignUp service connect express login/SignUp route to user entered data
 const UserRegistration = data => {
   return axios.post(`${process.env.REACT_APP_BASEURI}/login/signup`, data)
@@ -32,25 +31,6 @@ export const UserValidation = data => (
 //Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
 export const EmailValidation = data => (
   axios.post(`${process.env.REACT_APP_BASEURI}/login/emailcheck`, data)
-  .then(exist => exist.status)
-)
-
-//SignUp service connect express login/SignUp route to user entered data
-const UserRegistration = data => {
-
-  return axios.post('http://localhost:5000/login/signup', data)
-      .then(res => res.status);
-};
-
-//User Vaidation service connect express login/user route to check user entered data 
-export const UserValidation = data => (
-  axios.post('http://localhost:5000/login/user', data)
-  .then(exist => exist.status)
-)
-
-//Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried  
-export const EmailValidation = data => (
-  axios.post('http://localhost:5000/login/emailcheck', data)
   .then(exist => exist.status)
 )
 

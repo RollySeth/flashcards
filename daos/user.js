@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const salt = 10;
+const jwt = require("jsonwebtoken");
+
 
 module.exports = {};
 
@@ -58,6 +60,7 @@ module.exports.adminCreate = async (email) => {
     throw e;
   }
 };
+
 module.exports.changePassword = async (email, password) => {
   try {
     const hashed = await bcrypt.hash(password, salt);
