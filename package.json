@@ -39,7 +39,7 @@
   "scripts": {
     "start": "node index.js",
     "build": "REACT_APP_BASEURI=https://flashcards-js.herokuapp.com react-scripts build",
-    "rundev": "react-scripts build && node index.js",
+    "dev": "react-scripts build && node index.js",
     "test": "jest --coverage --runInBand",
     "tdd": "jest --watch --runInBand"
   },
