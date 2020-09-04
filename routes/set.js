@@ -2,12 +2,12 @@ const { Router } = require("express");
 const router = Router();
 const setDAO = require("../daos/set");
 const userDAO = require("../daos/user");
+const historyDAO = require("../daos/history");
 const secret = "shhhhhh do not tell anyone this secret";
 const jwt = require("jsonwebtoken");
 
 const authorizationCheck = async (req, res, next) => {
   let header = req.headers.authorization;
-  console.log(req.headers);
   if (!header) {
     res.status(401).send("token unverified");
   } else {
@@ -141,7 +141,7 @@ router.post("/start/:id", authorizationCheck, async (req, res, next) => {
     const setAttempts = set.setAttempts;
     const setAdded = setDAO.startById(req.params.id, setAttempts);
     if (setAdded) {
-      res.status(200).send("started set");
+      historyDAO.startSet(req.params.id, set.category, res.locals.user._id);
     } else {
       res.sendStatus(404);
     }
