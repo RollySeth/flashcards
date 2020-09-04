@@ -4,7 +4,6 @@ import { Card, Col, Row, Container } from "react-bootstrap";
 import Top from "./Top";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-const db = firebase.firestore();
 
 export default class CardsetAnswer extends React.Component {
   constructor(props) {
@@ -23,42 +22,54 @@ export default class CardsetAnswer extends React.Component {
       complete: false,
       disabled: true,
       flips: 0,
-      headers: {
-        headers: {
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJ1c2VyIl0sIl9pZCI6IjVmNGJkZDlmNGFlNGRiMDhkNGI3N2MwNCIsImlhdCI6MTU5ODgzMzkxMSwiZXhwIjoxNTk4ODY5OTExfQ.-fuW85bH4_4CVoBAqo9XH_6-148CMMU2j1WZsni68yY",
-        },
-      },
+      isPublic: null,
+      headers: {},
     };
     this.endButton = React.createRef();
   }
 
   componentDidMount() {
-    axios
-      .get(
-        `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId,
-        this.state.headers
-      )
-      .then((response) => {
-        const currentCards = response.data;
-        this.setState({ currentCards });
-      });
-    axios
-      .get(
-        `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId,
-        this.state.headers
-      )
-      .then((response) => {
-        const category = response.data.category;
-        this.setState({ category });
-      });
-  }
-
-  componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
+    const token = JSON.parse(localStorage.getItem("userData")).token;
+    this.setState(
+      {
+        headers: {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        },
+      },
+      () => {
+        axios
+          .get(
+            `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId,
+            this.state.headers
+          )
+          .then((response) => {
+            const currentCards = response.data;
+            this.setState({ currentCards });
+            axios
+              .post(
+                `${process.env.REACT_APP_BASEURI}/set/start/${this.state.entryId}`,
+                {},
+                this.state.headers
+              )
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((err) => err);
+            axios
+              .get(
+                `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId,
+                this.state.headers
+              )
+              .then((response) => {
+                this.shuffle(this.state.currentCards);
+                const category = response.data.category;
+                this.setState({ category });
+              });
+          });
+      }
+    );
   }
 
   shuffle(cards) {
@@ -86,22 +97,30 @@ export default class CardsetAnswer extends React.Component {
 
   endStudy() {
     if (this.state.currentSide === "C") {
-      this.props.history.push(`/flashcards/home`);
+      this.props.history.push(`/home`);
     } else if (this.state.cardsAnswered !== 0) {
       this.setState({
         currentSide: "C",
         disabled: true,
       });
     } else {
-      this.props.history.push(`/flashcards/home`);
+      this.props.history.push(`/home`);
     }
   }
 
-  nextCard(x) {
+  nextCard(x, card) {
     const i = this.state.index + 1;
     const ans = this.state.cardsAnswered + 1;
     const cardsCorrect = this.state.cardsCorrect + x;
-
+    axios
+      .put(
+        `${process.env.REACT_APP_BASEURI}/cards/answers/${this.state.entryId}/${card._id}/${x}`,
+        {},
+        this.state.headers
+      )
+      .then((response) => {
+        console.log(response);
+      });
     this.setState(
       {
         index: i,
@@ -142,7 +161,7 @@ export default class CardsetAnswer extends React.Component {
                   this.flip();
                 }}
               >
-                <span>{card.data().sideA}</span>
+                <span>{card.sideA}</span>
               </Card>
             </Col>
             <Col className={`h-100`} md={10} xs={12} lg={10} xl={10}>
@@ -153,7 +172,7 @@ export default class CardsetAnswer extends React.Component {
                 }}
               >
                 {" "}
-                <span>{card.data().sideB}</span>
+                <span>{card.sideB}</span>
               </Card>
             </Col>
           </Row>
@@ -219,7 +238,7 @@ export default class CardsetAnswer extends React.Component {
                 id="correct"
                 disabled={this.state.disabled}
                 onClick={() => {
-                  this.nextCard(1);
+                  this.nextCard(1, card);
                 }}
               >
                 I got it right
@@ -230,7 +249,7 @@ export default class CardsetAnswer extends React.Component {
                 id="incorrect"
                 disabled={this.state.disabled}
                 onClick={() => {
-                  this.nextCard(0);
+                  this.nextCard(0, card);
                 }}
               >
                 I got it incorrect

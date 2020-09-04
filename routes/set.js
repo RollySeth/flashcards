@@ -7,6 +7,7 @@ const jwt = require("jsonwebtoken");
 
 const authorizationCheck = async (req, res, next) => {
   let header = req.headers.authorization;
+  console.log(req.headers);
   if (!header) {
     res.status(401).send("token unverified");
   } else {
@@ -129,8 +130,9 @@ router.get("/:id", authorizationCheck, async (req, res, next) => {
 });
 
 // PUT single set
-router.put("/:id/start", authorizationCheck, async (req, res, next) => {
+router.post("/start/:id", authorizationCheck, async (req, res, next) => {
   const set = await setDAO.getById(req.params.id);
+
   if (
     set.isPublic === true ||
     set.userId === res.locals.user._id ||
