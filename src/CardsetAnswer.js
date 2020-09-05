@@ -112,6 +112,7 @@ export default class CardsetAnswer extends React.Component {
     const i = this.state.index + 1;
     const ans = this.state.cardsAnswered + 1;
     const cardsCorrect = this.state.cardsCorrect + x;
+    console.log(x);
     axios
       .put(
         `${process.env.REACT_APP_BASEURI}/cards/answers/${this.state.entryId}/${card._id}/${x}`,

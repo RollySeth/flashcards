@@ -32,4 +32,16 @@ router.get("/", authorizationCheck, async (req, res, next) => {
     res.json(history);
   }
 });
+
+// reset user history
+router.put("/reset", authorizationCheck, async (req, res, next) => {
+  const userId = res.locals.user._id;
+  const history = await historyDAO.resetUserHistory(userId);
+  if (!history) {
+    res.sendStatus(401);
+  } else {
+    res.json(history);
+  }
+});
+
 module.exports = router;

@@ -1,22 +1,26 @@
 const mongoose = require("mongoose");
 
-const setAttempts = new mongoose.Schema({
-  setId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "set",
-    required: true,
-  },
-  category: { type: String },
-  cardsAttempted: { type: Number },
-  cardsCorrect: { type: Number },
-  setAttempts: { type: Number },
-});
+const setAttempts = new mongoose.Schema();
 const historySchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "users",
     required: true,
   },
-  setsAttempted: { type: [{ setAttempts }] },
+  setsAttempted: {
+    type: [
+      {
+        setId: {
+          type: String,
+          required: true,
+        },
+        category: { type: String },
+        cardsAttempted: { type: Number, default: 0 },
+        cardsCorrect: { type: Number, default: 0 },
+        attempted: { type: Number, default: 1 },
+        lastAttempted: { type: Date, default: Date.now },
+      },
+    ],
+  },
 });
 module.exports = mongoose.model("history", historySchema);
