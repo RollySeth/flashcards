@@ -4,7 +4,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faUserCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-// import { SearchIcon } from "@material-ui/icons/Search";
+
 
 export default class Top extends React.Component {
   constructor(props) {
@@ -14,6 +14,7 @@ export default class Top extends React.Component {
       isSignedIn: false,
     };
   }
+
 
   render() {
     const Action = () => {
@@ -45,10 +46,17 @@ export default class Top extends React.Component {
             <img src={require('./Images/line_w.png')} alt="Logo"  width="15%" height="15%"/>
             {/* <SearchIcon /> */}
           </Link>
+          
         </div>
          {/* <div>
            <label htmlFor="search">Search by card category</label>
            <input type="text" />
+         </div> */}
+         {/* <div className="centertop">
+         <SearchField 
+              placeholder='Search item' 
+            
+          />
          </div> */}
         <div className="role" >
           <Link to={`/flashcards/Role`}>

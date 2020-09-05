@@ -27,7 +27,7 @@ const LoginService = (data) =>
 //Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried
 const EmailValidation = (data) =>
   axios
-    .post(`${process.env.REACT_APP_BASEURI}login/emailcheck`, data)
+    .post(`${process.env.REACT_APP_BASEURI}/login/emailcheck`, data)
     .then((exist) => exist.status);
 
 class SignIn extends React.Component {

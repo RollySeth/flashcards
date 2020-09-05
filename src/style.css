@@ -88,6 +88,7 @@ select::-ms-expand {
   /* background-image: linear-gradient( to bottom right,#DDD6F3, #FAACA8 ); */
 }
 
+
 #top div.role {
   float: right;
   /* background: #ffffff; */
@@ -132,7 +133,7 @@ select::-ms-expand {
 }
 
 .content {
-  padding-top: 10vh;
+  padding-top: 3vh;
   margin-top: 10vh;
   width: 100%;
 
@@ -140,9 +141,10 @@ select::-ms-expand {
   /* background: #adadad;  */
 }
 
+
 .content h1 {
   margin-bottom: 30px;
-  font-size: 20px;
+  font-size: 30px;
 }
 .content h2 {
   font-size: 22px;
@@ -150,6 +152,12 @@ select::-ms-expand {
 .content h3 {
   font-size: 12px;
 }
+.content h5 {
+  font-size: 17px;
+  margin-bottom: 30px;
+}
+
+
 #answer {
   width: 100%;
   padding-top: 5vh;
