@@ -9,6 +9,7 @@ router.use("/flashcards", express.static("build"));
 router.use("/login", require("./login"));
 router.use("/set", require("./set"));
 router.use("/cards", require("./cards"));
+router.use("/user/history", require("./history"));
 // router.use("/login", SignUpRouter);
 
 module.exports = router;
