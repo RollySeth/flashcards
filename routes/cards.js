@@ -4,6 +4,7 @@ const cardsDAO = require("../daos/cards");
 const secret = "shhhhhh do not tell anyone this secret";
 const jwt = require("jsonwebtoken");
 const setDAO = require("../daos/set");
+const historyDAO = require("../daos/history");
 
 const authorizationCheck = async (req, res, next) => {
   let header = req.headers.authorization;
@@ -34,18 +35,22 @@ const adminCheck = async (req, res, next) => {
 
 // Update attempts/correct attempts
 router.put(
-  "/answers/:cardsetId/:id/:correct",
+  "/answers/:cardsetId/:id/:num",
   authorizationCheck,
   async (req, res, next) => {
-    const { correct } = req.params.correct;
     const card = await cardsDAO.addAttempts(
       req.params.id,
       req.params.cardsetId,
-      correct
+      req.params.num
     );
-    const set = await setDAO.addAttempts(req.params.cardsetId, correct);
+    const set = await setDAO.addAttempts(req.params.cardsetId, req.params.num);
     if (set) {
-      res.sendStatus(200);
+      const history = historyDAO.cardCount(
+        req.params.cardsetId,
+        res.locals.user._id,
+        req.params.num
+      );
+      return history;
     } else {
       res.sendStatus(401);
     }

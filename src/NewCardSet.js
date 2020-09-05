@@ -1,5 +1,4 @@
 import React from "react";
-import firebase from "firebase";
 import Top from "./Top";
 import Category from "./Category";
 import Title from "./Title";
@@ -7,8 +6,6 @@ import Description from "./Description";
 import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-
-const db = firebase.firestore();
 
 export default class NewCardSet extends React.Component {
   constructor(props) {
@@ -69,25 +66,6 @@ export default class NewCardSet extends React.Component {
     }
   }
 
-  checkExists(entryString, i) {
-    db.collection("defaultcards")
-      .doc(entryString)
-      .get()
-      .then((doc) => {
-        if (!doc.exists) {
-          this.setState({
-            entryId: entryString,
-          });
-          setTimeout(this.createSet(), 1000);
-        } else {
-          i++;
-
-          const string = this.state.entryId + "-" + i;
-          this.checkExists(string, i);
-        }
-      });
-  }
-
   dropdownChanged = (e) => {
     this.setState({
       category: e.target.value,
@@ -109,10 +87,6 @@ export default class NewCardSet extends React.Component {
     const roles = user.userWithoutPassword.roles;
     const token = user.token;
 
-    // Need help with this part
-    // const token =
-    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJ1c2VyIl0sIl9pZCI6IjVmNGJkZDlmNGFlNGRiMDhkNGI3N2MwNCIsImlhdCI6MTU5ODgzMzkxMSwiZXhwIjoxNTk4ODY5OTExfQ.-fuW85bH4_4CVoBAqo9XH_6-148CMMU2j1WZsni68yY";
-
     const headers = {
       headers: {
         Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -120,7 +94,7 @@ export default class NewCardSet extends React.Component {
     };
 
     let data = {};
-    console.log(data);
+    console.log(headers);
     axios
       .post(`${process.env.REACT_APP_BASEURI}/set`, body, headers)
       .then((response) => {

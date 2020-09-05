@@ -1,5 +1,10 @@
 import React from "react";
-import { HashRouter as Router, Route, Switch, Redirect} from "react-router-dom";
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import Home from "./Home";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -23,17 +28,15 @@ class App extends React.Component {
             <Route exact path="/signup" component={SignUp} />
             <Route path="/set/yours/:urlString/edit" component={CardsetEdit} />
             <Route path="/set/yours/:urlString/" component={CardsetAnswer} />
-            <Route path="/set/:urlString/" componyent={CardsetAnswer} />
+            <Route path="/set/public/:urlString/" compontent={CardsetAnswer} />
             <Route path="/new" component={NewCardSet} />
             {/* <Redirect from="/" to="/flashcards/#" /> */}
             <Route path="*" component={App}>
-                    <Redirect to="/" />
-                </Route>
+              <Redirect to="/" />
+            </Route>
             <Route component={NoMatch} />
           </Switch>
         </Router>
-
-
       </div>
     );
   }
