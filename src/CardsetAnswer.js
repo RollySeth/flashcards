@@ -1,5 +1,4 @@
 import React from "react";
-import firebase from "firebase";
 import { Card, Col, Row, Container } from "react-bootstrap";
 import Top from "./Top";
 import { Helmet } from "react-helmet";
@@ -30,6 +29,8 @@ export default class CardsetAnswer extends React.Component {
 
   componentDidMount() {
     const token = JSON.parse(localStorage.getItem("userData")).token;
+    console.log(this.state.token);
+    console.log(this.state.entryId);
     this.setState(
       {
         headers: {
@@ -41,31 +42,24 @@ export default class CardsetAnswer extends React.Component {
       () => {
         axios
           .get(
-            `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId,
+            `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId,
             this.state.headers
           )
           .then((response) => {
-            const currentCards = response.data;
-            this.setState({ currentCards });
-            axios
-              .post(
-                `${process.env.REACT_APP_BASEURI}/set/start/${this.state.entryId}`,
-                {},
-                this.state.headers
-              )
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((err) => err);
+            const category = response.data.category;
+            this.setState({ category });
+            console.log(category);
             axios
               .get(
-                `${process.env.REACT_APP_BASEURI}/set/` + this.state.entryId,
+                `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId,
                 this.state.headers
               )
               .then((response) => {
-                this.shuffle(this.state.currentCards);
-                const category = response.data.category;
-                this.setState({ category });
+                const currentCards = response.data;
+                this.setState({ currentCards }, () => {
+                  this.shuffle(this.state.currentCards);
+                  console.log(currentCards);
+                });
               });
           });
       }
@@ -84,6 +78,12 @@ export default class CardsetAnswer extends React.Component {
       complete: false,
       disabled: true,
     });
+
+    axios.post(
+      `${process.env.REACT_APP_BASEURI}/set/start/${this.state.entryId}`,
+      {},
+      this.state.headers
+    );
   }
   flip() {
     const currentSide = this.state.currentSide === "B" ? "A" : "B";
