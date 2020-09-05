@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/flashcards/static/css/main.deb72dcf.chunk.css",
-    "main.js": "/flashcards/static/js/main.5a8836b4.chunk.js",
-    "main.js.map": "/flashcards/static/js/main.5a8836b4.chunk.js.map",
+    "main.css": "/flashcards/static/css/main.0ac8a73a.chunk.css",
+    "main.js": "/flashcards/static/js/main.23e36814.chunk.js",
+    "main.js.map": "/flashcards/static/js/main.23e36814.chunk.js.map",
     "runtime-main.js": "/flashcards/static/js/runtime-main.1412b638.js",
     "runtime-main.js.map": "/flashcards/static/js/runtime-main.1412b638.js.map",
-    "static/css/2.af3c1da9.chunk.css": "/flashcards/static/css/2.af3c1da9.chunk.css",
-    "static/js/2.fe5d33eb.chunk.js": "/flashcards/static/js/2.fe5d33eb.chunk.js",
-    "static/js/2.fe5d33eb.chunk.js.map": "/flashcards/static/js/2.fe5d33eb.chunk.js.map",
+    "static/css/2.d9ad5f5c.chunk.css": "/flashcards/static/css/2.d9ad5f5c.chunk.css",
+    "static/js/2.cf4e1821.chunk.js": "/flashcards/static/js/2.cf4e1821.chunk.js",
+    "static/js/2.cf4e1821.chunk.js.map": "/flashcards/static/js/2.cf4e1821.chunk.js.map",
     "index.html": "/flashcards/index.html",
-    "precache-manifest.b4093c80365dfeed9b44b4813f4ec065.js": "/flashcards/precache-manifest.b4093c80365dfeed9b44b4813f4ec065.js",
+    "precache-manifest.e8631460fec7bea21855577e9e645d39.js": "/flashcards/precache-manifest.e8631460fec7bea21855577e9e645d39.js",
     "service-worker.js": "/flashcards/service-worker.js",
-    "static/css/2.af3c1da9.chunk.css.map": "/flashcards/static/css/2.af3c1da9.chunk.css.map",
-    "static/css/main.deb72dcf.chunk.css.map": "/flashcards/static/css/main.deb72dcf.chunk.css.map",
-    "static/js/2.fe5d33eb.chunk.js.LICENSE.txt": "/flashcards/static/js/2.fe5d33eb.chunk.js.LICENSE.txt",
+    "static/css/2.d9ad5f5c.chunk.css.map": "/flashcards/static/css/2.d9ad5f5c.chunk.css.map",
+    "static/css/main.0ac8a73a.chunk.css.map": "/flashcards/static/css/main.0ac8a73a.chunk.css.map",
+    "static/js/2.cf4e1821.chunk.js.LICENSE.txt": "/flashcards/static/js/2.cf4e1821.chunk.js.LICENSE.txt",
     "static/media/flashcardsbg.jpg": "/flashcards/static/media/flashcardsbg.4227b164.jpg",
     "static/media/line_w.png": "/flashcards/static/media/line_w.25f79b17.png"
   },
   "entrypoints": [
     "static/js/runtime-main.1412b638.js",
-    "static/css/2.af3c1da9.chunk.css",
-    "static/js/2.fe5d33eb.chunk.js",
-    "static/css/main.deb72dcf.chunk.css",
-    "static/js/main.5a8836b4.chunk.js"
+    "static/css/2.d9ad5f5c.chunk.css",
+    "static/js/2.cf4e1821.chunk.js",
+    "static/css/main.0ac8a73a.chunk.css",
+    "static/js/main.23e36814.chunk.js"
   ]
 }

@@ -2,7 +2,10 @@ import React from "react";
 import { Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+
+
 export default class SetList extends React.Component {
+ 
   render() {
     const cards = this.props.cards;
     const editable = this.props.editable;
@@ -23,10 +26,13 @@ export default class SetList extends React.Component {
                 <h2>{set.data().title}</h2>
                 <p>{set.data().description}</p>
                 <p className="source">
+                <div className="centertop">
+      
+         </div>
                   {this.props.editable
                     ? "Created by you"
-                    : "Created by BrainKwik"}
-                </p>
+                    : "Created by FlashCards"}
+                    </p>
                 <div className="buttons">
                   <Link
                     to={

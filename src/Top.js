@@ -5,6 +5,7 @@ import { faUserCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
+
 export default class Top extends React.Component {
   constructor(props) {
     super(props);
@@ -14,18 +15,26 @@ export default class Top extends React.Component {
     };
   }
 
+
   render() {
     const Action = () => {
       if (this.props.action === "create") {
         return <Link to={`/new`}>Create a set +</Link>;
       }
       if (this.props.action === "cancel") {
-        return <Link to={`/home`}>Main Menu </Link>;
+        return (
+          <Link to={`/home`}>Main Menu </Link>            
+         );
       }
       if (this.props.user === true && this.props.action === "start") {
         return (
           <Link to={`/set/yours/${this.props.entryId}/`}>Test these cards</Link>
         );
+      }
+      if (this.props.action === "search") {
+        return (
+          <Link to={`/home`}>Main Menu </Link>            
+         );
       }
     };
 
@@ -35,10 +44,20 @@ export default class Top extends React.Component {
           <Link to={`/flashcards/home`}>
             {/* <FontAwesomeIcon icon={faBrain} size="lg" color="#ffffff" /> */}
             <img src={require('./Images/line_w.png')} alt="Logo"  width="15%" height="15%"/>
-           
+            {/* <SearchIcon /> */}
           </Link>
+          
         </div>
-       
+         {/* <div>
+           <label htmlFor="search">Search by card category</label>
+           <input type="text" />
+         </div> */}
+         {/* <div className="centertop">
+         <SearchField 
+              placeholder='Search item' 
+            
+          />
+         </div> */}
         <div className="role" >
           <Link to={`/flashcards/Role`}>
          <FontAwesomeIcon icon={faUserCog} size="lg" color="#ffffff" /> 
