@@ -4,9 +4,7 @@ import Top from "./Top";
 import SetList from "./SetList";
 import { Card, Col, Row, Container } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-
 import { Link } from "react-router-dom";
-import SearchField from 'react-search-field';
 
 const db = firebase.firestore();
 
@@ -29,8 +27,8 @@ export default class Home extends React.Component {
         });
       });
 
-      this.state = {value: this.props.value};
-
+    //search value updates   
+    this.state = {value: this.props.value};
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -58,28 +56,17 @@ export default class Home extends React.Component {
       this.yourCards();
     }
   }
-  handleOnChange = event => {
-    // this.setState({ searchValue: event.target.value });
-    // alert('An essay was typed: ' + this.state.value);
-      // event.preventDefault();
+  
+  //On typing search string
+  handleOnChange = event => {  
       this.setState({ value: event.currentTarget.value });
       console.log(event.currentTarget.value);
     };
-  // handleChange = event => {
-  //   this.setState({value: event.target.value});
-  //   // event.preventDefault();
-  // };
 
-  // handleSubmit = event => {
-  //   alert('A name was submitted: ' + this.state.value);
-  //   event.preventDefault();
-  // };
-
+  //On submit button click after typing search text 
    handleSubmit = event => {
     event.preventDefault();
-  
-    // this.setState({ searchValue: this.state.value });
-    alert('A name was submitted: ' + this.state.value);
+    alert('A search item was submitted: ' + this.state.value);
 
   };
 
