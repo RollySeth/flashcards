@@ -17,12 +17,13 @@ export default class Home extends React.Component {
       isPublic: null,
       headers: {},
     };
+    
+
   }
   componentDidMount() {
     const token = JSON.parse(localStorage.getItem("userData")).token;
     const userId = JSON.parse(localStorage.getItem("userData"))
       .userWithoutPassword._id;
-
     this.setState(
       {
         headers: {
@@ -68,7 +69,6 @@ export default class Home extends React.Component {
       this.yourCards();
     }
   }
-
   //On typing search string
   handleOnChange = (event) => {
     this.setState({ value: event.currentTarget.value });

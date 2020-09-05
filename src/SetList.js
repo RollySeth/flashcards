@@ -2,7 +2,10 @@ import React from "react";
 import { Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+
+
 export default class SetList extends React.Component {
+ 
   render() {
     const cards = this.props.cards;
     const editable = this.props.editable;
