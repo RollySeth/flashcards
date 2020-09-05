@@ -2,10 +2,7 @@ import React from "react";
 import { Card, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-
-
 export default class SetList extends React.Component {
- 
   render() {
     const cards = this.props.cards;
     const editable = this.props.editable;
@@ -13,7 +10,7 @@ export default class SetList extends React.Component {
       if (cards.length > 0) {
         return cards.map((set, index) => (
           <Col
-            className={`h-100 ${set.data().category}`}
+            className={`h-100 ${set.category}`}
             md={6}
             xs={12}
             lg={4}
@@ -22,29 +19,25 @@ export default class SetList extends React.Component {
           >
             <Card>
               <Card.Body>
-                <h4>{set.data().category.replace("-", " ")}</h4>
-                <h2>{set.data().title}</h2>
-                <p>{set.data().description}</p>
+                <h4>{set.category.replace("-", " ")}</h4>
+                <h2>{set.title}</h2>
+                <p>{set.description}</p>
                 <p className="source">
-                <div className="centertop">
-      
-         </div>
-                  {this.props.editable
-                    ? "Created by you"
-                    : "Created by FlashCards"}
-                    </p>
+                  <div className="centertop"></div>
+                  {this.props.editable ? "Created by you" : ""}
+                </p>
                 <div className="buttons">
                   <Link
                     to={
                       editable === false
-                        ? `/set/${set.id}`
-                        : `/set/yours/${set.id}`
+                        ? `/set/public/${set._id}`
+                        : `/set/yours/${set._id}`
                     }
                   >
                     <div className="button">Test Yourself</div>
                   </Link>
                   {this.props.editable === true ? (
-                    <Link to={`/set/yours/${set.id}/edit`}>
+                    <Link to={`/set/yours/${set._id}/edit`}>
                       <div className="button">Edit this set</div>
                     </Link>
                   ) : (

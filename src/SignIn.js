@@ -106,7 +106,7 @@ class SignIn extends React.Component {
 
   render() {
     if (this.state.loginSuccess) {
-      return <Redirect to={{ pathname: "/new" }} />;
+      return <Redirect to={{ pathname: "/home" }} />;
     }
     const {
       error,
