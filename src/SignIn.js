@@ -39,7 +39,15 @@ class SignIn extends React.Component {
       loginSuccess: false,
     };
   }
+//   componentDidMount() {
+  
+// //  this.state = {value: this.props.value};
+//  this.handleOnChangeEmail = this.handleOnChangeEmail.bind(this);
+//  this.handleOnChangePassword  = this.handleOnChangePassword.bind(this);
+//  this.handleOnBlur = this.handleOnBlur.bind(this);
+//  this.onSubmit = this.onSubmit.bind(this);
 
+//   }
   //called when user moves out of email input field
   handleOnChangeEmail = (e) => {
     this.setState({
@@ -175,6 +183,11 @@ class SignIn extends React.Component {
                 {wrong_password && (
                   <Alert severity="error">
                     Unable to log in. Please check your username and password.
+                  </Alert>
+                )}
+                 {!wrong_password && (
+                  <Alert severity="error">
+                   
                   </Alert>
                 )}
               </h3>
