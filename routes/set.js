@@ -2,7 +2,6 @@ const { Router } = require("express");
 const router = Router();
 const setDAO = require("../daos/set");
 const userDAO = require("../daos/user");
-const historyDAO = require("../daos/history");
 const secret = "shhhhhh do not tell anyone this secret";
 const jwt = require("jsonwebtoken");
 
@@ -51,12 +50,13 @@ router.get("/user/:userid", authorizationCheck, async (req, res, next) => {
   } else {
     res.sendStatus(401);
   }
-}); // GET public sets
+}); 
 
+// GET public sets that are not by the current user
 router.get("/public", authorizationCheck, async (req, res, next) => {
-  const number = req.query.number;
+  // const number = req.query.number;
+  const number = req.query.userid;
   const set = await setDAO.getPublic(number);
-
   if (set) {
     res.json(set);
   } else {
@@ -130,9 +130,8 @@ router.get("/:id", authorizationCheck, async (req, res, next) => {
 });
 
 // PUT single set
-router.post("/start/:id", authorizationCheck, async (req, res, next) => {
+router.put("/:id/start", authorizationCheck, async (req, res, next) => {
   const set = await setDAO.getById(req.params.id);
-
   if (
     set.isPublic === true ||
     set.userId === res.locals.user._id ||
@@ -141,12 +140,7 @@ router.post("/start/:id", authorizationCheck, async (req, res, next) => {
     const setAttempts = set.setAttempts;
     const setAdded = setDAO.startById(req.params.id, setAttempts);
     if (setAdded) {
-      const history = historyDAO.startSet(
-        req.params.id,
-        set.category,
-        res.locals.user._id
-      );
-      return history;
+      res.status(200).send("started set");
     } else {
       res.sendStatus(404);
     }

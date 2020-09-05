@@ -62,8 +62,8 @@ module.exports.getById = async (setId) => {
   return Set.findOne({ _id: setId }).lean();
 };
 module.exports.getPublic = async (number) => {
-  const set = Set.find({ isPublic: true })
-    .limit(number)
+  const set = Set.find({ isPublic: true } && ! { userId: number })
+    // .limit(number)
     .sort({ dateUpdated: -1 });
   if (set) {
     return set;

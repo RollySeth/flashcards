@@ -46,7 +46,7 @@ export default class Home extends React.Component {
           });
         axios
           .get(
-            `${process.env.REACT_APP_BASEURI}/set/public`,
+            `${process.env.REACT_APP_BASEURI}/set/public` + userId,
             this.state.headers
           )
           .then((response) => {
@@ -78,7 +78,7 @@ export default class Home extends React.Component {
   //On submit button click after typing search text
   handleSubmit = (event) => {
     event.preventDefault();
-    alert("A search item was submitted: " + this.state.value);
+    alert("Searching for card with text: " + this.state.value);
   };
 
   render() {
@@ -123,8 +123,8 @@ export default class Home extends React.Component {
                   </Link>
                 </Col>
               )}
-              {isSignedIn && <SetList cards={publicSets} editable={false} />}
               {isSignedIn && <SetList cards={yourCards} editable={true} />}
+              {<SetList cards={publicSets} editable={false}/>}
             </Row>
           </div>
         </Container>
