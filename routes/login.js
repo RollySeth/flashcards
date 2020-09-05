@@ -2,6 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const bcrypt = require("bcrypt");
 const userDAO = require("../daos/user");
+const historyDAO = require("../daos/history");
 const jwt = require("jsonwebtoken");
 const secret = "shhhhhh do not tell anyone this secret";
 
@@ -37,7 +38,10 @@ router.post("/signup", async (req, res, next) => {
     try {
       const user = await userDAO.create(email, password, roles);
       if (user) {
-        res.json(user);
+        const userHistory = await historyDAO.create(user._id);
+        if (userHistory) {
+          res.json(user);
+        }
       }
     } catch (e) {
       next(e);
