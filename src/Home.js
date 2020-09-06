@@ -17,8 +17,6 @@ export default class Home extends React.Component {
       isPublic: null,
       headers: {},
     };
-    
-
   }
   componentDidMount() {
     const token = JSON.parse(localStorage.getItem("userData")).token;
@@ -53,6 +51,7 @@ export default class Home extends React.Component {
             this.setState({
               publicSets: response.data,
             });
+            console.log(response.data);
           });
       }
     );
@@ -60,14 +59,6 @@ export default class Home extends React.Component {
     this.state = { value: this.props.value };
     this.handleOnChange = this.handleOnChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  componentWillUnmount() {
-    if (this.default) {
-      this.default();
-    }
-    if (this.yourCards) {
-      this.yourCards();
-    }
   }
   //On typing search string
   handleOnChange = (event) => {
