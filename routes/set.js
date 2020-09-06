@@ -52,7 +52,7 @@ router.get("/user/:userid", authorizationCheck, async (req, res, next) => {
   } else {
     res.sendStatus(401);
   }
-}); 
+});
 
 // GET public sets
 router.get("/public", authorizationCheck, async (req, res, next) => {
@@ -72,24 +72,26 @@ router.put("/:id", authorizationCheck, async (req, res, next) => {
   const { title, description, category } = req.body;
   const set = await setDAO.getById(req.params.id);
 
-  if (set) {
-    if (set.userId === res.locals.user._id) {
-
+  try {
+    if (set) {
+      if (set.userId === res.locals.user._id) {
         const setUpdated = await setDAO.updateSetById(
           setId,
           title,
           description,
           category
         );
-      console.log(setUpdated)  
-      if (setUpdated) {
-        res.json(setUpdated);
-      } else {
-        res.status(401).json(e);
+        if (setUpdated) {
+          res.json(setUpdated);
+        } else {
+          res.status(401).json(e);
+        }
       }
+    } else {
+      res.status(401).json(e);
     }
-  } else {
-    res.status(401).json(e);
+  } catch (e) {
+    console.log(e);
   }
 });
 // Change public status of set
@@ -159,7 +161,7 @@ router.post("/start/:id", authorizationCheck, async (req, res, next) => {
 });
 
 // Delete
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", authorizationCheck, async (req, res, next) => {
   const setId = req.params.id;
   try {
     const set = await setDAO.getById(req.params.id);
@@ -170,6 +172,8 @@ router.delete("/:id", async (req, res, next) => {
     ) {
       const success = await setDAO.deleteById(setId);
       res.sendStatus(success ? 200 : 400);
+    } else {
+      res.sendStatus(400);
     }
   } catch (e) {
     res.status(500).send(e.message);
