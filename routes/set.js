@@ -35,6 +35,31 @@ router.post("/", authorizationCheck, async (req, res, next) => {
   }
 });
 
+// Get public category stats
+router.get("/category", authorizationCheck, async (req, res, next) => {
+  const number = req.query.number;
+  const set = await setDAO.categoryStats(number, res.locals.user._id);
+
+  if (set) {
+    res.json(set);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+// Get public category stats
+router.get("/search", authorizationCheck, async (req, res, next) => {
+  const s = req.query.s;
+  const set = await setDAO.setSearch(s, res.locals.user._id);
+
+  if (set) {
+    res.json(set);
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+
 // GET set of one user.
 router.get("/user/:userid", authorizationCheck, async (req, res, next) => {
   const userid = req.params.userid;
@@ -162,7 +187,6 @@ router.delete("/:id", authorizationCheck, async (req, res, next) => {
   try {
     const set = await setDAO.getById(req.params.id);
     if (
-      set.isPublic === true ||
       set.userId === res.locals.user._id ||
       res.locals.user.roles.includes("admin")
     ) {
@@ -175,4 +199,5 @@ router.delete("/:id", authorizationCheck, async (req, res, next) => {
     res.status(500).send(e.message);
   }
 });
+
 module.exports = router;

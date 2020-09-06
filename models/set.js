@@ -14,5 +14,6 @@ const setSchema = new mongoose.Schema({
   cardsCorrect: { type: Number, default: 0 },
   cards: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: "cards" }] },
 });
+setSchema.index({ title: "text", description: "text", category: "text" });
 
 module.exports = mongoose.model("set", setSchema);

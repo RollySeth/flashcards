@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-const setAttempts = new mongoose.Schema();
 const historySchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
