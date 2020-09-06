@@ -34,6 +34,7 @@ router.post("/", authorizationCheck, async (req, res, next) => {
     res.status(404).send("set not created");
   }
 });
+
 // GET set of one user.
 router.get("/user/:userid", authorizationCheck, async (req, res, next) => {
   const userid = req.params.userid;
@@ -51,8 +52,9 @@ router.get("/user/:userid", authorizationCheck, async (req, res, next) => {
   } else {
     res.sendStatus(401);
   }
-}); // GET public sets
+}); 
 
+// GET public sets
 router.get("/public", authorizationCheck, async (req, res, next) => {
   const number = req.query.number;
   const set = await setDAO.getPublic(number);
@@ -72,20 +74,22 @@ router.put("/:id", authorizationCheck, async (req, res, next) => {
 
   if (set) {
     if (set.userId === res.locals.user._id) {
-      const setUpdated = await setDAO.updateSetById(
-        setId,
-        title,
-        description,
-        category
-      );
+
+        const setUpdated = await setDAO.updateSetById(
+          setId,
+          title,
+          description,
+          category
+        );
+      console.log(setUpdated)  
       if (setUpdated) {
         res.json(setUpdated);
       } else {
-        res.sendStatus(401);
+        res.status(401).json(e);
       }
     }
   } else {
-    res.sendStatus(401);
+    res.status(401).json(e);
   }
 });
 // Change public status of set
@@ -132,7 +136,6 @@ router.get("/:id", authorizationCheck, async (req, res, next) => {
 // PUT single set
 router.post("/start/:id", authorizationCheck, async (req, res, next) => {
   const set = await setDAO.getById(req.params.id);
-
   if (
     set.isPublic === true ||
     set.userId === res.locals.user._id ||
