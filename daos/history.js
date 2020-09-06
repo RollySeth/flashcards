@@ -39,6 +39,7 @@ module.exports.startSet = async (setId, category, userId) => {
           cardsAttempted: 0,
           cardsCorrect: 0,
           attempted: 1,
+          lastAttempted: new Date(),
         };
         doc.setsAttempted.push(set);
         doc.save();
@@ -78,10 +79,18 @@ module.exports.cardCount = async (setId, userId, correct) => {
 //Route created for development reasons
 module.exports.resetUserHistory = async (userId) => {
   try {
-    const user = await History.updateOne(
-      { userId: userId },
-      { $set: { setsAttempted: [] } }
-    );
+    const user = await History.aggregate([
+      { $unwind: { path: "$setsAttempted" } },
+    ]);
+    return user;
+  } catch (e) {
+    throw e;
+  }
+};
+
+module.exports.userStats = async (userId) => {
+  try {
+    const user = await History.findOne({ userId: userId });
     return user;
   } catch (e) {
     throw e;

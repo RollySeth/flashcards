@@ -71,6 +71,7 @@ module.exports.getPublic = async (number, userId) => {
     return false;
   }
 };
+
 module.exports.getSetsByUserId = async (userId) => {
   const set = Set.find({ userId: userId }).sort({
     dateUpdated: -1,
@@ -109,6 +110,7 @@ module.exports.deleteById = async (setId) => {
   await Set.deleteOne({ _id: setId });
   return true;
 };
+
 module.exports.addAttempts = async (setId, num) => {
   const set = await Set.findOne({ _id: setId }).lean();
 
@@ -134,5 +136,63 @@ module.exports.addAttempts = async (setId, num) => {
     }
   }
 };
+
+module.exports.categoryStats = async () => {
+  const set = await Set.aggregate([
+    { $match: { isPublic: true, cardAttempts: { $ne: 0 } } },
+    {
+      $group: {
+        _id: "$category",
+        answered: { $sum: "$cardAttempts" },
+        correct: { $sum: "$cardsCorrect" },
+        setAttempts: { $sum: "$setAttempts" },
+        sets: { $sum: 1 },
+      },
+    },
+    { $set: { pctCorrect: { $divide: ["$correct", "$answered"] } } },
+  ]);
+
+  if (set) {
+    return set;
+  } else {
+    return false;
+  }
+};
+module.exports.categoryStats = async () => {
+  const set = await Set.aggregate([
+    { $match: { isPublic: true, cardAttempts: { $ne: 0 } } },
+    {
+      $group: {
+        _id: "$category",
+        answered: { $sum: "$cardAttempts" },
+        correct: { $sum: "$cardsCorrect" },
+        setAttempts: { $sum: "$setAttempts" },
+        sets: { $sum: 1 },
+      },
+    },
+    { $set: { pctCorrect: { $divide: ["$correct", "$answered"] } } },
+  ]);
+
+  if (set) {
+    return set;
+  } else {
+    return false;
+  }
+};
+module.exports.setSearch = async (s, userId) => {
+  const set = await Set.aggregate([
+    { $match: { $text: { $search: s } } },
+    { $set: { score: { $meta: "textScore" } } },
+    { $sort: { score: { $meta: "textScore" } } },
+    { $match: { $or: [{ isPublic: true }, { userId: userId }] } },
+  ]);
+
+  if (set) {
+    return set;
+  } else {
+    return false;
+  }
+};
+
 class BadDataError extends Error {}
 module.exports.BadDataError = BadDataError;
