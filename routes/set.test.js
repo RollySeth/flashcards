@@ -13,8 +13,6 @@ describe("/set", () => {
 
   afterEach(testUtils.clearDB);
 
-  const card0 = { sideA: "Text1", sideB: "Text1a", cardsAttempt: 0, setId: 1 };
-  const card1 = { sideA: "Text2", sideB: "Text2a", cardsAttempt: 0, setId: 2 };
   const set0 = {
     title: "SetTitle0",
     description: "SetDescription0",
@@ -194,7 +192,7 @@ describe("/set", () => {
         const res = await request(server)
           .post("/set/start/" + originalItem._id)
           .set("Authorization", "Bearer " + token0)
-          .send({setAttempts: set0Public.setAttempts + 1 });
+          .send({ setAttempts: set0Public.setAttempts + 1 });
         expect(res.statusCode).toEqual(404);
       });
       // it("should update a single set", async () => {
@@ -212,7 +210,7 @@ describe("/set", () => {
       beforeEach(async () => {
         const res = await request(server)
           .post("/set")
-          .set('Authorization', 'Bearer ' + adminToken)
+          .set("Authorization", "Bearer " + adminToken)
           .send(set0Public);
         createdItem = res.body;
       });
