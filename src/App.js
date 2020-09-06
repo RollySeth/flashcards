@@ -28,7 +28,7 @@ class App extends React.Component {
             <Route exact path="/signup" component={SignUp} />
             <Route path="/set/yours/:urlString/edit" component={CardsetEdit} />
             <Route path="/set/yours/:urlString/" component={CardsetAnswer} />
-            <Route path="/set/public/:urlString/" compontent={CardsetAnswer} />
+            <Route path="/set/public/:urlString/" component={CardsetAnswer} />
             <Route path="/new" component={NewCardSet} />
             {/* <Redirect from="/" to="/flashcards/#" /> */}
             <Route path="*" component={App}>

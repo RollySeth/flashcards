@@ -55,7 +55,7 @@ router.get("/user/:userid", authorizationCheck, async (req, res, next) => {
 
 router.get("/public", authorizationCheck, async (req, res, next) => {
   const number = req.query.number;
-  const set = await setDAO.getPublic(number);
+  const set = await setDAO.getPublic(number, res.locals.user._id);
 
   if (set) {
     res.json(set);
