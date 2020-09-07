@@ -41,7 +41,7 @@
     "start": "node index.js",
     "build": "REACT_APP_BASEURI=https://flashcards-js.herokuapp.com react-scripts build",
     "dev": "react-scripts build && node index.js",
-    "test": "jest --coverage --runInBand",
+    "test": "jest --coverage --runInBand --verbose false",
     "tdd": "jest --watch --runInBand"
   },
   "eslintConfig": {
@@ -60,7 +60,7 @@
     ]
   },
   "devDependencies": {
-    "@shelf/jest-mongodb": "^1.1.5",
+    "@shelf/jest-mongodb": "^1.2.3",
     "jest": "^24.9.0",
     "supertest": "^4.0.2"
   }

@@ -33,30 +33,7 @@ const adminCheck = async (req, res, next) => {
   }
 };
 
-// Update attempts/correct attempts
-router.put(
-  "/answers/:cardsetId/:id/:num",
-  authorizationCheck,
-  async (req, res, next) => {
-    const card = await cardsDAO.addAttempts(
-      req.params.id,
-      req.params.cardsetId,
-      req.params.num
-    );
-    const set = await setDAO.addAttempts(req.params.cardsetId, req.params.num);
-    if (set) {
-      const history = historyDAO.cardCount(
-        req.params.cardsetId,
-        res.locals.user._id,
-        req.params.num
-      );
-      return history;
-    } else {
-      res.sendStatus(401);
-    }
-  }
-);
-
+// Post Cards
 //Need to readd authorization
 router.post("/:cardsetId", async (req, res, next) => {
   const cardsetId = req.params.cardsetId;
@@ -81,6 +58,30 @@ router.post("/:cardsetId", async (req, res, next) => {
     res.sendStatus(401);
   }
 });
+
+// Update attempts/correct attempts
+router.put(
+  "/answers/:cardsetId/:id/:num",
+  authorizationCheck,
+  async (req, res, next) => {
+    const card = await cardsDAO.addAttempts(
+      req.params.id,
+      req.params.cardsetId,
+      req.params.num
+    );
+    const set = await setDAO.addAttempts(req.params.cardsetId, req.params.num);
+    if (set) {
+      const history = historyDAO.cardCount(
+        req.params.cardsetId,
+        res.locals.user._id,
+        req.params.num
+      );
+      return history;
+    } else {
+      res.sendStatus(401);
+    }
+  }
+);
 
 // get cards in cardset
 router.get("/:cardsetId/", authorizationCheck, async (req, res, next) => {
