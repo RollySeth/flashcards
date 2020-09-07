@@ -22,7 +22,7 @@ import { grey } from "@material-ui/core/colors";
 const LoginService = (data) =>
   axios
     .post(`${process.env.REACT_APP_BASEURI}/login`, data)
-    .then((res) => res.status);
+    .then((res) => res);
 
 //Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried
 const EmailValidation = (data) =>
