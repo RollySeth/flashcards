@@ -106,7 +106,7 @@ class SignIn extends React.Component {
 
   render() {
     if (this.state.loginSuccess) {
-      return <Redirect to={{ pathname: "/new" }} />;
+      return <Redirect to={{ pathname: "/home" }} />;
     }
     const {
       error,
@@ -159,13 +159,13 @@ class SignIn extends React.Component {
                 />
               </h5>
               <h6>
-                {/* <Link to="/flashcards/#/new"> */}
+                {/* <Link to="/flashcards/#/home"> */}
                 <Button
                   variant="contained"
                   onClick={this.onSubmit}
                   disabled={sign_up_reqd}
                   color="secondary"
-                  href="/flashcards/#/new"
+                  href="/flashcards/#/home"
                 >
                   Log-In
                 </Button>
