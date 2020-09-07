@@ -20,7 +20,9 @@ import { grey } from "@material-ui/core/colors";
 
 //service to send login credential to express backend
 const LoginService = (data) =>
-  axios.post(`${process.env.REACT_APP_BASEURI}/login`, data).then((res) => res);
+  axios
+    .post(`${process.env.REACT_APP_BASEURI}/login`, data)
+    .then((res) => res.status);
 
 //Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried
 const EmailValidation = (data) =>
@@ -39,15 +41,7 @@ class SignIn extends React.Component {
       loginSuccess: false,
     };
   }
-  //   componentDidMount() {
-
-  // //  this.state = {value: this.props.value};
-  //  this.handleOnChangeEmail = this.handleOnChangeEmail.bind(this);
-  //  this.handleOnChangePassword  = this.handleOnChangePassword.bind(this);
-  //  this.handleOnBlur = this.handleOnBlur.bind(this);
-  //  this.onSubmit = this.onSubmit.bind(this);
-
-  //   }
+  
   //called when user moves out of email input field
   handleOnChangeEmail = (e) => {
     this.setState({
@@ -86,15 +80,14 @@ class SignIn extends React.Component {
   // sending login information to express route after submit button is pressed
   onSubmit = async (e) => {
     e.preventDefault();
-
     this.setState({ wrong_password: true });
     const data = {
       email: this.state.email,
       password: this.state.password,
     };
     const loginResult = await LoginService(data);
-    console.log(`Test ${loginResult.status}`);
-    if (loginResult.status !== 200) {
+    console.log(`Test ${loginResult}`);
+    if (loginResult !== 200) {
       console.log("Log in Failed.");
       this.setState({
         loginSuccess: false,
@@ -102,8 +95,6 @@ class SignIn extends React.Component {
       });
     } else {
       console.log("Log in Success.");
-      console.log(JSON.stringify(loginResult.data));
-      localStorage.setItem("userData", JSON.stringify(loginResult.data));
       this.setState({
         loginSuccess: true,
         error: false,
@@ -114,7 +105,7 @@ class SignIn extends React.Component {
 
   render() {
     if (this.state.loginSuccess) {
-      return <Redirect to={{ pathname: "/home" }} />;
+      return <Redirect to={{ pathname: "/new" }} />;
     }
     const {
       error,
@@ -186,6 +177,7 @@ class SignIn extends React.Component {
                   </Alert>
                 )}
                 {!wrong_password && <Alert severity="error"></Alert>}
+
               </h3>
             </Col>
           </Row>
