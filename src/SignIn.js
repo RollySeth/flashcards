@@ -102,7 +102,6 @@ class SignIn extends React.Component {
       });
     } else {
       console.log("Log in Success.");
-      console.log(JSON.stringify(loginResult.data));
       localStorage.setItem("userData", JSON.stringify(loginResult.data));
       this.setState({
         loginSuccess: true,
