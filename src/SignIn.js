@@ -39,15 +39,15 @@ class SignIn extends React.Component {
       loginSuccess: false,
     };
   }
-//   componentDidMount() {
-  
-// //  this.state = {value: this.props.value};
-//  this.handleOnChangeEmail = this.handleOnChangeEmail.bind(this);
-//  this.handleOnChangePassword  = this.handleOnChangePassword.bind(this);
-//  this.handleOnBlur = this.handleOnBlur.bind(this);
-//  this.onSubmit = this.onSubmit.bind(this);
+  //   componentDidMount() {
 
-//   }
+  // //  this.state = {value: this.props.value};
+  //  this.handleOnChangeEmail = this.handleOnChangeEmail.bind(this);
+  //  this.handleOnChangePassword  = this.handleOnChangePassword.bind(this);
+  //  this.handleOnBlur = this.handleOnBlur.bind(this);
+  //  this.onSubmit = this.onSubmit.bind(this);
+
+  //   }
   //called when user moves out of email input field
   handleOnChangeEmail = (e) => {
     this.setState({
@@ -137,7 +137,7 @@ class SignIn extends React.Component {
                 />
               </div>
             </Col>
-            <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
+            <Col className={`h-100 test`} md={6} xs={12} lg={6} xl={6}>
               <h7>
                 {" "}
                 <Button href="/flashcards/#/signup">Sign-Up</Button>
@@ -185,11 +185,7 @@ class SignIn extends React.Component {
                     Unable to log in. Please check your username and password.
                   </Alert>
                 )}
-                 {!wrong_password && (
-                  <Alert severity="error">
-                   
-                  </Alert>
-                )}
+                {!wrong_password && <Alert severity="error"></Alert>}
               </h3>
             </Col>
           </Row>
