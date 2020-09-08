@@ -185,7 +185,6 @@ class SignIn extends React.Component {
                     Unable to log in. Please check your username and password.
                   </Alert>
                 )}
-                {!wrong_password && <Alert severity="error"></Alert>}
               </h3>
             </Col>
           </Row>
