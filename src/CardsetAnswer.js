@@ -20,6 +20,7 @@ export default class CardsetAnswer extends React.Component {
       isSignedIn: false,
       complete: false,
       disabled: true,
+      results: [],
       flips: 0,
       isPublic: null,
       headers: {},
@@ -29,8 +30,6 @@ export default class CardsetAnswer extends React.Component {
 
   componentDidMount() {
     const token = JSON.parse(localStorage.getItem("userData")).token;
-    console.log(this.state.token);
-    console.log(this.state.entryId);
     this.setState(
       {
         headers: {
@@ -48,7 +47,6 @@ export default class CardsetAnswer extends React.Component {
           .then((response) => {
             const category = response.data.category;
             this.setState({ category });
-            console.log(category);
             axios
               .get(
                 `${process.env.REACT_APP_BASEURI}/cards/` + this.state.entryId,
@@ -58,7 +56,6 @@ export default class CardsetAnswer extends React.Component {
                 const currentCards = response.data;
                 this.setState({ currentCards }, () => {
                   this.shuffle(this.state.currentCards);
-                  console.log(currentCards);
                 });
               });
           });
@@ -96,6 +93,16 @@ export default class CardsetAnswer extends React.Component {
   }
 
   endStudy() {
+    axios
+      .get(
+        `${process.env.REACT_APP_BASEURI}/user/history/single/` +
+          this.state.entryId,
+        this.state.headers
+      )
+      .then((response) => {
+        this.setState({ results: response.data });
+      });
+
     if (this.state.currentSide === "C") {
       this.props.history.push(`/home`);
     } else if (this.state.cardsAnswered !== 0) {
@@ -112,16 +119,13 @@ export default class CardsetAnswer extends React.Component {
     const i = this.state.index + 1;
     const ans = this.state.cardsAnswered + 1;
     const cardsCorrect = this.state.cardsCorrect + x;
-    console.log(x);
     axios
       .put(
         `${process.env.REACT_APP_BASEURI}/cards/answers/${this.state.entryId}/${card._id}/${x}`,
         {},
         this.state.headers
       )
-      .then((response) => {
-        console.log(response);
-      });
+      .then((response) => {});
     this.setState(
       {
         index: i,
@@ -195,6 +199,17 @@ export default class CardsetAnswer extends React.Component {
             That's ${parseFloat(
               (this.state.cardsCorrect / this.state.cardsAnswered) * 100
             ).toFixed(1)}%!`}{" "}
+                {`You've attempted this set ${
+                  this.state.results.attempted
+                } times, getting ${
+                  this.state.results.cardsCorrect
+                } cards correct out of ${
+                  this.state.results.cardsAttempted
+                }. That's ${parseFloat(
+                  (this.state.results.cardsCorrect /
+                    this.state.results.cardsAttempted) *
+                    100
+                ).toFixed(1)}%.`}
               </span>
             </Card>
           </Col>

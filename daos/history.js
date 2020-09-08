@@ -19,8 +19,23 @@ module.exports.create = async (userId) => {
 // Get a user's id if you are the user
 module.exports.getByUserId = async (userId) => {
   try {
-    const user = await History.findOne({ userId: userId });
-    return user;
+    const history = await History.findOne({ userId: userId });
+    return history;
+  } catch (e) {
+    throw e;
+  }
+};
+
+// Get a user's id if you are the user
+module.exports.getByCardset = async (userId, cardset) => {
+  try {
+    const history = await History.findOne(
+      {
+        userId: userId,
+      },
+      { setsAttempted: { $elemMatch: { setId: cardset } } }
+    );
+    return history.setsAttempted[0];
   } catch (e) {
     throw e;
   }
@@ -68,8 +83,8 @@ module.exports.cardCount = async (setId, userId, correct) => {
         set.cardsAttempted++;
         set.cardsCorrect = set.cardsCorrect + parseInt(correct);
         doc.save();
-        return doc;
       }
+      return doc;
     });
   } catch (e) {
     throw e;
@@ -90,7 +105,10 @@ module.exports.resetUserHistory = async (userId) => {
 
 module.exports.userStats = async (userId) => {
   try {
-    const user = await History.findOne({ userId: userId });
+    const user = await History.updateOne(
+      { userId: userId },
+      { setsAttempted: [] }
+    );
     return user;
   } catch (e) {
     throw e;

@@ -15,9 +15,22 @@ export default class Home extends React.Component {
       isSignedIn: false,
       yourCards: [],
       isPublic: null,
+      categoryStats: [],
       headers: {},
+      searchedSets: [],
     };
   }
+  search() {
+    axios
+      .get(
+        `${process.env.REACT_APP_BASEURI}/set/search?s=` + this.state.value,
+        this.state.headers
+      )
+      .then((response) => {
+        this.setState({ searchedSets: response.data });
+      });
+  }
+
   componentDidMount() {
     const token = JSON.parse(localStorage.getItem("userData")).token;
     const userId = JSON.parse(localStorage.getItem("userData"))
@@ -51,7 +64,16 @@ export default class Home extends React.Component {
             this.setState({
               publicSets: response.data,
             });
-            console.log(response.data);
+          });
+        axios
+          .get(
+            `${process.env.REACT_APP_BASEURI}/set/category`,
+            this.state.headers
+          )
+          .then((response) => {
+            this.setState({
+              categoryStats: response.data,
+            });
           });
       }
     );
@@ -63,19 +85,33 @@ export default class Home extends React.Component {
   //On typing search string
   handleOnChange = (event) => {
     this.setState({ value: event.currentTarget.value });
-    console.log(event.currentTarget.value);
   };
 
   //On submit button click after typing search text
   handleSubmit = (event) => {
     event.preventDefault();
-    alert("Searching for card with text: " + this.state.value);
+    this.search();
   };
 
   render() {
     const publicSets = this.state.publicSets;
     const yourCards = this.state.yourCards;
-
+    const CategoryList = () => {
+      return this.state.categoryStats.map((c, i) => (
+        <li key={i}>
+          {c._id.charAt(0).toUpperCase() +
+            c._id.slice(1).replace(/\W+/g, " ").replace(/\s+/g, "-")}
+          : {parseFloat(c.pctCorrect * 100).toFixed(1)}% correct
+        </li>
+      ));
+    };
+    const Searched = () => {
+      if (this.state.searchedSets.length !== 0) {
+        return <h3>Search Results:</h3>;
+      } else {
+        return <h3></h3>;
+      }
+    };
     const { isSignedIn } = this.state;
     return (
       <>
@@ -86,7 +122,6 @@ export default class Home extends React.Component {
         <Top title={"FlashCards"} action={"create"} />
         <Container fluid>
           <div className="content">
-            <h1>Create a set or test yourself</h1>
             <h5>
               <form onSubmit={this.handleSubmit}>
                 <label>
@@ -100,7 +135,24 @@ export default class Home extends React.Component {
                 <input type="submit" value="Submit" />
               </form>
             </h5>
+            <Searched />
+            <h1>Create a set or test yourself</h1>
+
             <Row>
+              {isSignedIn && (
+                <SetList cards={this.state.searchedSets} editable={false} />
+              )}
+            </Row>
+            <Row>
+              <Col>
+                <Card>
+                  <Card.Body>
+                    <h2>Categories, ranked by difficulty</h2>
+                    <p>What share of cards did our community get correct?</p>
+                    <CategoryList cat={this.state.categoryStats} />
+                  </Card.Body>
+                </Card>
+              </Col>
               {isSignedIn && (
                 <Col className="new h-100" md={12} xs={12} lg={4} xl={6}>
                   <Link to={`/new`}>

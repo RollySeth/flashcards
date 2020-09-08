@@ -115,7 +115,6 @@ module.exports.addAttempts = async (setId, num) => {
   const set = await Set.findOne({ _id: setId }).lean();
 
   const number = num === "0" ? 0 : 1;
-  console.log(num);
   cardAttempts = set.cardAttempts + 1;
   cardsCorrect = set.cardsCorrect + parseInt(number);
   if (set) {
@@ -150,6 +149,9 @@ module.exports.categoryStats = async () => {
       },
     },
     { $set: { pctCorrect: { $divide: ["$correct", "$answered"] } } },
+    {
+      $sort: { pctCorrect: 1 },
+    },
   ]);
 
   if (set) {
