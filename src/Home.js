@@ -57,7 +57,7 @@ export default class Home extends React.Component {
           });
         axios
           .get(
-            `${process.env.REACT_APP_BASEURI}/set/public`,
+            `${process.env.REACT_APP_BASEURI}/set/public` + userId,
             this.state.headers
           )
           .then((response) => {
@@ -166,8 +166,8 @@ export default class Home extends React.Component {
                   </Link>
                 </Col>
               )}
-              {isSignedIn && <SetList cards={publicSets} editable={false} />}
               {isSignedIn && <SetList cards={yourCards} editable={true} />}
+              {<SetList cards={publicSets} editable={false}/>}
             </Row>
           </div>
         </Container>
