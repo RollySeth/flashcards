@@ -28,6 +28,9 @@ export default class Home extends React.Component {
       )
       .then((response) => {
         this.setState({ searchedSets: response.data });
+      })
+      .catch((error) => {
+        console.error(error);
       });
   }
 
@@ -54,6 +57,9 @@ export default class Home extends React.Component {
               isSignedIn: true,
               yourCards: response.data,
             });
+          })
+          .catch((error) => {
+            console.error(error);
           });
         axios
           .get(
@@ -61,9 +67,13 @@ export default class Home extends React.Component {
             this.state.headers
           )
           .then((response) => {
+            console.log(response);
             this.setState({
               publicSets: response.data,
             });
+          })
+          .catch((error) => {
+            console.error(error);
           });
         axios
           .get(
@@ -74,6 +84,9 @@ export default class Home extends React.Component {
             this.setState({
               categoryStats: response.data,
             });
+          })
+          .catch((error) => {
+            console.error(error);
           });
       }
     );
@@ -167,7 +180,7 @@ export default class Home extends React.Component {
                 </Col>
               )}
               {isSignedIn && <SetList cards={yourCards} editable={true} />}
-              {<SetList cards={publicSets} editable={false}/>}
+              {<SetList cards={publicSets} editable={false} />}
             </Row>
           </div>
         </Container>

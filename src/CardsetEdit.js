@@ -24,7 +24,6 @@ export default class CardsetEdit extends React.Component {
     };
   }
   updateTitle(n) {
-    console.log(n);
     const name = n;
     const body = {
       title: name,
@@ -37,9 +36,7 @@ export default class CardsetEdit extends React.Component {
         body,
         this.state.headers
       )
-      .then((response) => {
-        console.log(response.data);
-      });
+      .then((response) => {});
   }
 
   updateDesc(n) {
@@ -67,7 +64,6 @@ export default class CardsetEdit extends React.Component {
         },
       },
       () => {
-        console.log(this.state.headers);
         this.getCards();
         axios
           .get(
@@ -158,9 +154,9 @@ export default class CardsetEdit extends React.Component {
     const pub = this.state.isPublic === true ? false : true;
     this.setState({ isPublic: pub }, () => {
       const url = `${process.env.REACT_APP_BASEURI}/set/public/${this.state.entryId}/`;
-      axios.put(url, { isPublic: pub }, this.state.headers).then((response) => {
-        console.log(response);
-      });
+      axios
+        .put(url, { isPublic: pub }, this.state.headers)
+        .then((response) => {});
     });
   }
   getCards() {
@@ -173,9 +169,7 @@ export default class CardsetEdit extends React.Component {
         const currentCards = response.data;
         this.setState({ currentCards });
       })
-      .then(() => {
-        console.log(this.state.currentCards);
-      });
+      .then(() => {});
   }
   render() {
     const List = this.state.currentCards.map((card, index) => {
