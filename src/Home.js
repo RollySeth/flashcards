@@ -25,12 +25,9 @@ export default class Home extends React.Component {
       .get(
         `${process.env.REACT_APP_BASEURI}/set/search?s=` + this.state.value,
         this.state.headers
-      
+      )
       .then((response) => {
         this.setState({ searchedSets: response.data });
-      })
-      .catch((error) => {
-        console.error(error);
       });
   }
 
@@ -57,13 +54,10 @@ export default class Home extends React.Component {
               isSignedIn: true,
               yourCards: response.data,
             });
-          })
-          .catch((error) => {
-            console.error(error);
           });
         axios
           .get(
-            `${process.env.REACT_APP_BASEURI}/set/public`,
+            `${process.env.REACT_APP_BASEURI}/set/public/`,
             this.state.headers
           )
           .then((response) => {
@@ -71,9 +65,6 @@ export default class Home extends React.Component {
             this.setState({
               publicSets: response.data,
             });
-          })
-          .catch((error) => {
-            console.error(error);
           });
         axios
           .get(
@@ -84,9 +75,6 @@ export default class Home extends React.Component {
             this.setState({
               categoryStats: response.data,
             });
-          })
-          .catch((error) => {
-            console.error(error);
           });
       }
     );
