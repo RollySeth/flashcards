@@ -84,15 +84,6 @@ describe("/cards", () => {
         cards = setRes.body;
       });
 
-      // Update attempts/correct attempts
-      // it("should update attempts", async () => {
-      //   const res = await request(server)
-      //     .put("/cards/answers/" + cardSet._id + "/" + cards._id + "/" + 1)
-      //     .set("Authorization", "Bearer " + token0)
-      //     .send();
-      //   expect(res.statusCode).toEqual(200);
-      // });
-
       // GET cards in cardset
       it("GET by CardSet ID should send 200 to admin user", async () => {
         const res = await request(server)
