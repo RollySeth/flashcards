@@ -25,7 +25,7 @@ export default class Home extends React.Component {
       .get(
         `${process.env.REACT_APP_BASEURI}/set/search?s=` + this.state.value,
         this.state.headers
-      )
+      
       .then((response) => {
         this.setState({ searchedSets: response.data });
       })
