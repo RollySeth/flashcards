@@ -33,6 +33,18 @@ router.get("/", authorizationCheck, async (req, res, next) => {
   }
 });
 
+// GET user history of specific cardset
+router.get("/single/:cardsetId", authorizationCheck, async (req, res, next) => {
+  const userId = res.locals.user._id;
+  const cardset = req.params.cardsetId;
+  const history = await historyDAO.getByCardset(userId, cardset);
+  if (!history) {
+    res.sendStatus(401);
+  } else {
+    res.json(history);
+  }
+});
+
 // reset user history
 router.put("/reset", authorizationCheck, async (req, res, next) => {
   const userId = res.locals.user._id;

@@ -102,6 +102,7 @@ class SignIn extends React.Component {
       });
     } else {
       console.log("Log in Success.");
+      console.log(JSON.stringify(loginResult.data));
       localStorage.setItem("userData", JSON.stringify(loginResult.data));
       this.setState({
         loginSuccess: true,
@@ -136,7 +137,7 @@ class SignIn extends React.Component {
                 />
               </div>
             </Col>
-            <Col className={`h-100 test`} md={6} xs={12} lg={6} xl={6}>
+            <Col className={`h-100`} md={6} xs={12} lg={6} xl={6}>
               <h7>
                 {" "}
                 <Button href="/flashcards/#/signup">Sign-Up</Button>
