@@ -82,11 +82,18 @@ export default class CardsetAnswer extends React.Component {
       disabled: true,
     });
 
-    axios.post(
-      `${process.env.REACT_APP_BASEURI}/set/start/${this.state.entryId}`,
-      {},
-      this.state.headers
-    );
+    axios
+      .put(
+        `${process.env.REACT_APP_BASEURI}/set/${this.state.entryId}/start`,
+        {},
+        this.state.headers
+      )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
   flip() {
     const currentSide = this.state.currentSide === "B" ? "A" : "B";
@@ -106,6 +113,7 @@ export default class CardsetAnswer extends React.Component {
         this.state.headers
       )
       .then((response) => {
+        console.log(response);
         this.setState({ results: response.data });
       })
       .catch((error) => {
