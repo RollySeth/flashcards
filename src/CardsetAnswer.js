@@ -57,7 +57,13 @@ export default class CardsetAnswer extends React.Component {
                 this.setState({ currentCards }, () => {
                   this.shuffle(this.state.currentCards);
                 });
+              })
+              .catch((error) => {
+                console.error(error);
               });
+          })
+          .catch((error) => {
+            console.error(error);
           });
       }
     );
@@ -101,6 +107,9 @@ export default class CardsetAnswer extends React.Component {
       )
       .then((response) => {
         this.setState({ results: response.data });
+      })
+      .catch((error) => {
+        console.error(error);
       });
 
     if (this.state.currentSide === "C") {
@@ -125,7 +134,10 @@ export default class CardsetAnswer extends React.Component {
         {},
         this.state.headers
       )
-      .then((response) => {});
+      .then((response) => {})
+      .catch((error) => {
+        console.error(error);
+      });
     this.setState(
       {
         index: i,
