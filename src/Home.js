@@ -180,7 +180,7 @@ export default class Home extends React.Component {
                 </Col>
               )}
               {isSignedIn && <SetList cards={yourCards} editable={true} />}
-              {<SetList cards={publicSets} editable={false}/>}
+              {<SetList cards={publicSets} editable={false} />}
             </Row>
           </div>
         </Container>
