@@ -84,5 +84,32 @@ Tasks on Trello are categorized as P0, P1, and P2.
 - *P2*: must be completed by end of project.
 
 
+## Self-evaluation of your team's approach and results, what you learned, and what you would like to do differently or improve upon.
+
+### Achievements:
+
+- Delivered a successful working project on time.
+
+- Met criteria for project, building routes and testing.
+
+- Gained experience working in a group setting. Given the requirements and time constraints realized a single person could not have delivered the project.  
+
+### How:
+
+- Work was divided over two sprints, and encompassed  new things we needed to learn.  Major things: Working with react, new routes, deployment, and testing.  We chose to divide the work into buckets where each person take the task end to end.
+
+- Communication happened over Slack, and Google Chat.  
+
+- Our initial goal started with having a project that we could deploy and build.  Then moved into a proof of concept and a more complex project with advanced routes and testing.
+
+### Differently:
+
+- Very happy with what we delivered and how the team worked together.
+
+- Speaking to the feedback from Joel, we should always try to break apart each item into smaller pieces and not tackle huge pieces.
+
+- Ideally would have a staging environment to test changes before promoting to a main branch.  This caught us a few times as we needed to push to the main branch to test.
+
+
 
 (old): https://js400-final-project.github.io/flashcards/#/
