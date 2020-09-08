@@ -63,7 +63,7 @@ export default class Home extends React.Component {
           });
         axios
           .get(
-            `${process.env.REACT_APP_BASEURI}/set/public` + userId,
+            `${process.env.REACT_APP_BASEURI}/set/public/`,
             this.state.headers
           )
           .then((response) => {
