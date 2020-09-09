@@ -1,7 +1,6 @@
 const { Router } = require("express");
 const router = Router();
 const cardsDAO = require("../daos/cards");
-require('dotenv').config()
 const { JWTSECRET } = process.env;
 const secret = JWTSECRET;
 const jwt = require("jsonwebtoken");
