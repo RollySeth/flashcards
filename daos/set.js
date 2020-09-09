@@ -135,7 +135,6 @@ module.exports.addAttempts = async (setId, num) => {
     }
   }
 };
-
 module.exports.categoryStats = async () => {
   const set = await Set.aggregate([
     { $match: { isPublic: true, cardAttempts: { $ne: 0 } } },
@@ -149,30 +148,7 @@ module.exports.categoryStats = async () => {
       },
     },
     { $set: { pctCorrect: { $divide: ["$correct", "$answered"] } } },
-    {
-      $sort: { pctCorrect: 1 },
-    },
-  ]);
-
-  if (set) {
-    return set;
-  } else {
-    return false;
-  }
-};
-module.exports.categoryStats = async () => {
-  const set = await Set.aggregate([
-    { $match: { isPublic: true, cardAttempts: { $ne: 0 } } },
-    {
-      $group: {
-        _id: "$category",
-        answered: { $sum: "$cardAttempts" },
-        correct: { $sum: "$cardsCorrect" },
-        setAttempts: { $sum: "$setAttempts" },
-        sets: { $sum: 1 },
-      },
-    },
-    { $set: { pctCorrect: { $divide: ["$correct", "$answered"] } } },
+    { $sort: { pctCorrect: 1 } },
   ]);
 
   if (set) {
