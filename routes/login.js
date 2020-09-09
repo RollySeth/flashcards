@@ -4,7 +4,9 @@ const bcrypt = require("bcrypt");
 const userDAO = require("../daos/user");
 const historyDAO = require("../daos/history");
 const jwt = require("jsonwebtoken");
-const secret = "shhhhhh do not tell anyone this secret";
+require('dotenv').config()
+const { JWTSECRET } = process.env;
+const secret = JWTSECRET;
 
 const authorizationCheck = async (req, res, next) => {
   let header = req.headers.authorization;
