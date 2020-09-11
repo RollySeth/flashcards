@@ -18,6 +18,7 @@ import { Redirect } from "react-router-dom";
 import { Alert } from "@material-ui/lab";
 import { grey } from "@material-ui/core/colors";
 
+
 //service to send login credential to express backend
 const LoginService = (data) =>
   axios
@@ -77,42 +78,51 @@ class SignIn extends React.Component {
         });
   };
 
+
   // sending login information to express route after submit button is pressed
   onSubmit = async (e) => {
     e.preventDefault();
-    this.setState({ wrong_password: true });
+    this.setState({ wrong_password: false });
+      const { loginSuccess, error } = this.state;
     const data = {
       email: this.state.email,
       password: this.state.password,
     };
-    const loginResult = await LoginService(data);
+   try{ const loginResult = await LoginService(data);
     console.log(`Test ${loginResult}`);
-    if (loginResult !== 200) {
-      console.log("Log in Failed.");
-      this.setState({
-        loginSuccess: false,
-        error: true,
-      });
-    } else {
       console.log("Log in Success.");
       this.setState({
         loginSuccess: true,
         error: false,
       });
-    }
-    this.forceUpdate();
+      this.setState({ wrong_password: false });
+  }
+  catch (e) {
+    console.log("Error");
+      console.log("Log in Failed.");
+      this.setState({
+        loginSuccess: false,
+        error: true,
+      });
+      this.setState({ wrong_password: true });
+  }
+   
   };
 
   render() {
-    if (this.state.loginSuccess) {
-      return <Redirect to={{ pathname: "/new" }} />;
-    }
+   
     const {
       error,
       sign_up_reqd,
       error_sign_up_reqd,
       wrong_password,
     } = this.state;
+
+    if (this.state.loginSuccess) {
+      this.setState({ wrong_password: false });
+      return <Redirect to={{ pathname: "/new" }} />;
+    }
+
     return (
       <Container fluid className="login">
         <div id="login">
@@ -136,6 +146,7 @@ class SignIn extends React.Component {
               <h4>LOGIN</h4>
               <br />
               <h5>
+             
                 <TextField
                   id="outlined-helperText"
                   label="E-mail"
