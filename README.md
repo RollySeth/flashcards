@@ -1,4 +1,26 @@
+# Final self-evaluation
 
+Deployed App- https://flashcards-js.herokuapp.com/flashcards/#/
+
+As a team, we are satisfied with the outcome of our product. We believe it is a useful project, especially for younger people cramming for a test or exam, or anyone who needs help with memorization. We think we effectively fulfilled the requirements of the project and created a Express.JS backend that can be extended and fine-tuned if we choose to expand and polish the experience.
+
+What we learned:
+- It was very helpful to break up not only individual tasks by person, but also segments of the project. For example, it was helpful to divide Express.js route-building, front-end connection, deployment, and tasks as essentially separate jobs.
+- We started with weekly standups, but learned quickly given the remote nature of the team, and the fact that we aren't working the same hours, Slack was an essential tool to communicate. We relied on it much more than Trello, talking to each other when we were picking up a next task, making requests of others, and finding new problems. While we recognize that organized sprints and kanban boards are essential, this looser approach did work for us on this specific project.
+- Building authentication is difficult. We spent a good chunk of the early part of the project figuring out how to not only link the backend login routes to the front end, but how to maintain a token throughout the experience. Our solution works, though it might not be the perfect way of doing so.
+- Mongoose aggregations can be beautiful. It is possible to do the rearranging and calculations on the front-end, but they can be often convoluted and hard to decode. Mongoose looks very simple and easy-to-read. Performs better too.
+- Mongoose and MongoDB documentation are invaluable and easy-to-read. Much less intimidating than before taking this class.
+
+What we should've done better:
+- Meeting the inital proof of concept deadline was a bit difficult. As a group, we were unclear how far we needed to progress and as a result didn't have a simple deployed project that the general public could interact with. (It did work on localhost however.) While at the time we certainly had a working backend (though all routes were not completed), we likely would have rearranged our task sequence to focus quickly on deploying routes to a front-end, even starting with the small ones.
+- This backend is being served on a repurposed React front-end built in the second class in the JS certificate sequence. We recognize that deployment may be easier had we used something like Mustache, however we thought that most real-world experiences would call for something more robust like React. While our final front end may be more polished had we started a react app anew, it was helpful that we had the bones already built.
+
+Thoughts for the future:
+- While we don't present every data field on the front end, or allow for accessing all the routes, we built our models anticipating future functionality such as being able to filter out easy cards or determine the most recently used sets. We can tap into these existing data points in the future, but if there's anything we missed, it is good to know that migrations are an option too.
+
+- One improvement would be to create a staging environment to test changes before promoting to a main branch.  This caught us a few times as we needed to push to the main branch to test.
+
+- Breaking tasks into smaller pieces would make it more efficent to divide work and complete a sprint cycle.
 
 # Update Aug. 30
 
@@ -82,7 +104,6 @@ Tasks on Trello are categorized as P0, P1, and P2.
 - *P0*: must be completed immediately.
 - *P1*: must be completed for proof of concept.
 - *P2*: must be completed by end of project.
-
 
 
 (old): https://js400-final-project.github.io/flashcards/#/

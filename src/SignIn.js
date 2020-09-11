@@ -16,14 +16,10 @@ import SignUp from "./SignUp";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { Alert } from "@material-ui/lab";
-import { grey } from "@material-ui/core/colors";
-
 
 //service to send login credential to express backend
 const LoginService = (data) =>
-  axios
-    .post(`${process.env.REACT_APP_BASEURI}/login`, data)
-    .then((res) => res.status);
+  axios.post(`${process.env.REACT_APP_BASEURI}/login`, data).then((res) => res);
 
 //Email Vaidation service connect express login/emailcheck route to check user entered email ..to not allow duplicate email entried
 const EmailValidation = (data) =>
@@ -42,8 +38,7 @@ class SignIn extends React.Component {
       loginSuccess: false,
     };
   }
-  
-  //called when user moves out of email input field
+
   handleOnChangeEmail = (e) => {
     this.setState({
       email: e.target.value,
@@ -91,6 +86,8 @@ class SignIn extends React.Component {
    try{ const loginResult = await LoginService(data);
     console.log(`Test ${loginResult}`);
       console.log("Log in Success.");
+      console.log(JSON.stringify(loginResult.data));
+      localStorage.setItem("userData", JSON.stringify(loginResult.data));
       this.setState({
         loginSuccess: true,
         error: false,
@@ -110,7 +107,9 @@ class SignIn extends React.Component {
   };
 
   render() {
-   
+    if (this.state.loginSuccess) {
+      return <Redirect to={{ pathname: "/home" }} />;
+    }
     const {
       error,
       sign_up_reqd,
@@ -169,7 +168,6 @@ class SignIn extends React.Component {
                 />
               </h5>
               <h6>
-                {/* <Link to="/flashcards/#/new"> */}
                 <Button
                   variant="contained"
                   onClick={this.onSubmit}
@@ -179,7 +177,6 @@ class SignIn extends React.Component {
                 >
                   Log-In
                 </Button>
-                {/* </Link> */}
               </h6>
               <h3>
                 {wrong_password && (

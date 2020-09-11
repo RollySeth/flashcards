@@ -1,8 +1,9 @@
 const { Router } = require("express");
 const router = Router();
 const setDAO = require("../daos/set");
-const userDAO = require("../daos/user");
-const secret = "shhhhhh do not tell anyone this secret";
+const historyDAO = require("../daos/history");
+const { JWTSECRET } = process.env;
+const secret = JWTSECRET;
 const jwt = require("jsonwebtoken");
 
 const authorizationCheck = async (req, res, next) => {
@@ -58,7 +59,6 @@ router.get("/search", authorizationCheck, async (req, res, next) => {
   }
 });
 
-
 // GET set of one user.
 router.get("/user/:userid", authorizationCheck, async (req, res, next) => {
   const userid = req.params.userid;
@@ -95,23 +95,25 @@ router.put("/:id", authorizationCheck, async (req, res, next) => {
   const { title, description, category } = req.body;
   const set = await setDAO.getById(req.params.id);
 
-    if (set) {
-      if (set.userId === res.locals.user._id) {
-        const setUpdated = await setDAO.updateSetById(
-          setId,
-          title,
-          description,
-          category
-        );
-        if (setUpdated) {
-          res.json(setUpdated);
-        } else {
-          res.status(401).json(e);
-        }
+  if (set) {
+    if (set.userId === res.locals.user._id) {
+      const setUpdated = await setDAO.updateSetById(
+        setId,
+        title,
+        description,
+        category
+      );
+      if (setUpdated) {
+        res.json(setUpdated);
+      } else {
+        res.status(401).json(e);
       }
     } else {
       res.status(401).json(e);
     }
+  } else {
+    res.status(401).json(e);
+  }
 });
 // Change public status of set
 router.put("/public/:id/", authorizationCheck, async (req, res, next) => {
@@ -165,7 +167,17 @@ router.put("/:id/start", authorizationCheck, async (req, res, next) => {
     const setAttempts = set.setAttempts;
     const setAdded = setDAO.startById(req.params.id, setAttempts);
     if (setAdded) {
-      res.status(200).send("started set");
+      historyDAO.startSet(req.params.id, set.category, res.locals.user._id);
+      const history = historyDAO.startSet(
+        req.params.id,
+        set.category,
+        res.locals.user._id
+      );
+      if (history) {
+        res.json(history);
+      } else {
+        res.sendStatus(404);
+      }
     } else {
       res.sendStatus(404);
     }

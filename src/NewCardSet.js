@@ -94,12 +94,10 @@ export default class NewCardSet extends React.Component {
     };
 
     let data = {};
-    console.log(headers);
     axios
       .post(`${process.env.REACT_APP_BASEURI}/set`, body, headers)
       .then((response) => {
         data = response.data;
-        console.log(data);
         this.props.history.push({
           pathname: `/set/yours/${data._id}/edit`,
           state: {

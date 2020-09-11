@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const router = Router();
 const historyDAO = require("../daos/history");
-const secret = "shhhhhh do not tell anyone this secret";
+const { JWTSECRET } = process.env;
+const secret = JWTSECRET;
 const jwt = require("jsonwebtoken");
 const authorizationCheck = async (req, res, next) => {
   let header = req.headers.authorization;
@@ -26,6 +27,18 @@ const authorizationCheck = async (req, res, next) => {
 router.get("/", authorizationCheck, async (req, res, next) => {
   const userId = res.locals.user._id;
   const history = await historyDAO.getByUserId(userId);
+  if (!history) {
+    res.sendStatus(401);
+  } else {
+    res.json(history);
+  }
+});
+
+// GET user history of specific cardset
+router.get("/single/:cardsetId", authorizationCheck, async (req, res, next) => {
+  const userId = res.locals.user._id;
+  const cardset = req.params.cardsetId;
+  const history = await historyDAO.getByCardset(userId, cardset);
   if (!history) {
     res.sendStatus(401);
   } else {

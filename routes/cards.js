@@ -1,7 +1,8 @@
 const { Router } = require("express");
 const router = Router();
 const cardsDAO = require("../daos/cards");
-const secret = "shhhhhh do not tell anyone this secret";
+const { JWTSECRET } = process.env;
+const secret = JWTSECRET;
 const jwt = require("jsonwebtoken");
 const setDAO = require("../daos/set");
 const historyDAO = require("../daos/history");
@@ -16,7 +17,6 @@ const authorizationCheck = async (req, res, next) => {
       if (e) {
         res.sendStatus(401);
       } else {
-        // console.log(tokenNew);
         res.locals.user = tokenNew;
         next();
       }
@@ -34,7 +34,7 @@ const adminCheck = async (req, res, next) => {
 };
 
 // Post Cards
-//Need to readd authorization
+//Need to read authorization
 router.post("/:cardsetId", async (req, res, next) => {
   const cardsetId = req.params.cardsetId;
 
@@ -76,7 +76,7 @@ router.put(
         res.locals.user._id,
         req.params.num
       );
-      return history;
+      res.json(history);
     } else {
       res.sendStatus(401);
     }

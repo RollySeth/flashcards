@@ -1,3 +1,8 @@
+if (NODE_ENV = 'dev') {
+console.log('Running in Dev, using dotenv')
+require('dotenv').config()
+}
+
 const { Router } = require("express");
 const router = Router();
 const express = require("express");

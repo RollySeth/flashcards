@@ -110,19 +110,19 @@ describe("/set", () => {
           .set("Authorization", "Bearer " + adminToken)
           .send(set0);
       }); 
-      // it("should return category and 200", async () => {
-      //   const res = await request(server)
-      //     .get("/set/category?number=" + 1)
-      //     .set("Authorization", "Bearer " + token0)
-      //   expect(res.statusCode).toEqual(200);
-      // });
-      // it.only("should perform search and return 200", async () => {
-      //   const res = await request(server)
-      //     .get("/set/search?s=" + set0.category)
-      //     .set("Authorization", "Bearer " + token0)
+      it("should return category and 200", async () => {
+        const res = await request(server)
+          .get("/set/category?number=" + 1)
+          .set("Authorization", "Bearer " + token0)
+        expect(res.statusCode).toEqual(200);
+      });
+      it("should perform search and return 200", async () => {
+        const res = await request(server)
+          .get("/set/search?s=" + set0.category)
+          .set("Authorization", "Bearer " + token0)
 
-      //   expect(res.statusCode).toEqual(200);
-      //  });
+        expect(res.statusCode).toEqual(200);
+       });
     });
 
     // Update metadata of set
@@ -218,13 +218,6 @@ describe("/set", () => {
           .send({ setAttempts: set0Public.setAttempts + 1 });
         expect(res.statusCode).toEqual(404);
       });
-      // it("should update a single set", async () => {
-      //   const res = await request(server)
-      //     .post("/set/start/" + originalItem._id)
-      //     .set("Authorization", "Bearer " + adminToken)
-      //     .send({setAttempts: set0Public.setAttempts + 1 });
-      //   expect(res.statusCode).toEqual(200);
-      //});
     });
 
     // Delete
